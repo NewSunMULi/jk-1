@@ -1,8 +1,10 @@
 """辐射组管理系统的具体代码"""
 import json as 嫁我
-from a import *
+from 功能设置 import *
 from 基本常量 import *
+import time
 from tkinter import messagebox
+from 概率模拟_原神 import 概率模拟_原神
 
 sc = Tk()
 sc.geometry(f"{x}x{y}+300+125")
@@ -20,7 +22,12 @@ image5 = PhotoImage(file="1.28RTY.gif")
 image6 = PhotoImage(file="2.56RTY.gif")
 image7 = PhotoImage(file="3.28RTY.gif")
 image8 = PhotoImage(file="6.48RTY.gif")
+原神宣传图 = PhotoImage(file="原神.gif")
 
+
+def 原神_模拟():
+    sc.destroy()
+    概率模拟_原神()
 
 def 辐射组logo(scname="好兄弟", up_text="放出光芒！"):
     """Logo放这好搞
@@ -51,12 +58,12 @@ def 账户财产(用户账号=UID):
             user_WST.set("你的WST:" + str(wst - 9999))
 
         user_WST = StringVar(sc)
-        WST1 = Button(sc, textvariable=user_WST, bd=0,command=氪金系统)
+        WST1 = Button(sc, textvariable=user_WST, bd=0, command=氪金系统)
         user_WST.set("你的WST:" + str(wst))
         WST1.place(x=590, y=570)
         user_RTY = StringVar(sc)
         rty = RTY[序数]
-        RTY2 = Button(sc, textvariable=user_RTY, bd=0,command=氪金系统, width=250, anchor="w")
+        RTY2 = Button(sc, textvariable=user_RTY, bd=0, command=氪金系统, width=250, anchor="w")
         user_RTY.set("你的RTY:" + str(rty))
         RTY2.place(x=690, y=570)
         list1.append(WST1)
@@ -67,11 +74,11 @@ def 账户财产(用户账号=UID):
                 i.destroy()
         序数 = None
         user_WST = StringVar(sc)
-        WST1 = Button(sc, textvariable=user_WST, bd=0,command=氪金系统)
+        WST1 = Button(sc, textvariable=user_WST, bd=0, command=氪金系统)
         user_WST.set("未登录无法查看")
         WST1.place(x=590, y=570)
         user_RTY = StringVar(sc)
-        RTY2 = Button(sc, textvariable=user_RTY, bd=0,command=氪金系统)
+        RTY2 = Button(sc, textvariable=user_RTY, bd=0, command=氪金系统)
         user_RTY.set("未登录无法查看")
         RTY2.place(x=690, y=570)
         list1.append(WST1)
@@ -89,7 +96,8 @@ def 氪金系统():
                 嫁我.dump(WST, f)
             账户财产(UID)
             充值界面.destroy()
-            messagebox.showinfo("充值提示","支付成功")
+            messagebox.showinfo("充值提示", "支付成功")
+
     def B():
         if UID not in user_list:
             充值界面.destroy()
@@ -101,6 +109,7 @@ def 氪金系统():
             账户财产(UID)
             充值界面.destroy()
             messagebox.showinfo("充值提示", "支付成功")
+
     def C():
         if UID not in user_list:
             充值界面.destroy()
@@ -111,7 +120,8 @@ def 氪金系统():
                 嫁我.dump(WST, f)
             账户财产(UID)
             充值界面.destroy()
-            messagebox.showinfo("充值提示","支付成功")
+            messagebox.showinfo("充值提示", "支付成功")
+
     def D():
         if UID not in user_list:
             充值界面.destroy()
@@ -122,7 +132,8 @@ def 氪金系统():
                 嫁我.dump(WST, f)
             账户财产(UID)
             充值界面.destroy()
-            messagebox.showinfo("充值提示","支付成功")
+            messagebox.showinfo("充值提示", "支付成功")
+
     def E():
         if UID not in user_list:
             充值界面.destroy()
@@ -133,7 +144,8 @@ def 氪金系统():
                 嫁我.dump(RTY, f)
             账户财产(UID)
             充值界面.destroy()
-            messagebox.showinfo("充值提示","支付成功")
+            messagebox.showinfo("充值提示", "支付成功")
+
     def F():
         if UID not in user_list:
             充值界面.destroy()
@@ -145,6 +157,7 @@ def 氪金系统():
             账户财产(UID)
             充值界面.destroy()
             messagebox.showinfo("充值提示", "支付成功")
+
     def G():
         if UID not in user_list:
             充值界面.destroy()
@@ -156,6 +169,7 @@ def 氪金系统():
             账户财产(UID)
             充值界面.destroy()
             messagebox.showinfo("充值提示", "支付成功")
+
     def H():
         if UID not in user_list:
             充值界面.destroy()
@@ -167,21 +181,22 @@ def 氪金系统():
             账户财产(UID)
             充值界面.destroy()
             messagebox.showinfo("充值提示", "支付成功")
+
     充值界面 = Toplevel()
     充值界面.geometry(f"{x}x{y}+300+125")
     充值界面.title("充值")
     辐射组logo(充值界面, "充值入口")
-    Label(充值界面,text="WTS:功能使用基础货币",font=("",15)).place(x=30,y=120)
-    aa = Button(充值界面,image=image1,bd=0,command=A)
+    Label(充值界面, text="WTS:功能使用基础货币", font=("", 15)).place(x=30, y=120)
+    aa = Button(充值界面, image=image1, bd=0, command=A)
     aa.place(x=10, y=150)
-    Label(充值界面,text="10 WST ￥1",font=(华体,17)).place(x=32,y=280)
-    b = Button(充值界面, image=image2,bd=0,command=B)
+    Label(充值界面, text="10 WST ￥1", font=(华体, 17)).place(x=32, y=280)
+    b = Button(充值界面, image=image2, bd=0, command=B)
     b.place(x=210, y=150)
     Label(充值界面, text="50 WST ￥5", font=(华体, 17)).place(x=229, y=280)
-    c = Button(充值界面, image=image3,bd=0,command=C)
+    c = Button(充值界面, image=image3, bd=0, command=C)
     c.place(x=410, y=150)
     Label(充值界面, text="250 WST ￥25", font=(华体, 17)).place(x=420, y=280)
-    d = Button(充值界面, image=image4,bd=0,command=D)
+    d = Button(充值界面, image=image4, bd=0, command=D)
     d.place(x=610, y=150)
     Label(充值界面, text="1250 WST ￥125", font=(华体, 17)).place(x=605, y=280)
 
@@ -275,13 +290,15 @@ def 登录和注册(scname=sc):
                 user_password.append(pas)
                 user_name.append(num)
                 ID.append("普通用户")
+                WST.append(0)
+                RTY.append(0.0)
                 with open("./资料/" + num + ".jk", "w", encoding="utf-8") as f:
                     f.write(f"{num}\n")
                     f.write("N-N-N\n")
                     f.write("欢迎您的到来")
                 个人资料.append("./资料/" + num + ".jk")
                 a8.place(x=375, y=420)
-                临时列表 = [user_list, user_password, user_name, ID, 个人资料]
+                临时列表 = [user_list, user_password, user_name, ID, 个人资料, WST, RTY]
                 for i in 检索:
                     with open(i + ".json", "w", encoding="utf-8") as f:
                         嫁我.dump(临时列表[检索.index(i)], f)
@@ -478,6 +495,12 @@ class 辐射组管理程序:
             i.destroy()
             self.控件.remove(i)
         辐射组logo(sc, "概率模拟")
+        self.原神 = Button(sc,text="原神概率模拟",font=(华体,20),fg="#FF00FF", image=原神宣传图, bd=0,command=原神_模拟,anchor="se",
+                         compound=CENTER)
+        # compound图片显示与文字之哪
+        self.原神.place(x=50, y=140)
+        self.控件.append(self.原神)
+        sc.update()
 
 
 if __name__ == "__main__":

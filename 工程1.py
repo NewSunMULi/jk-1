@@ -1,7 +1,7 @@
 # encoding: utf-8
 import sys
 import pygame as pg
-from 设置 import *
+from Rt_1引擎 import *
 
 # 红楼梦小组--诗歌区
 人物名 = ["判词", "秦可卿", "李纨", "王熙凤", "贾惜春", "贾迎春", "妙玉", "史湘云", "贾探春", "贾元春", "黛玉和宝钗"]

@@ -36,3 +36,16 @@ with open("RTY.json","r",encoding="utf-8") as f:
     log.place(x=659, y=50)
     Label(sc, text="             ", font=("微软雅黑", 8, 斜体,), fg="green").place(x=660, y=79)
     Label(sc, text="             ", font=("微软雅黑", 8, 斜体,), fg="green", width=100, anchor="w").place(x=720, y=79)'''
+
+"""
+screen = pygame.display.set_mode((1600, 900)) # 创建屏幕
+ 
+# 省略其他与本文无关的部分
+ 
+screen.fill(0， 0， 0)
+window = pygame.Surface((800, 800))           # 创建一个窗口
+window.set_alpha(1)                           # 这个值越小越透明
+window.fill((255, 255, 255))  
+screen.blit(window, (0, 0))
+
+"""

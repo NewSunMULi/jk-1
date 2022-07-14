@@ -1,4 +1,8 @@
 # encoding: utf-8
+"""辐射-1 2D游戏引擎1.0测试版本
+欢迎每个人去完善它！
+其实它是pygame功能的集合，平常pygame用十几行代码解决的东西在Rt-1下只需要一行代码即可解决,这里的每一个函数都是十几个pygame功能集合而成，
+方便大家更快、更好的编写你想要的2D游戏或动画。"""
 from typing import List
 from types import FunctionType
 import threading as th

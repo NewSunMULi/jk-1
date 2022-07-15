@@ -68,6 +68,7 @@ class 组件:
 
 class 单行文字(组件):
     def __init__(self, 文字="全世界无产者，联合起来!", 系统字体=None, 字体文件=None, 窗口=None, **kwargs):
+        super().__init__()
         if 系统字体 is not None:
             self.font = pg.font.SysFont(系统字体, kwargs["字体大小"])
             self.text = self.font.render(文字, True, kwargs["字体颜色"], None)
@@ -75,17 +76,21 @@ class 单行文字(组件):
             self.font = pg.font.Font(字体文件, kwargs["字体大小"])
             self.text = self.font.render(文字, True, kwargs["字体颜色"], None)
         self.sc = 窗口
+        self.wz = 文字
 
     def 居中某组件(self, 要居中的组建对象=None, 它的x值=0, 它的y值=0):
         self.text.get_rect().center = 要居中的组建对象.get_rect().center
         self.sc.blit(self.text, (它的x值, 它的y值))
 
-    def 有坐标展示(self, x=0, y=0):
-        self.sc.blit(self.text, (x, y))
+    def 有坐标展示(self, x=0, y=0, 淡入: bool = None, 淡出: bool = None):
+        if 淡入:
+            动画效果().渐入(FP=pg.time.Clock(), 持续时间=0.2, FONT=self.font, fps=30, 窗口=self.sc, 坐标=(x, y), text=self.wz)
+        else:
+            self.sc.blit(self.text, (x, y))
 
 
 class 按钮(组件):
-    def __init__(self, name="赵靖凯孙子", fg=None, text=None, x=0, y=0, 字体文件=None, zsize=50
+    def __init__(self, name: pg.Surface = "赵靖凯孙子", fg=None, text=None, x=0, y=0, 字体文件=None, zsize=50
                  , 背景图案=None, 响应图案=None, 倍数=1):
         super().__init__()
         if 字体文件 is None:
@@ -113,14 +118,8 @@ class 按钮(组件):
     def 感应(self, lan="ok"):
         self.mx, self.my = pg.mouse.get_pos()
         if (self.x <= self.mx <= self.x + self.center[0] * 2) and (self.y <= self.my <= self.y + self.center[0] * 2):
-            self.bd = pg.transform.scale(self.bd, ((self.xx[2] / self.倍数 * 0.9), (self.xx[3] / self.倍数 * 0.9)))
-            self.name.blit(self.bd, (self.x, self.y))
-            self.name.blit(self.text, (self.cx, self.cy))
             return lan
         else:
-            self.bd = pg.transform.scale(self.bd, ((self.xx[2] / self.倍数), (self.xx[3] / self.倍数)))
-            self.name.blit(self.bd, (self.x, self.y))
-            self.name.blit(self.text, (self.cx, self.cy))
             return "赵靖凯孙子"
 
 
@@ -270,10 +269,12 @@ class 动画效果(组件):
 
     def 渐入(self, FP: pg.time.Clock = None, 持续时间: int = 1, FONT: pg.font = None, fps=30, 窗口=None, 坐标: tuple = (),
            text=""):
-        for f in range(fps * 持续时间):
+        text2 = None
+        for f in range(int(fps * 持续时间)):
             list2 = ['f', 'e', 'd', 'c', 'b', 'a', '9', '8', '7', '6', '5', '4', '3', '2', '1', '0']
             list2.reverse()
-            窗口.fill("#000000")
+            if text2 is not None:
+                text2.fill("#000000")
             FP.tick(fps)
             gg = int(len(list2) / (fps * 持续时间) * f)
             R = f"#{list2[gg] * 6}"
@@ -307,7 +308,7 @@ class 动画效果(组件):
         f = pg.Surface((w, h))
         time = pg.time.Clock()
         if 并行函数 is not None:
-            线程 = th.Thread(target=并行函数,args=(条件[0],条件[1]))
+            线程 = th.Thread(target=并行函数, args=(条件[0], 条件[1]))
             线程.start()
         for i in range(持续时间 * FPS):
             time.tick(FPS)
@@ -346,13 +347,13 @@ class 视频动画:
                         pg.display.update()
                     g.渐出(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=居中, text=i)
                 else:
-                    g.渐入(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=(x,y), text=i)
+                    g.渐入(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
                     for h in range(30):
                         窗口对象.fill("#000000")
                         FP.tick(30)
                         窗口对象.blit(self.text, (x, y))
                         pg.display.update()
-                    g.渐出(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=(x,y), text=i)
+                    g.渐出(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
 
         if 图片动画 is not None:
             for i in 图片动画:

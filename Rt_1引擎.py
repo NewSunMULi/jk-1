@@ -284,7 +284,7 @@ class 动画效果(组件):
 
     def 渐出(self, FP: pg.time.Clock = None, 持续时间: int = 1, FONT: pg.font = None, fps=30, 窗口=None, 坐标: tuple = (),
            text=""):
-        for I in range(fps * 持续时间):
+        for I in range(int(fps * 持续时间)):
             窗口.fill("#000000")
             FP.tick(fps)
             g = int(len(self.list1) / (fps * 持续时间) * I)
@@ -339,21 +339,21 @@ class 视频动画:
                 self.窗口中心 = 窗口对象.get_rect().center
                 居中 = (self.窗口中心[0] - self.中间位置[0], self.窗口中心[1] - self.中间位置[1])
                 if 文字对齐 == "居中":
-                    g.渐入(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=居中, text=i)
+                    g.渐入(FP=FP, 持续时间=0.4, FONT=self.font, 窗口=窗口对象, 坐标=居中, text=i)
                     for h in range(30):
                         窗口对象.fill("#000000")
                         FP.tick(30)
                         窗口对象.blit(self.text, 居中)
                         pg.display.update()
-                    g.渐出(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=居中, text=i)
+                    g.渐出(FP=FP, 持续时间=0.4, FONT=self.font, 窗口=窗口对象, 坐标=居中, text=i)
                 else:
-                    g.渐入(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
+                    g.渐入(FP=FP, 持续时间=0.4, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
                     for h in range(30):
                         窗口对象.fill("#000000")
                         FP.tick(30)
                         窗口对象.blit(self.text, (x, y))
                         pg.display.update()
-                    g.渐出(FP=FP, 持续时间=1, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
+                    g.渐出(FP=FP, 持续时间=0.4, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
 
         if 图片动画 is not None:
             for i in 图片动画:

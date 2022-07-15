@@ -134,7 +134,9 @@ def 概率模拟_原神(认证=None):
     global 保底角色
     pg.init()
     界面 = pg.display.set_mode((int(852), int(480)))
+    ss = pg.image.load("图表.png")
     pg.display.set_caption("原神抽卡模拟器")
+    pg.display.set_icon(ss)
     x = 0
     yd = 模型(界面, "./概率模拟-原神/一斗.png", 180, 50)
     yd.缩放(倍数=3, name=界面)
@@ -150,7 +152,7 @@ def 概率模拟_原神(认证=None):
             , 倍数=1.5)
 
     视频动画(窗口对象=界面, 文字动画=["昆十二中数学建模小组 制作", "前端 陈玄", "算法 陈玄,王文健", "后台统计 赵靖凯", "素材 原神官方和b站up主"],
-         字体文件="原神字体.ttf", 文字对齐="居中", FPS=1, 淡出=True, 字体大小=35)
+         字体文件="原神字体.ttf", 文字对齐="居中", FPS=5, 淡出=True, 字体大小=35)
 
     def 统计(数据: list = None):
         global 五星角色概率

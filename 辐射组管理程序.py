@@ -26,8 +26,8 @@ image8 = PhotoImage(file="6.48RTY.gif")
 
 
 def 原神_模拟():
-    sc.destroy()
     概率模拟_原神()
+
 
 def 辐射组logo(scname="好兄弟", up_text="放出光芒！"):
     """Logo放这好搞
@@ -434,7 +434,7 @@ class 辐射组管理程序:
                 gl.mainloop()
 
             def 标签():
-                x1.append(int(input("x")))
+                x1.append(int(input("self")))
                 y1.append(int(input("y")))
                 text1 = input("text")
                 text.append(text1)
@@ -495,7 +495,7 @@ class 辐射组管理程序:
             i.destroy()
             self.控件.remove(i)
         辐射组logo(sc, "概率模拟")
-        self.原神 = Button(sc,text="原神概率模拟",font=(华体,20),fg="#FF00FF", image=原神宣传图, bd=0,command=原神_模拟,anchor="se",
+        self.原神 = Button(sc, text="原神概率模拟", font=(华体, 20), fg="#FF0000", image=原神宣传图, bd=0, command=原神_模拟, anchor="se",
                          compound=CENTER)
         # compound图片显示与文字之哪
         self.原神.place(x=50, y=140)

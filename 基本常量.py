@@ -11,7 +11,7 @@ x, y = 800, 600
 检索 = ["账号", "密码", "昵称", "认证", "资料"]
 斜体 = "italic"
 加粗 = "bold"
-大小 = f"{x}x{y}+300+150"
+大小 = f"{x}self{y}+300+150"
 华体 = "华光钢铁直黑 可变体 Bold"
 统一码 = "utf-8"
 
@@ -33,9 +33,9 @@ with open("WST.json","r",encoding="utf-8") as f:
 with open("RTY.json","r",encoding="utf-8") as f:
     RTY = js.load(f)
 '''log = Button(sc, text="登录", font=("华光钢铁直黑 可变体 Bold", 15), bd=0, command=登录和注册, width=300, anchor="w")
-    log.place(x=659, y=50)
-    Label(sc, text="             ", font=("微软雅黑", 8, 斜体,), fg="green").place(x=660, y=79)
-    Label(sc, text="             ", font=("微软雅黑", 8, 斜体,), fg="green", width=100, anchor="w").place(x=720, y=79)'''
+    log.place(self=659, y=50)
+    Label(sc, text="             ", font=("微软雅黑", 8, 斜体,), fg="green").place(self=660, y=79)
+    Label(sc, text="             ", font=("微软雅黑", 8, 斜体,), fg="green", width=100, anchor="w").place(self=720, y=79)'''
 
 """
 screen = pygame.display.set_mode((1600, 900)) # 创建屏幕

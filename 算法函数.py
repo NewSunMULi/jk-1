@@ -119,9 +119,8 @@ class 米FA游游戏抽卡:
                 break
             elif e3 in range(0 + xd, xd + int(i * 10000)):
                 if int(概率["PS"] * 10000) == xd + int(i * 10000):
-                    p = (e3, "S")
-                    概率['PS'] = 0.015
                     xh = True
+                p = (e3, list(概率.keys())[list(概率.values()).index(i)][1:])
                 break
             else:
                 xd += int(i * 10000)
@@ -161,51 +160,57 @@ class 明日之后抽奖:
 
 
 def Apex抽奖(P传家宝=0.02, P传说=0.054, P史诗=0.174, P稀有=0.752, 组合包数=1, 奖池字典: ty.Dict[str, list] = None, 次数=1, 算法选择="VC-1.0"):
-    list3 = []
     list1 = []
     if 算法选择 == "VC-1.0":
         if 次数 == 500:
-            list3.append(["传家宝碎片", "传家宝碎片", "传家宝碎片"])
-        for k in range(组合包数):
-            if k == 499:
-                list3.append(["传家宝碎片", "传家宝碎片", "传家宝碎片"])
-            for i in range(3):
-                f1 = rd.randint(0, 999)
-                if f1 in range(0, int(P传家宝 * 1000)):
-                    list1.append(rd.choice(奖池字典["传家宝"]))
-                elif f1 in range(int(P传家宝 * 1000), int((P传家宝 + P传说) * 1000)):
-                    list1.append(rd.choice(奖池字典["传说"]))
-                elif f1 in range(int((P传家宝 + P传说) * 1000), int((P传家宝 + P传说 + P史诗) * 1000)):
-                    list1.append(rd.choice(奖池字典["史诗"]))
-                elif f1 in range(1000 - int(P稀有 * 1000), 1000):
-                    list1.append(rd.choice(奖池字典["稀有"]))
-
-            list3.append(list1)
-            list1.clear()
-        return list3
+            list1.append(["传家宝碎片", "传家宝碎片", "传家宝碎片"])
+        for i in range(3):
+            f1 = rd.randint(0, 999)
+            if f1 in range(0, int(P传家宝 * 1000)):
+                list1.append(5)
+                break
+            elif f1 in range(int(P传家宝 * 1000), int((P传家宝 + P传说) * 1000)):
+                list1.append(4)
+                break
+            elif f1 in range(int((P传家宝 + P传说) * 1000), int((P传家宝 + P传说 + P史诗) * 1000)):
+                list1.append(3)
+                break
+            elif f1 in range(1000 - int(P稀有 * 1000), 1000):
+                list1.append(2)
+                break
+            else:
+                list1.append(1)
+                break
+        return list1
 
     if 算法选择 == "W-1.0":
         pass
 
 
-def 明日方舟抽卡(干员字典: ty.Dict[str, list], 六星干员基础概率=0.02, 五星干员基础概率=0.08, 四星干员基础概率=0.5, 三星干员基础概率=0.4,
+def 明日方舟抽卡(干员字典: ty.Dict[str, list] = None, 六星干员基础概率=0.02, 五星干员基础概率=0.08, 四星干员基础概率=0.5, 三星干员基础概率=0.4,
            相对抽奖次数=1, 算法选择="VC-1.0"):
     if 算法选择 == "VC-1.0":
         list23 = 0
+        t = False
         if 相对抽奖次数 > 50:
             六星干员基础概率 += round(0.02 * (相对抽奖次数 - 50))
             if 六星干员基础概率 >= 1:
-                print("100% to six")
+                list23 = 6
+                t = True
         事件_找老婆 = rd.randint(0, 99)
         if 事件_找老婆 in range(0, int(六星干员基础概率 * 100)):
-            list23 = rd.choice(干员字典["六星干员"])
+            # list23 = rd.choice(干员字典["六星干员"])
+            list23 = 6
         if 事件_找老婆 in range(int(六星干员基础概率 * 100), int((六星干员基础概率 + 五星干员基础概率) * 100)):
-            list23 = rd.choice(干员字典["五星干员"])
+            # list23 = rd.choice(干员字典["五星干员"])
+            list23 = 5
         if 事件_找老婆 in range(int((六星干员基础概率 + 五星干员基础概率) * 100), int((六星干员基础概率 + 五星干员基础概率 + 四星干员基础概率) * 100)):
-            list23 = rd.choice(干员字典["四星干员"])
+            # list23 = rd.choice(干员字典["四星干员"])
+            list23 = 4
         if 事件_找老婆 in range(int((1 - 三星干员基础概率) * 100), 1000):
-            list23 = rd.choice(干员字典["三星干员"])
-        return list23
+            # list23 = rd.choice(干员字典["三星干员"])
+            list23 = 3
+        return list23, t
 
 
 if __name__ == "__main__":
@@ -224,4 +229,4 @@ if __name__ == "__main__":
             f = 0
 
     Ex = M / times
-    print("保底率和平均出金第次:",大保底次数/100000, Ex)
+    print("保底率和平均出金第次:", 大保底次数 / 100000, Ex)

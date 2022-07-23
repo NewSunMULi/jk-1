@@ -1,5 +1,4 @@
 from threading import Thread as th
-import os
 from tkinter import *
 from 统计 import 游戏统计
 from 算法函数 import 明日之后抽奖
@@ -28,7 +27,7 @@ def 氪金使你强大():
 
 
 def 快速获取数据():
-    def aa(次数=200000, 谁的概率="A2-13突榴枪-典藏版"):
+    def aa(次数=500000, 谁的概率="A2-13突榴枪-典藏版"):
         x = []
         y = []
         sd = []

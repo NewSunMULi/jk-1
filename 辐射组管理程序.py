@@ -23,6 +23,7 @@ image6 = PhotoImage(file="2.56RTY.gif")
 image7 = PhotoImage(file="3.28RTY.gif")
 image8 = PhotoImage(file="6.48RTY.gif")
 原神宣传图 = PhotoImage(file="原神.gif")
+明日宣传图 = PhotoImage()
 
 
 def 原神_模拟():

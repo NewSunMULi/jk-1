@@ -1,4 +1,5 @@
-from tkinter import messagebox
+from threading import Thread as th
+import os
 from tkinter import *
 from 统计 import 游戏统计
 from 算法函数 import 明日之后抽奖
@@ -24,6 +25,25 @@ x5 = 0
 
 def 氪金使你强大():
     配方残页.set(配方残页.get() + 160 * 50)
+
+
+def 快速获取数据():
+    def aa(次数=200000, 谁的概率="A2-13突榴枪-典藏版"):
+        x = []
+        y = []
+        sd = []
+        for i in range(1, 次数 + 1):
+            print("抽奖中" + str(round(i / 次数 * 100, 7)) + "%")
+            f2 = 明日之后抽奖(1, "配方机抽奖").配方机抽奖(概率, 奖池)
+            if f2[2] == 谁的概率:
+                sd.append(1)
+            else:
+                sd.append(0)
+            x.append(i)
+            y.append(sum(sd) / i)
+        print("正在统计")
+        游戏统计(x=x, y=y, 预设统计类型="明日之后--物品概率对比折线图").凯子统计法()
+    th(target=aa).start()
 
 
 def 明日之后_100级配方抽奖():
@@ -78,4 +98,8 @@ a = Button(scm, text="Check me! 160残页", command=明日之后_100级配方抽
 a.place(x=10, y=40)
 b = Button(scm, textvariable=配方残页, command=氪金使你强大, bd=0)
 b.place(x=750, y=30)
+c = Button(scm, text="快速统计", command=快速获取数据)
+c.place(x=250, y=10)
 scm.mainloop()
+
+快速获取数据()

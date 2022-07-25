@@ -1,9 +1,8 @@
 """辐射组管理系统的具体代码"""
 import json as 嫁我
+from tkinter import messagebox
 from 功能设置 import *
 from 基本常量 import *
-import time
-from tkinter import messagebox
 from 概率模拟_原神 import 概率模拟_原神
 
 sc = Tk()

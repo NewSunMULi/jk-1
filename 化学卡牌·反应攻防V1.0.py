@@ -1,7 +1,6 @@
 from tkinter import *
 from random import randint as 概率
 from pygame import mixer as B
-import 更新文件
 import time
 
 PG = 0

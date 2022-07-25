@@ -5,6 +5,10 @@ from 功能设置 import *
 from 基本常量 import *
 from 概率模拟_原神 import 概率模拟_原神
 
+from 概率模拟_原神 import 概率模拟_原神
+from 概率模拟_原神 import 概率模拟_原神
+from 概率模拟_原神 import 概率模拟_原神
+
 sc = Tk()
 sc.geometry(f"{x}x{y}+300+125")
 list1 = []
@@ -22,11 +26,35 @@ image6 = PhotoImage(file="2.56RTY.gif")
 image7 = PhotoImage(file="3.28RTY.gif")
 image8 = PhotoImage(file="6.48RTY.gif")
 原神宣传图 = PhotoImage(file="原神.gif")
-明日宣传图 = PhotoImage()
+明日宣传图 = PhotoImage(file="明日之后.gif")
+Apex宣传图 = PhotoImage(file="明日之后.gif")
+方舟宣传图 = PhotoImage(file="明日之后.gif")
+崩三宣传图 = PhotoImage(file="明日之后.gif")
 
 
 def 原神_模拟():
     概率模拟_原神()
+
+
+def 明日_模拟():
+    import 概率模拟_明日之后
+
+
+class 其余游戏:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def Apex_模拟():
+        import 概率模拟_Apex
+
+    @staticmethod
+    def 明日方舟_模拟():
+        import 概率模拟_明日方舟
+
+    @staticmethod
+    def 崩三_模拟():
+        import 概率模拟_崩坏3
 
 
 def 辐射组logo(scname="好兄弟", up_text="放出光芒！"):
@@ -500,6 +528,11 @@ class 辐射组管理程序:
         # compound图片显示与文字之哪
         self.原神.place(x=50, y=140)
         self.控件.append(self.原神)
+        self.明日 = Button(sc, text="明日配方抽奖", font=(华体, 20), fg="#00EEFF", image=明日宣传图, bd=0, command=明日_模拟, anchor="se",
+                         compound=CENTER)
+        # compound图片显示与文字之哪
+        self.明日.place(x=355, y=140)
+        self.控件.append(self.明日)
         sc.update()
 
 

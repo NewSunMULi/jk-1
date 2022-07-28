@@ -5,10 +5,6 @@ from 功能设置 import *
 from 基本常量 import *
 from 概率模拟_原神 import 概率模拟_原神
 
-from 概率模拟_原神 import 概率模拟_原神
-from 概率模拟_原神 import 概率模拟_原神
-from 概率模拟_原神 import 概率模拟_原神
-
 sc = Tk()
 sc.geometry(f"{x}x{y}+300+125")
 list1 = []
@@ -27,9 +23,9 @@ image7 = PhotoImage(file="3.28RTY.gif")
 image8 = PhotoImage(file="6.48RTY.gif")
 原神宣传图 = PhotoImage(file="原神.gif")
 明日宣传图 = PhotoImage(file="明日之后.gif")
-Apex宣传图 = PhotoImage(file="明日之后.gif")
-方舟宣传图 = PhotoImage(file="明日之后.gif")
-崩三宣传图 = PhotoImage(file="明日之后.gif")
+Apex宣传图 = PhotoImage(file="Apex.gif")
+方舟宣传图 = PhotoImage(file="明日方舟.gif")
+崩三宣传图 = PhotoImage(file="崩坏三.gif")
 
 
 def 原神_模拟():
@@ -44,7 +40,7 @@ class 其余游戏:
     def __init__(self):
         pass
 
-    @staticmethod
+    @staticmethod  # 装饰器
     def Apex_模拟():
         import 概率模拟_Apex
 
@@ -523,6 +519,7 @@ class 辐射组管理程序:
             i.destroy()
             self.控件.remove(i)
         辐射组logo(sc, "概率模拟")
+        sc.title("辐射组管理程序--概率模拟")
         self.原神 = Button(sc, text="原神概率模拟", font=(华体, 20), fg="#FF0000", image=原神宣传图, bd=0, command=原神_模拟, anchor="se",
                          compound=CENTER)
         # compound图片显示与文字之哪
@@ -530,9 +527,20 @@ class 辐射组管理程序:
         self.控件.append(self.原神)
         self.明日 = Button(sc, text="明日配方抽奖", font=(华体, 20), fg="#00EEFF", image=明日宣传图, bd=0, command=明日_模拟, anchor="se",
                          compound=CENTER)
-        # compound图片显示与文字之哪
         self.明日.place(x=355, y=140)
         self.控件.append(self.明日)
+        self.A = Button(sc, text="Apex快速模拟", font=(华体, 16), fg="#00EEFF", image=Apex宣传图, bd=0, command=其余游戏.Apex_模拟, anchor="se",
+                        compound=CENTER)
+        self.A.place(x=45, y=320)
+        self.控件.append(self.A)
+        self.方舟 = Button(sc, text="明日方舟寻访模拟", font=(华体, 16), fg="#00EEFF", image=方舟宣传图, bd=0, command=其余游戏.明日方舟_模拟, anchor="se",
+                         compound=CENTER)
+        self.方舟.place(x=270, y=320)
+        self.控件.append(self.方舟)
+        self.崩 = Button(sc, text="崩坏三标配补给", font=(华体, 16), fg="#00EEFF", image=崩三宣传图, bd=0, command=其余游戏.崩三_模拟, anchor="se",
+                        compound=CENTER)
+        self.崩.place(x=500, y=320)
+        self.控件.append(self.崩)
         sc.update()
 
 

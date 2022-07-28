@@ -248,11 +248,11 @@ def 偷歌的嘎子(歌名=None, 歌手: str = "我自己", 储存路径=None):
     for jk in 结果:
         print(jk["歌曲名"], jk["歌手"])  # 找到数据中的歌曲文件地址，把他下载到本地
     g = int(input("放哪首(标号)"))
-    b = re.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={结果[g - 1]["rid识别号"]}&type=mv', headers=请求头)
+    b = re.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={结果[g - 1]["rid识别号"]}', headers=请求头)
     print(加瓦.loads(b.text))
     歌曲文件 = 加瓦.loads(b.text)['data']['url']
     歌曲 = re.get(歌曲文件, headers=请求头)  # 下载
-    with open("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp4", "wb") as f:
+    with open("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp3", "wb") as f:
         f.write(歌曲.content)
 
 

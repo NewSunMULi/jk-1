@@ -9,16 +9,15 @@ x = []
 m = 0
 ci = []
 
-for i in range(1500000):
+for i in range(10000000):
     g += 1
     x.append(i + 1)
     f = 米FA游游戏抽卡().崩坏3抽卡(相对次数=g)
     if f[2][1] == "S":
         ci.append(g)
+        g = 0
     else:
         ci.append(0)
-    if f[1]:
-        g = 0
     l1.append(f[2][1])
 
 g = 0

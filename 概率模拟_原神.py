@@ -374,6 +374,9 @@ def 概率模拟_原神(认证=None):
                     抽奖动画(1)
                 if event.key == pg.K_F3:
                     抽奖动画(自定义次数)
+                if event.key == pg.K_F4:
+                    th.Thread(target=统计).start()
+                    print("我们在飞速统计中")
         pg.display.update()
 
 

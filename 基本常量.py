@@ -14,6 +14,7 @@ x, y = 800, 600
 大小 = f"{x}x{y}+300+150"
 华体 = "华光钢铁直黑 可变体 Bold"
 统一码 = "utf-8"
+原神字体 = "汉仪文黑-85W Heavy"
 
 """一些数据"""
 with open('账号.json', "r", encoding="utf-8") as f:

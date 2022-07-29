@@ -12,6 +12,7 @@ list2 = []
 list3 = []
 active = False
 UID = 0000000000
+可查看 = False
 userName = ""
 image1 = PhotoImage(file="10WST.gif")
 image2 = PhotoImage(file="50WST.gif")
@@ -412,6 +413,10 @@ class 辐射组管理程序:
         self.控件 = []
 
     def 首页(self):
+        if self.控件 is not None:
+            for i in self.控件:
+                i.destroy()
+            self.控件.clear()
         sc.title("辐射组管理程序--首页")
         Label(sc, text="首页", font=("华光钢铁直黑 可变体 Bold", 35, "italic"), fg="blue", width=20, anchor="sw").place(x=25,
                                                                                                              y=20)
@@ -420,12 +425,24 @@ class 辐射组管理程序:
         self.概率 = Button(sc, text="概率模拟", font=("微软雅黑", 15, 斜体), image=img1, compound=CENTER, bd=0,
                          command=self.概率模拟)  # compound图片显示与文字之哪
         self.概率.place(x=70, y=140)
+        self.gg = Button(sc, text="免费音乐", font=("微软雅黑", 15, 斜体), image=img1, compound=CENTER, bd=0,
+                         command=self.免费音乐)  # compound图片显示与文字之哪
+        self.gg.place(x=270, y=140)
         self.协议 = Button(sc, text="辐射组/合作社协议", font=("微软雅黑", 12), bd=0, command=协议)
         self.协议.pack(side=BOTTOM, anchor="center")
         self.控件.append(self.概率)
         self.控件.append(self.协议)
+        self.控件.append(self.gg)
         sc.update()
         sc.mainloop()
+
+    def 免费音乐(self):
+        if self.控件 is not None:
+            for i in self.控件:
+                i.destroy()
+            self.控件.clear()
+        辐射组logo(sc, "免费音乐")
+        sc.title("辐射组管理程序--音乐试听与下载")
 
     def 开发者模式(self):
         list1 = []
@@ -515,9 +532,10 @@ class 辐射组管理程序:
         sc3.mainloop()
 
     def 概率模拟(self):
-        for i in self.控件:
-            i.destroy()
-            self.控件.remove(i)
+        if len(self.控件) != 0:
+            for i in self.控件:
+                i.destroy()
+            self.控件.clear()
         辐射组logo(sc, "概率模拟")
         sc.title("辐射组管理程序--概率模拟")
         self.原神 = Button(sc, text="原神概率模拟", font=(华体, 20), fg="#FF0000", image=原神宣传图, bd=0, command=原神_模拟, anchor="se",
@@ -525,22 +543,82 @@ class 辐射组管理程序:
         # compound图片显示与文字之哪
         self.原神.place(x=50, y=140)
         self.控件.append(self.原神)
+
         self.明日 = Button(sc, text="明日配方抽奖", font=(华体, 20), fg="#00EEFF", image=明日宣传图, bd=0, command=明日_模拟, anchor="se",
                          compound=CENTER)
         self.明日.place(x=355, y=140)
         self.控件.append(self.明日)
-        self.A = Button(sc, text="Apex快速模拟", font=(华体, 16), fg="#00EEFF", image=Apex宣传图, bd=0, command=其余游戏.Apex_模拟, anchor="se",
+
+        self.A = Button(sc, text="Apex快速模拟", font=(华体, 16), fg="#0020FF", image=Apex宣传图, bd=0, command=其余游戏.Apex_模拟,
+                        anchor="se",
                         compound=CENTER)
         self.A.place(x=45, y=320)
         self.控件.append(self.A)
-        self.方舟 = Button(sc, text="明日方舟寻访模拟", font=(华体, 16), fg="#00EEFF", image=方舟宣传图, bd=0, command=其余游戏.明日方舟_模拟, anchor="se",
+
+        self.方舟 = Button(sc, text="明日方舟寻访模拟", font=(华体, 16), fg="#1145FF", image=方舟宣传图, bd=0, command=其余游戏.明日方舟_模拟,
+                         anchor="se",
                          compound=CENTER)
         self.方舟.place(x=270, y=320)
         self.控件.append(self.方舟)
-        self.崩 = Button(sc, text="崩坏三标配补给", font=(华体, 16), fg="#00EEFF", image=崩三宣传图, bd=0, command=其余游戏.崩三_模拟, anchor="se",
+
+        self.崩 = Button(sc, text="崩坏三标配补给", font=(华体, 16), fg="#EE00F0", image=崩三宣传图, bd=0, command=其余游戏.崩三_模拟,
+                        anchor="se",
                         compound=CENTER)
         self.崩.place(x=500, y=320)
         self.控件.append(self.崩)
+
+        self.上级 = Button(sc, text="返回首页", font=(华体, 12), fg="#AA00FF", bd=0, command=self.首页)
+        self.上级.place(x=20, y=575)
+        self.控件.append(self.上级)
+
+        self.数据 = Button(sc, text="查看概率分析", font=(华体, 12), fg="#156555", bd=0, command=self.分析)
+        self.数据.place(x=100, y=575)
+        self.控件.append(self.数据)
+        sc.update()
+
+    def 分析(self):
+        global 可查看
+
+        def 支付():
+            global 可查看
+            try:
+                WST[user_list.index(UID)] -= 399
+                with open("WST.json", "w", encoding=统一码) as f:
+                    嫁我.dump(WST, f)
+                账户财产(UID)
+                messagebox.showinfo("付费提示", "支付成功")
+                查看分析()
+            except ValueError:
+                messagebox.showwarning("警告", "您没有登录，无法完成支付！")
+
+        def 查看分析():
+            pass
+
+        for i in self.控件:
+            i.destroy()
+        self.控件.clear()
+        辐射组logo(sc, "抽卡分析")
+        sc.title("辐射组管理程序--抽卡分析")
+        FX = Button(sc, text="支付399 WST可查看更具体分析数据", bd=1, command=支付)
+        FX.place(x=40, y=120)
+        aa = Label(sc, text="基础概率分析:", font=(华体, 25, 加粗))
+        aa.place(x=40, y=180)
+        bb = Label(sc, text="原神----有up角色抽奖：\nP(5星物品)=1.61%\nP(4星物品)=13.57%\n大多数第77抽出金\n根据非小酋等统计网站分析\n一般第77抽出金，132抽大保底",
+                   font=(原神字体, 18, 加粗), anchor="w", fg="#EE0000")
+        bb.place(x=65, y=220)
+        cc = Label(sc, text="明日之后----90级配方机抽奖\nA2出货概率为0.3506%\n与实际出货概率严重不符", font=("", 18, 加粗), anchor="w", fg="#0033FF")
+        cc.place(x=405,y=220)
+        dd = Label(sc, text="其余游戏:\nApex-传家宝综合概率=2.2%，保底500\n明日方舟-六星出货概率=2.891%,保底100,平均57发出货\n崩坏三角色出货率=20.8248%,保底100",
+                   font=("", 18, 加粗), anchor="w", fg="#FF00FF")
+        dd.place(x=79, y=400)
+        self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=self.概率模拟)
+        self.上级.place(x=20, y=575)
+        self.控件.append(self.上级)
+        self.控件.append(aa)
+        self.控件.append(bb)
+        self.控件.append(cc)
+        self.控件.append(dd)
+        self.控件.append(FX)
         sc.update()
 
 

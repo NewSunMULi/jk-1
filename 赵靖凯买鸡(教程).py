@@ -221,7 +221,11 @@ def 偷歌的嘎子(歌名=None, 歌手: str = "我自己", 储存路径=None):
     """此处教你爬取付费下载的歌曲，没钱下歌只能靠技术了呗！但付费才给放的歌暂时爬不下来抱歉，爬到了可能会去坐牢吧."""
     import requests as re
     import json as 加瓦
-    from urllib import request, parse
+    from urllib import parse
+    import moviepy.editor as mp
+    from pygame import mixer
+    from os import remove
+    mixer.init()
     搜索歌曲名字 = 歌名  # 用户输入，基础语法必须会
     keyword = parse.quote(搜索歌曲名字)  # 使用quote()方法，对输入的字符串进行编码
     url = 'https://www.kuwo.cn/api/www/search/searchMusicBykeyWord?key={}&pn=1&rn=30&httpsStatus=1'.format(keyword)
@@ -248,12 +252,34 @@ def 偷歌的嘎子(歌名=None, 歌手: str = "我自己", 储存路径=None):
     for jk in 结果:
         print(jk["歌曲名"], jk["歌手"])  # 找到数据中的歌曲文件地址，把他下载到本地
     g = int(input("放哪首(标号)"))
-    b = re.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={结果[g - 1]["rid识别号"]}', headers=请求头)
-    print(加瓦.loads(b.text))
-    歌曲文件 = 加瓦.loads(b.text)['data']['url']
-    歌曲 = re.get(歌曲文件, headers=请求头)  # 下载
-    with open("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp3", "wb") as f:
-        f.write(歌曲.content)
+    try:
+        b = re.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={结果[g - 1]["rid识别号"]}&type=mv', headers=请求头)
+        print(加瓦.loads(b.text))
+        歌曲文件 = 加瓦.loads(b.text)['data']['url']
+        歌曲 = re.get(歌曲文件, headers=请求头)  # 下载
+        with open("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp4", "wb") as f:
+            f.write(歌曲.content)
+        ad = mp.VideoFileClip("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp4")  # 打开视频文件
+        au = ad.audio  # 提取音频
+        au.write_audiofile("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp3")  # 保存音乐
+        ad.close()
+        remove("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp4")  # 删除文件
+        mixer.music.load("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp3")
+        mixer.music.play()
+        while mixer.music.get_busy():
+            pass
+    except:
+        print("这首歌没有MV")
+        b = re.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={结果[g - 1]["rid识别号"]}', headers=请求头)
+        print(加瓦.loads(b.text))
+        歌曲文件 = 加瓦.loads(b.text)['data']['url']
+        歌曲 = re.get(歌曲文件, headers=请求头)  # 下载
+        with open("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp3", "wb") as f:
+            f.write(歌曲.content)
+        mixer.music.load("./歌曲/" + 结果[g - 1]["歌曲名"] + "----" + 结果[g - 1]["歌手"] + ".mp3")
+        mixer.music.play()
+        while mixer.music.get_busy():
+            pass
 
 
 p = 函数名(654)  # 函数调用,调用时给的值叫做实际参数，简称实参，让变量p=此函数的返回值

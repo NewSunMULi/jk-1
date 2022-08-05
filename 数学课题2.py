@@ -18,40 +18,33 @@ si_h=['炮:蓝焰银隼0019','双枪:空无之钥','太刀:天殛之钥','大剑
 qi_tq=['三星吼里宝藏','超小型反应炉''相转移镜面','吼咪宝藏 ']
 def single():
     global NO_S_TIMES
-choices=random.choice(jiangchi)
-if choices==8:
+    choices=random.choice(jiangchi)
+    if choices==8:
         result=random.choice(s_wu)
 
-elif choices==7:
-    result=random.choice(a_wu)
-    NO_S_TIMES += 1
+    elif choices==7:
+        result=random.choice(a_wu)
+        NO_S_TIMES += 1
 
+    elif choices==6:
+       result = random.choice (s_wusui)
+       NO_S_TIMES += 1
 
-
-elif choices==6:
-    result = random.choice (s_wusui)
-    NO_S_TIMES += 1
-
-
-
-elif  choices==5:
-
-    result = random.choice (a_wusui)
-    NO_S_TIMES += 1
-elif choices==4:
+    elif  choices==5:
+       result = random.choice (a_wusui)
+       NO_S_TIMES += 1
+    elif choices==4:
         result=random.choice(b_wu)
         NO_S_TIMES += 1
-elif choices==3:
+    elif choices==3:
         result=random.choice(si_h)
         NO_S_TIMES += 1
-elif choices==2:
+    elif choices==2:
         result=random.choice(san_h)
         NO_S_TIMES += 1
-
-else:
-    result = random.choice (qi_tq)
-    NO_S_TIMES += 1
-
+    else:
+        result = random.choice (qi_tq)
+        NO_S_TIMES += 1
     print(result)
     #（等）升概率
 
@@ -85,6 +78,7 @@ def single():
     else:
         least -= 1
         do_least = False
+
 while NO_S_TIMES>= 1:
     if do_least == True:
         last_jiqngchi[(NO_S_TIMES- 50) * 2] = 8

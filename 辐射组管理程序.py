@@ -1,9 +1,7 @@
 """辐射组管理系统的具体代码"""
 import json as 嫁我
-from tkinter import messagebox
 from 功能设置 import *
 from 基本常量 import *
-from 概率模拟_原神 import 概率模拟_原神
 
 sc = Tk()
 sc.geometry(f"{x}x{y}+300+125")
@@ -54,7 +52,7 @@ class 其余游戏:
         import 概率模拟_崩坏3
 
 
-def 辐射组logo(scname="好兄弟", up_text="放出光芒！"):
+def 辐射组logo(scname: Tk = "好兄弟", up_text="放出光芒！"):
     """Logo放这好搞
     同时纪念曾经的年华，虽然它已经过去了
     We will finding your......
@@ -437,12 +435,29 @@ class 辐射组管理程序:
         sc.mainloop()
 
     def 免费音乐(self):
+        global sc
+        def 首页():
+            global sc
+            sc.destroy()
+            sc = Tk()
+            sc.geometry(f"{x}x{y}+300+125")
+            log = Button(sc, text="登录", font=("华光钢铁直黑 可变体 Bold", 15), bd=0, command=登录和注册)
+            log.place(x=659, y=50)
+            账户财产(UID)
+            self.首页()
         if self.控件 is not None:
             for i in self.控件:
                 i.destroy()
             self.控件.clear()
         辐射组logo(sc, "免费音乐")
         sc.title("辐射组管理程序--音乐试听与下载")
+        Label(sc, text="提供音乐的名字或者歌手名字我可以帮你搜点你想听的音乐:", font=("", 15)).place(x=40, y=120)
+        key = Entry(sc, width=60)
+        key.place(x=40, y=160)
+        search = Button(sc, text="搜索", bd=1, command=lambda: tk爬虫_中文版().音乐爬虫(key.get(), None, 初始坐标x=50, 初始坐标y=160, 父容器=sc))
+        search.place(x=470, y=157)
+        self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=首页)
+        self.上级.place(x=550, y=50)
 
     def 开发者模式(self):
         list1 = []
@@ -606,8 +621,9 @@ class 辐射组管理程序:
         bb = Label(sc, text="原神----有up角色抽奖：\nP(5星物品)=1.61%\nP(4星物品)=13.57%\n大多数第77抽出金\n根据非小酋等统计网站分析\n一般第77抽出金，132抽大保底",
                    font=(原神字体, 18, 加粗), anchor="w", fg="#EE0000")
         bb.place(x=65, y=220)
-        cc = Label(sc, text="明日之后----90级配方机抽奖\nA2出货概率为0.3506%\n与实际出货概率严重不符", font=("", 18, 加粗), anchor="w", fg="#0033FF")
-        cc.place(x=405,y=220)
+        cc = Label(sc, text="明日之后----90级配方机抽奖\nA2出货概率为0.3506%\n与实际出货概率严重不符", font=("", 18, 加粗), anchor="w",
+                   fg="#0033FF")
+        cc.place(x=405, y=220)
         dd = Label(sc, text="其余游戏:\nApex-传家宝综合概率=2.2%，保底500\n明日方舟-六星出货概率=2.891%,保底100,平均57发出货\n崩坏三角色出货率=20.8248%,保底100",
                    font=("", 18, 加粗), anchor="w", fg="#FF00FF")
         dd.place(x=79, y=400)

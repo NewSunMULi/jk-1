@@ -14,7 +14,7 @@ cl = pg.time.Clock()
 概率增幅系数 = 600
 增幅起始位置 = 74
 保底控制 = False
-自定义次数 = 1000
+自定义次数 = 2500
 with open("./概率模拟-原神/抽奖记录.json", "r", encoding="utf-8") as f:
     储存列表 = 基本常量.js.load(f)
 with open("./概率模拟-原神/星级.json", "r", encoding="utf-8") as f:
@@ -23,6 +23,9 @@ with open("./概率模拟-原神/星级.json", "r", encoding="utf-8") as f:
 保底角色 = "荒泷一斗"
 结果 = True
 相对次数列表 = []
+卡池组 = None
+卡池组名字 = "官方卡池"
+ls = 米FA游游戏抽卡()
 
 
 def 计算(判断=4):
@@ -56,6 +59,24 @@ def 记录区():
     sc12.mainloop()
 
 
+def 数据(界面1=None):
+    背景 = 模型(phname="./概率模拟-原神/出货背景.png", name=界面1, x=0, y=0)
+    背景.缩放(w=852, h=480)
+    背景.加载()
+    单行文字(文字="数据:", 字体文件="原神字体.ttf", 窗口=界面1, 字体大小=30, 字体颜色="#FFFFFF").有坐标展示(10, 10, True)
+    单行文字(文字=f"目前共计抽了{总次数}次, 相对于上一次保底抽数为{抽奖相对次数}", 字体文件="原神字体.ttf", 窗口=界面1, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(70, 45, True)
+    单行文字(文字=f"共计消耗原石{总次数*160}({总次数}x160), 纯氪金抽取需人民币{总次数*16}元", 字体文件="原神字体.ttf", 窗口=界面1, 字体大小=20, 字体颜色="#FFFFFF").有坐标展示(70, 75, True)
+    单行文字(文字=f"未完待续......", 字体文件="原神字体.ttf", 窗口=界面1, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(70, 105, True)
+
+    nm = True
+    while nm:
+        for jks in pg.event.get():
+            if jks.type == pg.KEYDOWN:
+                if jks.key == pg.K_F7:
+                    nm = False
+        pg.display.update()
+
+
 def 声明(ID):
     声明字符 = '此程序因为实在没有素材导致出货动画表现不好，今后将会完善这一部分，深感抱歉!\n本程序无任何商业用途，就别拿去赚钱了。\n本程序抽卡概率等数据是可以自己调节的，概率算法比较贴进游戏。'
     sc12 = Tk()
@@ -80,6 +101,7 @@ def 概率修改器():
     global 增幅起始位置
     global 保底角色
     global 自定义次数
+    global 卡池组名字
 
     def 提交():
         global 五星角色概率
@@ -90,6 +112,7 @@ def 概率修改器():
         global 增幅起始位置
         global 保底角色
         global 自定义次数
+        global 卡池组名字
         五星角色概率 = float(SSRr.get())
         四星角色概率 = float(SRr.get())
         五星武器概率 = float(SSRw.get())
@@ -98,6 +121,7 @@ def 概率修改器():
         增幅起始位置 = int(起始.get())
         保底角色 = 保底.get()
         自定义次数 = int(JIC.get())
+        卡池组名字 = 卡池2.get()
         发 = Label(f, text="提交成功")
         发.place(x=0, y=370)
         f.after(2000, 发.destroy)
@@ -106,31 +130,35 @@ def 概率修改器():
     f.geometry("400x400+300+125")
     f.title("概率修改器")
     Label(f, text="概率修改器", font=("汉仪文黑-85W Heavy", 20)).place(x=0, y=0)
-    Label(f, text="五星角色概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=50)
-    Label(f, text="四星角色概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=90)
-    Label(f, text="五星武器概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=130)
-    Label(f, text="四星武器概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=170)
-    Label(f, text="五星概率增幅系数", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=210)
-    Label(f, text="增幅起始位置", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=250)
-    Label(f, text="保底角色名字", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=290)
-    Label(f, text="自定义次数", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=320)
+    Label(f, text="五星角色概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=40)
+    Label(f, text="四星角色概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=70)
+    Label(f, text="五星武器概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=100)
+    Label(f, text="四星武器概率", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=130)
+    Label(f, text="五星概率增幅系数", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=160)
+    Label(f, text="增幅起始位置", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=190)
+    Label(f, text="保底角色名字", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=220)
+    Label(f, text="自定义次数", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=250)
+    Label(f, text="自定义卡池组", font=("汉仪文黑-85W Heavy", 15)).place(x=0, y=280)
     JIC = Entry(f)
-    JIC.place(x=160, y=323)
+    JIC.place(x=160, y=253)
     JIC.insert(END, 自定义次数)
+    卡池2 = Entry(f)
+    卡池2.place(x=160, y=283)
+    卡池2.insert(END, 卡池组名字)
     SSRr = Entry(f)
     SRr = Entry(f)
     SSRw = Entry(f)
     SRw = Entry(f)
-    SSRr.place(x=160, y=53)
-    SRr.place(x=160, y=93)
-    SSRw.place(x=160, y=133)
-    SRw.place(x=160, y=173)
+    SSRr.place(x=160, y=43)
+    SRr.place(x=160, y=73)
+    SSRw.place(x=160, y=103)
+    SRw.place(x=160, y=133)
     up = Entry(f)
-    up.place(x=190, y=213)
+    up.place(x=190, y=163)
     起始 = Entry(f)
-    起始.place(x=160, y=253)
+    起始.place(x=160, y=193)
     保底 = Entry(f)
-    保底.place(x=160, y=293)
+    保底.place(x=160, y=223)
     SSRr.insert(END, 五星角色概率)
     SRr.insert(END, 四星角色概率)
     SSRw.insert(END, 五星武器概率)
@@ -194,8 +222,8 @@ def 概率模拟_原神(认证=None):
         if 次数 == 1:
             抽奖相对次数 += 1
             总次数 += 1
-            g = 米FA游游戏抽卡.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
-                     第几次=抽奖相对次数, 大小保底控制=保底控制,up五星角色=保底角色)
+            g = ls.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
+                        第几次=抽奖相对次数, 大小保底控制=保底控制, up五星角色=保底角色, 自定义奖池名字=卡池组名字)
             储存列表.append(g[0])
             星级.append(g[1])
             if 抽奖相对次数 == 90:
@@ -222,14 +250,15 @@ def 概率模拟_原神(认证=None):
                 基本常量.js.dump(储存列表, fq)
             with open("./概率模拟-原神/星级.json", "w", encoding="utf-8") as fq:
                 基本常量.js.dump(星级, fq)
-            出货(g[0] + " " + str(g[1]), '单抽', h2, g[2])
+
+            出货(g[0] + " " + str(g[1]), '单抽', h2, g[2], g[-3], g[-1], g[-2])
 
         if 次数 == 10:
             for i in range(1, 11, 1):
                 抽奖相对次数 += 1
                 总次数 += 1
-                g = 米FA游游戏抽卡.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
-                         第几次=抽奖相对次数, 大小保底控制=保底控制,up五星角色=保底角色)
+                g = ls.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
+                            第几次=抽奖相对次数, 大小保底控制=保底控制, up五星角色=保底角色, 自定义奖池名字=卡池组名字)
                 if g[1] == 5:
                     相对次数列表.append(抽奖相对次数)
                     抽奖相对次数 = 0
@@ -244,6 +273,7 @@ def 概率模拟_原神(认证=None):
                 星级.append(g[1])
                 临时列表.append(g[1])
                 储存列表.append(g[0])
+
             if 抽奖相对次数 == 90:
                 抽奖相对次数 = 0
             if 5 in 临时列表:
@@ -256,15 +286,15 @@ def 概率模拟_原神(认证=None):
             for ii in 储存列表[-10:]:
                 list5.append(ii + " " + str(临时列表[ga]))
                 ga += 1
-            出货(list5, "十连抽", h2, g[2])
+            出货(list5, "十连抽", h2, g[2], g[-3], g[-1], g[-2])
             临时列表.clear()
 
         else:
             for i in range(1, 自定义次数 + 1, 1):
                 抽奖相对次数 += 1
                 总次数 += 1
-                g = 米FA游游戏抽卡.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
-                         第几次=抽奖相对次数, 大小保底控制=保底控制,up五星角色=保底角色)
+                g = ls.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
+                            第几次=抽奖相对次数, 大小保底控制=保底控制, up五星角色=保底角色, 自定义奖池名字=卡池组名字)
                 储存列表.append(g[0])
                 星级.append(g[1])
                 if 抽奖相对次数 == 90:
@@ -278,14 +308,13 @@ def 概率模拟_原神(认证=None):
                         保底控制 = True
                 else:
                     相对次数列表.append(0)
-
             with open("./概率模拟-原神/抽奖记录.json", "w", encoding="utf-8") as fq:
                 基本常量.js.dump(储存列表, fq)
             with open("./概率模拟-原神/星级.json", "w", encoding="utf-8") as fq:
                 基本常量.js.dump(星级, fq)
-            出货("N/A", f'自定义抽奖次数{自定义次数}', "N/A", g[2])
+            出货("N/A", f'自定义抽奖次数{自定义次数}', "N/A", g[2], g[-3], g[-1], g[-2])
 
-    def 出货(抽到的东西, 类型=None, 大保底触发=False, 五星概率=None):
+    def 出货(抽到的东西, 类型=None, 大保底触发=False, 五星概率=None, f2=None, 四星概率1=None, 四星概率2=None):
         global 结果
         背景 = 模型(phname="./概率模拟-原神/出货背景.png", name=界面, x=0, y=0)
         背景.缩放(w=852, h=480)
@@ -298,14 +327,19 @@ def 概率模拟_原神(认证=None):
         else:
             单行文字(f"你抽到了:{抽到的东西}", None, "原神字体.ttf", 界面, 字体大小=30, 字体颜色="#FFFFFF").有坐标展示(0, 100, True)
         单行文字("概要:", None, "原神字体.ttf", 界面, 字体大小=30, 字体颜色="#FFFFFF").有坐标展示(0, 160, True)
-        单行文字(f"       角色概率:五星={round(五星概率 * 100, 4)}% 四星={四星角色概率 * 100}%", None, "原神字体.ttf", 界面, 字体大小=25,
+        单行文字(f"       角色概率:五星={round(五星概率 * 100, 4)}% 四星={round(四星概率1 * 100, 4)}%", None, "原神字体.ttf", 界面, 字体大小=25,
              字体颜色="#FFFFFF").有坐标展示(0, 200, True)
-        单行文字(f"       武器概率:五星={五星武器概率 * 100}% 四星={四星武器概率 * 100}%", None, "原神字体.ttf", 界面, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(
+        单行文字(f"       武器概率:五星={round(f2 * 100, 4)}% 四星={round(四星概率2 * 100, 4)}%", None, "原神字体.ttf", 界面, 字体大小=25,
+             字体颜色="#FFFFFF").有坐标展示(
             0, 230, True)
         if 大保底触发 == "N/A":
-            单行文字(f"       目前物品频率:五星{计算(5)}%,四星{计算()}%", None, "原神字体.ttf", 界面, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(0, 260, True)
+            单行文字(f"       目前物品频率:五星{计算(5)}%,四星{计算()}%", None, "原神字体.ttf", 界面, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(0, 260,
+                                                                                                             True)
         else:
             单行文字(f"       是否大保底{大保底触发}", None, "原神字体.ttf", 界面, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(0, 260, True)
+        单行文字(f"       原石总消耗:{总次数 * 160},纯氪金消耗人民币{总次数 * 16}元", None, "原神字体.ttf", 界面, 字体大小=25, 字体颜色="#FFFFFF").有坐标展示(0,
+                                                                                                                   290,
+                                                                                                                   True)
         单行文字("按F4可查看更详细的情况", None, "原神字体.ttf", 界面, 字体大小=30, 字体颜色="#FFFFFF").有坐标展示(0, 395, True)
         单行文字("点击鼠标可返回抽奖界面", None, "原神字体.ttf", 界面, 字体大小=30, 字体颜色="#FFFFFF").有坐标展示(0, 440, True)
         pg.display.update()
@@ -377,6 +411,8 @@ def 概率模拟_原神(认证=None):
                 if event.key == pg.K_F4:
                     th.Thread(target=统计).start()
                     print("我们在飞速统计中")
+                if event.key == pg.K_F5:
+                    数据(界面)
         pg.display.update()
 
 

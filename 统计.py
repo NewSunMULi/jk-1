@@ -11,10 +11,10 @@ class 游戏统计:
         self.类型 = 预设统计类型
         self.抽奖 = len(y)
 
-    def 凯子统计法(self, title: str = "统计图", 文字位置=1, 频数统计= None,
+    def 凯子统计法(self, title: str = "统计图", 文字位置=1, 频数统计=None,
               对比数据: Tuple[list, list, Any, Any] = None, 保底位置=0):
         if 频数统计 is None:
-            频数统计 = [False, None]
+            频数统计 = [False, None, None]
         self.fig = plt.figure(title, (15, 8))
         plt.title("001")
         if self.类型 == "原神--出金概率折线图":
@@ -64,27 +64,39 @@ class 游戏统计:
                 plt.plot(对比数据[0], 对比数据[1])
             plt.text(文字位置, 1, f"P={round(self.y[-1], 4)}%", fontsize=15)
         if 频数统计[0]:
-            self.玄哥柱状统计图法(频数统计[1], 保底位置)
+            self.玄哥柱状统计图法(频数统计[1], 频数统计[2], 保底位置)
 
         plt.show()
 
-    def 玄哥柱状统计图法(self, xy: List[list] = None, 保底位置=90):
+    def 玄哥柱状统计图法(self, xy1: List[list] = None, xy2=None, 保底位置=90):
         if self.类型 == "原神--出金概率折线图":
             self.a1 = plt.subplot(3, 1, 3)
-            list31 = [i for i in range(1, 91)]
-            list32 = list([0] * 90)
-            for i in xy[0]:
+            list31 = [i for i in range(1, 181)]
+            list32 = list([0] * 180)
+            for i in xy1[0]:
                 if i != 0:
                     list32[i - 1] += 1
                 else:
                     pass
             plt.plot(list31, list32)
-            plt.text(10, 100, f"max is {list31[list32.index(max(list32))]}/st/rd/th", fontsize=15)
+
+            list34 = [i for i in range(1, 181)]
+            list36 = list([0] * 180)
+            for i in xy2:
+                if i != 0:
+                    list36[i - 1] += 1
+                else:
+                    pass
+            plt.plot(list34, list36)
+            plt.text(10, 100,
+                     f"max is {list31[list32.index(max(list32))]} and {list34[list36.index(max(list36))]}/st/rd/th",
+                     fontsize=15)
+
         else:
             self.a1 = plt.subplot(2, 1, 2)
             list31 = [i for i in range(1, 保底位置 + 1)]
             list32 = list([0] * 保底位置)
-            for i in xy[0]:
+            for i in xy1[0]:
                 if i != 0:
                     list32[i - 1] += 1
                 else:

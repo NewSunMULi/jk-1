@@ -15,6 +15,8 @@ cl = pg.time.Clock()
 增幅起始位置 = 74
 保底控制 = False
 自定义次数 = 2500
+up列表 = []
+上一次 = 0
 with open("./概率模拟-原神/抽奖记录.json", "r", encoding="utf-8") as f:
     储存列表 = 基本常量.js.load(f)
 with open("./概率模拟-原神/星级.json", "r", encoding="utf-8") as f:
@@ -179,6 +181,8 @@ def 概率模拟_原神(认证=None):
     global 概率增幅系数
     global 增幅起始位置
     global 保底角色
+    global up列表
+    global 上一次
     pg.init()
     界面 = pg.display.set_mode((int(852), int(480)))
     ss = pg.image.load("图表.png")
@@ -213,12 +217,14 @@ def 概率模拟_原神(认证=None):
         global 保底角色
         游戏统计(x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
              y=星级,
-             预设统计类型="原神--出金概率折线图").凯子统计法(title="原神概率统计", 频数统计=[True, [相对次数列表, 星级]])
+             预设统计类型="原神--出金概率折线图").凯子统计法(title="原神概率统计", 频数统计=[True, [相对次数列表, 星级], up列表])
 
     def 抽奖动画(次数=1):
         global 抽奖相对次数
         global 总次数
         global 保底控制
+        global 保底角色
+        global 上一次
         if 次数 == 1:
             抽奖相对次数 += 1
             总次数 += 1
@@ -226,18 +232,22 @@ def 概率模拟_原神(认证=None):
                         第几次=抽奖相对次数, 大小保底控制=保底控制, up五星角色=保底角色, 自定义奖池名字=卡池组名字)
             储存列表.append(g[0])
             星级.append(g[1])
+            if g[0] == 保底角色:
+                up列表.append(总次数 - 上一次)
+                上一次 = 总次数
+                保底控制 = False
+                h2 = "大保底"
+            else:
+                up列表.append(0)
+                if g[1] == 5:
+                    保底控制 = True
+                    h2 = "小保底"
             if 抽奖相对次数 == 90:
                 抽奖相对次数 = 0
             if g[1] == 5:
                 相对次数列表.append(抽奖相对次数)
                 视频(dirmv=f"./概率模拟-原神/单抽出金/Image", dirmu="./概率模拟-原神/原神抽卡声音.mp3", name=界面, x=0, y=0)
                 抽奖相对次数 = 0
-                if 保底角色 == g[1]:
-                    保底控制 = False
-                    h2 = not 保底控制
-                else:
-                    保底控制 = True
-                    h2 = not 保底控制
             elif g[1] == 4:
                 相对次数列表.append(0)
                 视频(dirmv=f"./概率模拟-原神/单抽出紫/Image", dirmu="./概率模拟-原神/原神抽卡声音.mp3", name=界面, x=0, y=0)
@@ -259,15 +269,19 @@ def 概率模拟_原神(认证=None):
                 总次数 += 1
                 g = ls.原神抽卡(五星角色概率=五星角色概率, 五星武器概率=五星武器概率, 四星武器概率=四星武器概率, 四星角色概率=四星角色概率,
                             第几次=抽奖相对次数, 大小保底控制=保底控制, up五星角色=保底角色, 自定义奖池名字=卡池组名字)
+                if g[0] == 保底角色:
+                    up列表.append(总次数 - 上一次)
+                    上一次 = 总次数
+                    保底控制 = False
+                    h2 = "大保底"
+                else:
+                    up列表.append(0)
+                    if g[1] == 5:
+                        保底控制 = True
+                        h2 = "小保底"
                 if g[1] == 5:
                     相对次数列表.append(抽奖相对次数)
                     抽奖相对次数 = 0
-                    if 保底角色 == g[1]:
-                        保底控制 = False
-                        h2 = not 保底控制
-                    else:
-                        保底控制 = True
-                        h2 = not 保底控制
                 else:
                     相对次数列表.append(0)
                 星级.append(g[1])
@@ -297,15 +311,21 @@ def 概率模拟_原神(认证=None):
                             第几次=抽奖相对次数, 大小保底控制=保底控制, up五星角色=保底角色, 自定义奖池名字=卡池组名字)
                 储存列表.append(g[0])
                 星级.append(g[1])
+                if g[0] == 保底角色:
+                    up列表.append(总次数 - 上一次)
+                    上一次 = 总次数
+                    保底控制 = False
+                    h2 = "小保底"
+                else:
+                    up列表.append(0)
+                    if g[1] == 5:
+                        保底控制 = True
+                        h2 = "大保底"
                 if 抽奖相对次数 == 90:
                     抽奖相对次数 = 0
                 if g[1] == 5:
                     相对次数列表.append(抽奖相对次数)
                     抽奖相对次数 = 0
-                    if 保底角色 == g[1]:
-                        保底控制 = False
-                    else:
-                        保底控制 = True
                 else:
                     相对次数列表.append(0)
             with open("./概率模拟-原神/抽奖记录.json", "w", encoding="utf-8") as fq:
@@ -313,6 +333,7 @@ def 概率模拟_原神(认证=None):
             with open("./概率模拟-原神/星级.json", "w", encoding="utf-8") as fq:
                 基本常量.js.dump(星级, fq)
             出货("N/A", f'自定义抽奖次数{自定义次数}', "N/A", g[2], g[-3], g[-1], g[-2])
+        print(up列表.count(0)/len(up列表))
 
     def 出货(抽到的东西, 类型=None, 大保底触发=False, 五星概率=None, f2=None, 四星概率1=None, 四星概率2=None):
         global 结果

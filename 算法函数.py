@@ -139,31 +139,41 @@ class 米FA游游戏抽卡:
             pass
 
     @staticmethod
-    def 崩坏3抽卡(概率: dict = None, 相对次数: int = 0, 算法选择="VC-1.2", **W法额外条件):
-        if 算法选择 == "VC-1.2":
+    def 崩坏3抽卡(概率: dict = None, 相对次数: int = 0, 算法选择="VC-1.3", 卡池类型="家园补给", 奖池=None):
+        if 算法选择 == "VC-1.3":
             xd = 0
             p = (None, None)
             xh = False
-            if 概率 is None:
-                概率 = {'PS': 0.015, 'PSA': 0.0127, 'PA': 0.135, 'PAA': 0.1019, 'PB': 0.055, 'P4': 0.0046, 'P4S': 0.0073,
-                      'P3': 0.075, 'P3S': 0.225}
+            if 概率 is None and 奖池 is None:
+                if 卡池类型 == "家园补给":
+                    # 家园补给
+                    概率 = {'PS': 0.015, 'PSA': 0.0127, 'PA': 0.135, 'PAA': 0.1019, 'PB': 0.055, 'P4': 0.0046,
+                          'P4S': 0.0073, 'P3': 0.075, 'P3S': 0.225}
+                    奖池 = {'S': ["S"], 'A': ["A"], 'B': ["B"], '4': ["4"], '4S': ['4S'], '3': ['3'], '3S': ['3S'],
+                          "else": ["你干嘛，哎嗨哟"],
+                          "SA": ["SA"],
+                          "AA": ["AA"]}
+                elif 卡池类型 == "扩充补给":
+                    # 扩充补给
+                    概率 = {'PS': 0.015, 'PA1': 0.045, 'PA2': 0.03, 'PA3': 0.03, 'PA4': 0.03}
+                    奖池 = {'S': ['S'], 'A1': ['A1'], 'A2': ['A2'], 'A3': ['A3'], 'A4': ['A4'], 'else': ["吉你抬煤"]}
             e3 = rd.randint(0, 9999)
-            # 概率['PS'] = round(0.015 + 0.985 / 62 * (相对次数 - 1), 4)
+            m = 0
             for i in 概率.values():
                 if 相对次数 == 100:
-                    p = (e3, "S")
-                    # 概率['PS'] = 0.015
                     xh = True
-                    break
-                elif e3 in range(0 + xd, xd + int(i * 10000)):
-                    if int(概率["PS"] * 10000) == xd + int(i * 10000):
+                if e3 in range(0 + xd, xd + int(i * 10000)):
+                    if int(概率["PS"] * 10000) + xd == xd + int(i * 10000):
                         xh = True
-                    p = (e3, list(概率.keys())[list(概率.values()).index(i)][1:])
+                        p = (e3, "S")
+                    else:
+                        p = (e3, 奖池[list(概率.keys())[m][1:]][0])
                     break
                 else:
                     xd += int(i * 10000)
+                    m += 1
             else:
-                p = (e3, "黑心")
+                p = (e3, "只因")
             return 相对次数, xh, p
 
         elif 算法选择 == "W-1.0":
@@ -545,9 +555,9 @@ class 明日方舟抽卡:
                 else:
                     num = n  # 判断抽卡次数
                 counter2 += 1  # 判断五星保底
-                if counter2 == 10:
-                    b = rd.randint(1, 100)
-                    if 1 <= b <= 2:
+                if counter2 == 10 and n in range(10,100,10):
+                    b = rd.randint(1, 1000)
+                    if 1 <= b <= 167 + (num - 50) * 20:
                         a89 = 卡池字典['six_up'][rd.randint(0, len(卡池字典['six_up'])) - 1]
                         if a89 != 0:
                             保底 = False
@@ -561,9 +571,8 @@ class 明日方舟抽卡:
                                 保底 = True
                         result.append(a89)
                         six += 1
-                        print(n, a89)
-                        n = 0
                         频率.append(n)
+                        n = 0
                     else:
                         a89 = 卡池字典['five_up'][rd.randint(0, len(卡池字典['five_up'])) - 1]
                         if a89 != 0:
@@ -573,7 +582,7 @@ class 明日方舟抽卡:
                             result.append(a89)
                         five += 1
                         频率.append(0)
-                    counter2 -= counter2
+                    counter2 = 0
                 else:
                     b = rd.randint(1, 1000)
                     if 114 <= b <= 134 + (num - 50) * 20:  # 六星
@@ -591,9 +600,7 @@ class 明日方舟抽卡:
                         result.append(a89)
                         six += 1
                         频率.append(n)
-                        print(n, a89, 20 + (num - 50) * 20)
-                        n -= n  # 重置抽卡次数
-                        counter2 -= counter2
+                        n = 0  # 重置抽卡次数
                     elif 921 <= b <= 1000:  # 五星
                         a89 = 卡池字典['five_up'][rd.randint(0, len(卡池字典['five_up'])) - 1]
                         if a89 != 0:
@@ -602,7 +609,6 @@ class 明日方舟抽卡:
                             a89 = 卡池字典['five_stars'][rd.randint(0, len(卡池字典['five_stars'])) - 1]
                             result.append(a89)
                         five += 1
-                        counter2 = 0
                         频率.append(0)
                     elif 421 <= b <= 920:  # 四星
                         a89 = 卡池字典['four_stars'][rd.randint(0, len(卡池字典['four_stars'])) - 1]
@@ -671,5 +677,8 @@ if __name__ == "__main__":
                 l2.append(g)
                 g = 0
             l1.append(a[2][1])
+            print(ii)
+
+
     抽卡()
     print(f"E(x)={sum(l2) / l1.count('S')}")

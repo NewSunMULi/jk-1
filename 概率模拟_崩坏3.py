@@ -12,8 +12,10 @@ ci = []
 for i in range(10000000):
     g += 1
     x.append(i + 1)
-    f = 米FA游游戏抽卡().崩坏3抽卡(相对次数=g)
+    f = 米FA游游戏抽卡().崩坏3抽卡(相对次数=g, 卡池类型="扩充补给")
     if f[2][1] == "S":
+        ci.append(g)
+    if f[1]:
         ci.append(g)
         g = 0
     else:
@@ -24,8 +26,8 @@ g = 0
 
 for jk in l1:
     g += 1
-    if jk == "S" or jk == "A" or jk == "B":
+    if jk == "S" or "A" in jk:
         m += 1
     l2.append(round(m / g * 100, 4))
 
-游戏统计(x=x, y=l2).凯子统计法("崩坏三", 50, 频数统计=[True, [ci]], 保底位置=100)
+游戏统计(x=x, y=l2).凯子统计法("崩坏三", 50, 频数统计=[True, [ci], None], 保底位置=100)

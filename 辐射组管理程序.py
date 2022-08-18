@@ -57,9 +57,11 @@ def 辐射组logo(scname: Tk = "好兄弟", up_text="放出光芒！"):
     同时纪念曾经的年华，虽然它已经过去了
     We will finding your......
     """
-    Label(scname, text=up_text, font=("华光钢铁直黑 可变体 Bold", 35, "italic"), fg="blue", width=20, anchor="nw").place(x=25,
-                                                                                                                y=20)  # italic斜体
-    Label(scname, text="VRt-21", font=("微软雅黑", 20, "italic"), fg="#FF00EF").place(x=25, y=70)
+    m = Label(scname, text=up_text, font=("华光钢铁直黑 可变体 Bold", 35, "italic"), fg="blue", width=20, anchor="nw")
+    m.place(x=25,y=20)  # italic斜体
+    g = Label(scname, text="VRt-21", font=("微软雅黑", 20, "italic"), fg="#FF00EF")
+    g.place(x=25, y=70)
+    return m, g
 
 
 def 协议():
@@ -428,6 +430,10 @@ class 辐射组管理程序:
         self.gg.place(x=270, y=140)
         self.协议 = Button(sc, text="辐射组/合作社协议", font=("微软雅黑", 12), bd=0, command=协议)
         self.协议.pack(side=BOTTOM, anchor="center")
+        self.计划 = Button(sc, text="规划", font=("微软雅黑", 15, 斜体), image=img1, compound=CENTER, bd=0,
+                         command=self.辐射组规划)
+        self.计划.place(x=470, y=140)
+        self.控件.append(self.计划)
         self.控件.append(self.概率)
         self.控件.append(self.协议)
         self.控件.append(self.gg)
@@ -436,28 +442,58 @@ class 辐射组管理程序:
 
     def 免费音乐(self):
         global sc
-        def 首页():
-            global sc
-            sc.destroy()
-            sc = Tk()
-            sc.geometry(f"{x}x{y}+300+125")
-            log = Button(sc, text="登录", font=("华光钢铁直黑 可变体 Bold", 15), bd=0, command=登录和注册)
-            log.place(x=659, y=50)
-            账户财产(UID)
-            self.首页()
         if self.控件 is not None:
             for i in self.控件:
                 i.destroy()
             self.控件.clear()
-        辐射组logo(sc, "免费音乐")
+        p, k = 辐射组logo(sc, "免费音乐")
         sc.title("辐射组管理程序--音乐试听与下载")
-        Label(sc, text="提供音乐的名字或者歌手名字我可以帮你搜点你想听的音乐:", font=("", 15)).place(x=40, y=120)
+        q = Label(sc, text="提供音乐的名字或者歌手名字我可以帮你搜点你想听的音乐:", font=("", 15))
+        q.place(x=40, y=120)
         key = Entry(sc, width=60)
         key.place(x=40, y=160)
-        search = Button(sc, text="搜索", bd=1, command=lambda: tk爬虫_中文版().音乐爬虫(key.get(), None, 初始坐标x=50, 初始坐标y=160, 父容器=sc))
+        search = Button(sc, text="搜索", bd=1,
+                        command=lambda: tk爬虫_中文版().音乐爬虫(key.get(), None, 初始坐标x=50, 初始坐标y=160, 父容器=sc))
         search.place(x=470, y=157)
-        self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=首页)
+        self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=self.首页)
         self.上级.place(x=550, y=50)
+        self.控件.append(self.上级)
+        self.控件.append(p)
+        self.控件.append(k)
+        self.控件.append(q)
+        self.控件.append(key)
+        self.控件.append(search)
+
+    def 辐射组规划(self):
+        def 辐射计划():
+            sc3 = Toplevel(sc)
+            sc3.geometry(f"{x}x{y}+300+125")
+            sc3.title("辐射计划5")
+            p1, k1 = 辐射组logo(sc3, "辐射计划V")
+            Label(sc3, text="实力目标计划", font=(华体, 25)).place(x=50, y=110)
+            Label(sc3, text=f"三大主科:语文90/110-{round(90/1.1, 4)}%\n数学90/150-{round(90/1.5, 4)}%\n鸟语60/90-{round(60/0.9, 4)}%。", font=(华体, 20)).place(x=50, y=150)
+            Label(sc3, text=f"理综:物理60/90-{round(60/0.9, 4)}%\n生物85/95-{round(85/0.95, 4)}%\n化学87/95-{round(87/0.95, 4)}%。", font=(华体, 20)).place(x=50, y=250)
+            Label(sc3, text="现阶段:在期中考试之后三大主科必须要有1个达到100%完成\n理综必须全部100%完成\n11月25号期中考(预计)", font=(华体, 20)).place(x=50, y=350)
+            Label(sc3, text="实力, 决定一切, 别被婊子占了上风！", font=(华体, 30), fg="red").pack(side=BOTTOM)
+
+        if ID[user_list.index(UID)] == "辐射组成员" or ID[user_list.index(UID)] == "合作社成员" or ID[user_list.index(UID)] == "辐射组组长":
+            if self.控件 is not None:
+                for i in self.控件:
+                    i.destroy()
+                self.控件.clear()
+            p, k = 辐射组logo(sc, "辐射组/合作社规划")
+
+            fp = Button(sc, text="辐射计划V点这查看", command=辐射计划)
+            fp.place(x=40, y=100)
+            self.控件.append(fp)
+
+            self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=self.首页)
+            self.上级.place(x=550, y=550)
+            self.控件.append(self.上级)
+            self.控件.append(p)
+            self.控件.append(k)
+        else:
+            messagebox.showwarning("警告", "您的账户无法使用此功能")
 
     def 开发者模式(self):
         list1 = []

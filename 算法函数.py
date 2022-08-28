@@ -319,12 +319,12 @@ class 明日之后抽奖:
             事件_明日之后 = rd.randint(0, 9999)
             g = -1
             x = 0
-            for fuck in 纯数字概率:
-                if 事件_明日之后 in range(0 + g + 1, 0 + g + int(fuck * 10000) + 1):
-                    sb = [事件_明日之后, 0 + g + 1, g + int(fuck * 10000)], list(概率列表.keys())[纯数字概率.index(fuck)], \
-                         rd.choice(奖品字典索引[list(概率列表.keys())[纯数字概率.index(fuck)]])
+            for fu in 纯数字概率:
+                if 事件_明日之后 in range(0 + g + 1, 0 + g + int(fu * 10000) + 1):
+                    sb = [事件_明日之后, 0 + g + 1, g + int(fu * 10000)], list(概率列表.keys())[纯数字概率.index(fu)], \
+                         rd.choice(奖品字典索引[list(概率列表.keys())[纯数字概率.index(fu)]])
                     x += 1
-                g += int(fuck * 10000)
+                g += int(fu * 10000)
 
             if x == 0:
                 sb = [事件_明日之后, 0, None]
@@ -484,28 +484,34 @@ class 明日方舟抽卡:
                             '空爆', '梓兰', '芙蓉', '克洛丝', '玫兰莎', '翎羽', '泡普卡', '安赛尔'],
         }
 
-    def VC算法(self, 六星干员基础概率=0.02, 五星干员基础概率=0.08, 四星干员基础概率=0.5):
+    def VC算法(self, 六星干员基础概率=0.02, 五星干员基础概率=0.08, 四星干员基础概率=0.5, 相对抽卡次数=1):
         if self.way == "VC-1.0":
             list23 = 0
             t = False
-            if self.times > 50:
-                六星干员基础概率 += round(0.02 * (self.times - 50), 2)
+            if 相对抽卡次数 > 50:
+                六星干员基础概率 += round(0.02 * (相对抽卡次数 - 50), 2)
             else:
                 pass
-
             if 六星干员基础概率 >= 1:
                 list23 = 6
                 t = True
+            elif 相对抽卡次数 in [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]:
+                事件_找老婆 = rd.random()
+                if 0 < 事件_找老婆 <= 六星干员基础概率:
+                    list23 = 6
+                    t = True
+                else:
+                    list23 = 5
             else:
-                事件_找老婆 = rd.randint(0, 99)
-                if 事件_找老婆 in range(0, int(六星干员基础概率 * 100)):
+                事件_找老婆 = rd.random()
+                if 0 < 事件_找老婆 <= 六星干员基础概率:
                     # list23 = rd.choice(干员字典["六星干员"])
                     list23 = 6
                     t = True
-                elif 事件_找老婆 in range(int(六星干员基础概率 * 100), int((六星干员基础概率 + 五星干员基础概率) * 100)):
+                elif 六星干员基础概率 < 事件_找老婆 <= 五星干员基础概率:
                     # list23 = rd.choice(干员字典["五星干员"])
                     list23 = 5
-                elif 事件_找老婆 in range(int((六星干员基础概率 + 五星干员基础概率) * 100), int((六星干员基础概率 + 五星干员基础概率 + 四星干员基础概率) * 100)):
+                elif 五星干员基础概率 < 事件_找老婆 <= 四星干员基础概率:
                     # list23 = rd.choice(干员字典["四星干员"])
                     list23 = 4
                 else:
@@ -555,9 +561,9 @@ class 明日方舟抽卡:
                 else:
                     num = n  # 判断抽卡次数
                 counter2 += 1  # 判断五星保底
-                if counter2 == 10 and n in range(10,100,10):
+                if counter2 == 10 and n in range(10, 100, 10):
                     b = rd.randint(1, 1000)
-                    if 1 <= b <= 167 + (num - 50) * 20:
+                    if 500 <= b <= 500+167:
                         a89 = 卡池字典['six_up'][rd.randint(0, len(卡池字典['six_up'])) - 1]
                         if a89 != 0:
                             保底 = False

@@ -152,13 +152,26 @@ class tk爬虫_中文版(tk_requests):
 
     def 音乐下载(self, 识别号=0, name=None):
         try:
+            print("无MV")
+            b = 请求.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={识别号}',
+                       headers=self.head)
+            print(加瓦.loads(b.text))
+            歌曲文件 = 加瓦.loads(b.text)['data']['url']
+            歌曲 = 请求.get(歌曲文件, headers=self.head)  # 下载
+            if name != "aaa":
+                name = filedialog.asksaveasfilename(defaultextension=".mp3", initialfile="音乐",
+                                                    filetypes=[("MP3音乐文件(*.mp3)", "*mp3")])
+            with open(name, "wb") as f6:
+                f6.write(歌曲.content)
+        except KeyError:
             b = 请求.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={识别号}&type=mv',
                        headers=self.head)
             print(加瓦.loads(b.text))
             歌曲文件 = 加瓦.loads(b.text)['data']['url']
             歌曲 = 请求.get(歌曲文件, headers=self.head)  # 下载
             if name != "aaa":
-                name = filedialog.asksaveasfilename(defaultextension=".mp3", initialfile="音乐", filetypes=[("MP3音乐文件", ".mp3")])
+                name = filedialog.asksaveasfilename(defaultextension=".mp3", initialfile="音乐",
+                                                    filetypes=[("MP3音乐文件(*.mp3)", "*mp3")])
             with open("111.mp4", "wb") as f6:
                 f6.write(歌曲.content)
             au = me.VideoFileClip("111.mp4")
@@ -167,17 +180,6 @@ class tk爬虫_中文版(tk_requests):
             at.write_audiofile(name)
             au.close()
             os.remove("111.mp4")
-        except KeyError:
-            print("无MV")
-            b = 请求.get(f'http://www.kuwo.cn/api/v1/www/music/playUrl?mid={识别号}',
-                       headers=self.head)
-            print(加瓦.loads(b.text))
-            歌曲文件 = 加瓦.loads(b.text)['data']['url']
-            歌曲 = 请求.get(歌曲文件, headers=self.head)  # 下载
-            if name != "aaa":
-                name = filedialog.asksaveasfilename(filetypes=[("MP3音乐文件", "*mp3")])
-            with open(name, "wb") as f6:
-                f6.write(歌曲.content)
         finally:
             pass
 

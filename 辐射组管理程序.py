@@ -5,6 +5,7 @@ from 基本常量 import *
 
 sc = Tk()
 sc.geometry(f"{x}x{y}+300+125")
+sc.iconbitmap(bitmap="logo.ico")
 list1 = []
 list2 = []
 list3 = []

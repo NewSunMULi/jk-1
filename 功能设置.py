@@ -7,6 +7,7 @@ import requests as 请求
 from 概率模拟_原神 import *
 import os
 from tkinter import messagebox, filedialog
+from 基本常量 import *
 
 
 class 窗口异常(Exception):

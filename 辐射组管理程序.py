@@ -241,7 +241,7 @@ def 氪金系统():
     Label(充值界面, text="6.48 RTY ￥648", font=(华体, 17)).place(x=605, y=500)
 
 
-def 登录和注册(scname=sc):
+def 登录和注册():
     global list3
     global active
     sc4 = Tk()

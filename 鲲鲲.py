@@ -3,7 +3,6 @@ import tkinter.filedialog as tf
 import tkinter.messagebox as ms
 import requests as rt
 import re
-import json as js
 from moviepy.editor import *
 import threading as th
 import os
@@ -12,6 +11,7 @@ import pygame.mixer as mm
 import tqdm as td
 from 基本常量 import *
 
+mm.init()
 url1 = []
 url2 = []
 MP42 = None
@@ -21,8 +21,44 @@ head = {
 }
 
 
+class 音效:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def 下载完成():
+        mm.music.load("音效.mp3")
+        mm.music.play()
+        time.sleep(25)
+        mm.music.stop()
+
+    @staticmethod
+    def 遇到错误():
+        mm.music.load("你干嘛.mp3")
+        mm.music.play()
+        time.sleep(4)
+        mm.music.stop()
+
+
+def 运行时长():
+    seconds = 0
+    minters = 0
+    hours = 0
+    aa = can.create_text(480, 30, text=f"运行时间:{hours}h {minters}m {seconds}s", font=(原神字体, 15, 加粗), fill="green")
+    while True:
+        time.sleep(1)
+        seconds += 1
+        if seconds == 60:
+            minters += 1
+            seconds -= 60
+        if minters == 60:
+            hours += 1
+            minters -= 60
+        can.itemconfig(aa, text=f"运行时间:{hours}h {minters}m {seconds}s")
+
+
 def 辐射组账号模块():
-    sc4 = tk.Tk()
+    sc4 = tk.Toplevel(sc)
     global active, userName, UID, name
 
     def 登录():
@@ -153,9 +189,6 @@ def 信息展示(url):
             bi = rt.get(url, headers=head)
         else:
             bi = rt.get(f"https://bilibili.com/video/{url}", headers=head)
-        清晰度 = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
-        系数 = 0
-        刻度 = 0
         title = re.findall('<meta data-vue-meta="true" itemprop="name" name="title" content=(.*?)>', bi.text)
         anchor = re.findall('<meta data-vue-meta="true" itemprop="author" name="author" content=(.*?)>', bi.text)
         title = title[0][-len(title[0]) + 1:-15]
@@ -164,74 +197,117 @@ def 信息展示(url):
         data = js.loads(res)
         time = data['data']['timelength']
         for i in range(3):
-            url1.append(data['data']['dash']['audio'][i]['baseUrl'])
-            url2.append(data['data']['dash']['video'][i * 3]['base_url'])
+            try:
+                url1.append(data['data']['dash']['audio'][i]['baseUrl'])
+                url2.append(data['data']['dash']['video'][i * 3]['base_url'])
+            except IndexError:
+                pass
         return url2, title, anchor, time
-    except:
-        ms.showwarning("警告", "网络呢？被狗吃了？")
+    except Exception as f2:
+        th.Thread(target=音效.遇到错误).start()
+        ms.showwarning("警告", f"代码错误:{f2}")
 
 
-def 视频爬取(url_list=None, name=None):
+def 视频爬取(url_list=None, 文件名称=None, 额外信息=None):
     global MP42
-    s = rt.get(url_list[0], headers=head)
-    total = int(s.headers.get("content-length", 0))
-    print(total)
-    with open(name[:-3] + ".mp3", 'wb') as file, td.tqdm(
-            desc=name[:-3] + ".mp3",  # 文件名
-            total=total,  # 进度
-            unit='B',  # 单位
-            unit_scale=True,  # 认不得
-            unit_divisor=1024,  # 进制
-    ) as bar:
-        all_size = 0
-        for data in s.iter_content(chunk_size=1024):
-            size = file.write(data)
-            bar.update(size)
+    if 文件名称 is not None or 文件名称 != "":
+        if 额外信息 == "只要音频":
+            s = rt.get(url_list, headers=head)
+            total = int(s.headers.get("content-length", 0))
+            with open(文件名称 + ".mp3", 'wb') as file, td.tqdm(
+                    desc=文件名称 + ".mp3",  # 文件名
+                    total=total,  # 进度
+                    unit='B',  # 单位
+                    unit_scale=True,  # 认不得
+                    unit_divisor=1024,  # 进制
+            ) as bar:
+                for data in s.iter_content(chunk_size=1024):
+                    size = file.write(data)
+                    bar.update(size)
+            url1.clear()
+            url2.clear()
+            can.itemconfig(d9, text="音频已完全下载")
+            th.Thread(target=音效.下载完成).start()
+            ms.showinfo("来自鲲鲲的提示", "小黑子，视频已完全下载完，食不食油饼?")
 
-    s = rt.get(url_list[1], headers=head, stream=True)  # stream 开启用流来获取数据
-    total = int(s.headers.get('content-length', 0))
-    # 打开当前目录的fname文件(名字你来传入)
-    # 初始化tqdm，传入总数，文件名等数据，接着就是写入，更新等操作了
-    with open(name[:-3] + ".mp4", 'wb') as file, td.tqdm(
-            desc=name[:-3] + ".mp4",  # 文件名
-            total=total,  # 进度
-            unit='B',  # 单位
-            unit_scale=True,  # 认不得
-            unit_divisor=1024,  # 进制
-    ) as bar:
-        for data in s.iter_content(chunk_size=1024):
-            size = file.write(data)
-            bar.update(size)
-    ad = AudioFileClip(name[:-3] + ".mp3")
-    vd = VideoFileClip(name[:-3] + ".mp4")
+        elif 额外信息 == "只要视频":
+            s = rt.get(url_list, headers=head, stream=True)  # stream 开启用流来获取数据
+            total = int(s.headers.get('content-length', 0))
+            # 打开当前目录的fname文件(名字你来传入)
+            # 初始化tqdm，传入总数，文件名等数据，接着就是写入，更新等操作了
+            with open(文件名称 + ".mp4", 'wb') as file, td.tqdm(
+                    desc=文件名称 + ".mp4",  # 文件名
+                    total=total,  # 进度
+                    unit='B',  # 单位
+                    unit_scale=True,  # 认不得
+                    unit_divisor=1024,  # 进制
+            ) as bar:
+                for data in s.iter_content(chunk_size=1024):
+                    size = file.write(data)
+                    bar.update(size)
+            url1.clear()
+            url2.clear()
+            can.itemconfig(d9, text="无声视频已完全下载")
+            th.Thread(target=音效.下载完成).start()
+            ms.showinfo("来自鲲鲲的提示", "小黑子，视频已完全下载完，食不食油饼?")
 
-    def da(mp3=ad, MP4: VideoFileClip = vd):
-        global MP42
-        MP42 = MP4.set_audio(mp3)
-        MP42.write_videofile(f'{name}.mp4')
-        can.itemconfig(d9, text="视频已完全下载")
-        try:
-            os.remove(name[:-3] + ".mp3")
-            os.remove(name[:-3] + ".mp4")
-        except:
-            time.sleep(10)
-            os.remove(name[:-3] + ".mp3")
-            os.remove(name[:-3] + ".mp4")
-        mm.init()
-        mm.music.load("音效.mp3")
-        ms.showinfo("来自鲲鲲的提示", "小黑子，视频已完全下载完，食不食油饼?")
-        mm.music.play()
-        time.sleep(6)
-        mm.music.stop()
-        url1.clear()
-        url2.clear()
+        else:
+            s = rt.get(url_list[0], headers=head)
+            total = int(s.headers.get("content-length", 0))
+            print(total)
+            with open(文件名称[:-3] + ".mp3", 'wb') as file, td.tqdm(
+                    desc=文件名称[:-3] + ".mp3",  # 文件名
+                    total=total,  # 进度
+                    unit='B',  # 单位
+                    unit_scale=True,  # 认不得
+                    unit_divisor=1024,  # 进制
+            ) as bar:
+                for data in s.iter_content(chunk_size=1024):
+                    size = file.write(data)
+                    bar.update(size)
 
-    sc.update()
-    th.Thread(target=da).start()
+            s = rt.get(url_list[1], headers=head, stream=True)  # stream 开启用流来获取数据
+            total = int(s.headers.get('content-length', 0))
+            # 打开当前目录的fname文件(名字你来传入)
+            # 初始化tqdm，传入总数，文件名等数据，接着就是写入，更新等操作了
+            with open(文件名称[:-3] + ".mp4", 'wb') as file, td.tqdm(
+                    desc=文件名称[:-3] + ".mp4",  # 文件名
+                    total=total,  # 进度
+                    unit='B',  # 单位
+                    unit_scale=True,  # 认不得
+                    unit_divisor=1024,  # 进制
+            ) as bar:
+                for data in s.iter_content(chunk_size=1024):
+                    size = file.write(data)
+                    bar.update(size)
+            ad = AudioFileClip(文件名称[:-3] + ".mp3")
+            vd = VideoFileClip(文件名称[:-3] + ".mp4")
+
+            def da(mp3=ad, MP4: VideoFileClip = vd):
+                global MP42
+                MP42 = MP4.set_audio(mp3)
+                MP42.write_videofile(f'{文件名称}.mp4')
+                can.itemconfig(d9, text="视频已完全下载")
+                try:
+                    os.remove(文件名称[:-3] + ".mp3")
+                    os.remove(文件名称[:-3] + ".mp4")
+                except:
+                    time.sleep(10)
+                    os.remove(文件名称[:-3] + ".mp3")
+                    os.remove(文件名称[:-3] + ".mp4")
+                url1.clear()
+                url2.clear()
+                th.Thread(target=音效.下载完成).start()
+                ms.showinfo("来自鲲鲲的提示", "小黑子，视频已完全下载完，食不食油饼?")
+
+            sc.update()
+            th.Thread(target=da).start()
+    else:
+        pass
 
 
 sc = tk.Tk()
-sc.title("鲲鲲V0.1试行版")
+sc.title("鲲鲲V0.2测试版")
 sc.geometry("960x540+230+80")
 sc.attributes("-alpha", 0.95)  # 透明度设置
 try:
@@ -246,6 +322,7 @@ if w.height() == 1080:
 else:
     pass
 name = "未登陆你的辐射组账号"
+视频名字 = ""
 can = tk.Canvas(sc, highlightthickness=0, width=960, height=540)  # 创建画布
 can.place(x=0, y=0)  # 大小
 img = can.create_image(480, 270, image=w)  # 添加图片
@@ -256,32 +333,44 @@ d2 = can.create_text((480 + 220 + 50), 260 - 40, text="搜索", fill="green", fo
 can.create_text(480 + 120, 110 + 35, text="V 0.2.1", fill="#ff00ff", font=("汉仪文黑-85W Heavy", 15))
 a = tk.Entry(sc, bd=0, width=70)
 a.place(x=200, y=250 - 40)
-g = can.create_text(366, 270 + 65, text="")
-d3 = can.create_rectangle(200, 450, 350, 470, outline="yellow")
-d4 = can.create_text(275, 460, text="下载视频 720p", fill="#FF00FF", font=("微软雅黑", 12))
-d5 = can.create_rectangle(360, 450, 510, 470, outline="yellow")
-d6 = can.create_text(435, 460, text="下载视频 480p", fill="#FF00FF", font=("微软雅黑", 12))
-d7 = can.create_rectangle(520, 450, 670, 470, outline="yellow")
-d8 = can.create_text(595, 460, text="下载视频 360p", fill="#FF00FF", font=("微软雅黑", 12))
+g = can.create_text(480, 270 + 65, text="")
+d3 = can.create_rectangle(200-30, 450, 350-30, 470, outline="yellow")
+d4 = can.create_text(275-30, 460, text="最高画质", fill="#FF00FF", font=("微软雅黑", 12))
+d5 = can.create_rectangle(360-30, 450, 510-30, 470, outline="yellow")
+d6 = can.create_text(435-30, 460, text="中等画质", fill="#FF00FF", font=("微软雅黑", 12))
+d7 = can.create_rectangle(520-30, 450, 670-30, 470, outline="yellow")
+d8 = can.create_text(595-30, 460, text="最低画质", fill="#FF00FF", font=("微软雅黑", 12))
 d10 = can.create_rectangle(20, 20, 120, 50, outline="#FF00FF")
+d14 = can.create_text(760-30, 460, text="只要音频", fill="#FF00FF", font=("微软雅黑", 12))
+d15 = can.create_rectangle(680-30, 450, 830-30, 470, outline="yellow")
+d16 = can.create_text(435-30, 430, text="只要无声视频", fill="#FF00FF", font=("微软雅黑", 12))
+d17 = can.create_rectangle(360-30, 420, 510-30, 440, outline="yellow")
 d11 = can.create_text(70, 35, text="更改图片", fill="#FF0000", font=("微软雅黑", 12))
 d12 = can.create_text(960 - 90, 35, text=name, fill="red", font=("微软雅黑", 12))
+d13 = can.create_text(480, 520, text="关于我们", fill="red", font=("微软雅黑", 12))
 d9 = can.create_text(480, 480, text="无额外信息", fill="#FF00FF", font=("微软雅黑", 12, "bold"))
 组件 = [search, d, d2, d3, d4, d5, d6, d7, d8, d9, d10, g]
 can.bind("<Button-1>", lambda jk: 点击事件(jk))
 can.bind("<Motion>", lambda jk: 经过事件(jk))
+LOGO = tk.PhotoImage(file="辐射组Logo2.png")
+LOGO = LOGO.subsample(2, 2)
+tiem = th.Thread(target=运行时长)
+tiem.setDaemon(True)
+tiem.start()
 
 
 def 点击事件(event):
-    global name
+    global name, 视频名字
     url22 = str(a.get())
     if 480 + 220 < event.x < 480 + 220 + 100 and 250 - 40 < event.y < 270 - 40:
         can.itemconfig(d, outline="yellow")
         can.itemconfig(d2, text="处理中", fill="red")
         if url22 is None or url22 == "":
+            th.Thread(target=音效.遇到错误).start()
             ms.showwarning("警告", "您的信息是空的！")
         elif url22[:5] != "https" and url22[:2] != "BV":
             print(url22[:2])
+            th.Thread(target=音效.遇到错误).start()
             ms.showwarning("警告", "您输入的信息不合规格")
         else:
             f = 信息展示(url=url22)
@@ -289,6 +378,7 @@ def 点击事件(event):
                 can.itemconfig(g,
                                text="视频信息:\n名字:" + f[1] + f"\n作者:{f[2]}\n播放时长{f[3] // 60000}min {f[3] // 1000 % 60}s",
                                fill="black", font=("微软雅黑", 15))
+                视频名字 = f[1]
 
             except TypeError:
                 pass
@@ -303,15 +393,23 @@ def 点击事件(event):
         can.itemconfig(d10, outline="yellow")
         can.itemconfig(d11, text="正在处理", fill="red")
         设置()
-    elif 200 < event.x < 350 and 450 < event.y < 470 and len(url1) != 0:
-        na = tf.asksaveasfilename(initialfile="视频", filetypes=[("只是个名字", "*any")])
-        视频爬取(url_list=(url1[0], url2[0]), name=na)
-    elif 360 < event.x < 510 and 450 < event.y < 470 and len(url1) != 0:
-        na = tf.asksaveasfilename(initialfile="视频", filetypes=[("只是个名字", "*any")])
-        视频爬取(url_list=(url1[1], url2[1]), name=na)
-    elif 520 < event.x < 670 and 450 < event.y < 470 and len(url1) != 0:
-        na = tf.asksaveasfilename(initialfile="视频", filetypes=[("只是个名字", "*any")])
-        视频爬取(url_list=(url1[2], url2[2]), name=na)
+    elif 200-30 < event.x < 350-30 and 450 < event.y < 470 and len(url2) >= 1:
+        na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
+        视频爬取(url_list=(url1[0], url2[0]), 文件名称=na)
+    elif 360-30 < event.x < 510-30 and 450 < event.y < 470 and len(url2) >= 2:
+        na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
+        视频爬取(url_list=(url1[1], url2[1]), 文件名称=na)
+    elif 520-30 < event.x < 670-30 and 450 < event.y < 470 and len(url2) >= 3:
+        na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
+        视频爬取(url_list=(url1[2], url2[2]), 文件名称=na)
+    elif 680 - 30 < event.x < 830 - 30 and 450 < event.y < 470 and len(url1) != 0:
+        na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
+        视频爬取(url_list=(url1[0]), 文件名称=na, 额外信息="只要音频")
+    elif 360 - 30 < event.x < 510 - 30 and 420 < event.y < 440 and len(url1) != 0:
+        na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
+        视频爬取(url_list=(url2[0]), 文件名称=na, 额外信息="只要视频")
+    elif 440 < event.x < 520 and 509 < event.y < 529:
+        about()
 
     else:
         can.itemconfig(d, outline="black")
@@ -320,43 +418,68 @@ def 点击事件(event):
 
 def 经过事件(event):
     if 480 + 220 < event.x < 480 + 220 + 100 and 250 - 40 < event.y < 270 - 40:
+        can.config(cursor="hand2")  # 更改光标形状
         can.itemconfig(d, outline="yellow")
         can.itemconfig(d2, text="点击", fill="red")
         can.itemconfig(d9, text="可以找到视频并下载", fill="red")
     elif 20 < event.x < 120 and 20 < event.y < 50:
+        can.config(cursor="hand2")
         can.itemconfig(d10, outline="yellow")
         can.itemconfig(d11, text="点击", fill="red")
         can.itemconfig(d9, text="可以更改你的背景图片", fill="red")
     elif 960 - 140 < event.x < 960 and 20 < event.y < 50:
+        can.config(cursor="hand2")
         if name == "未登陆你的辐射组账号":
             can.itemconfig(d12, text="点[只因]此处登陆", fill="red")
             can.itemconfig(d9, text="登录辐射组账号，享受更多功能！", fill="#00FFFE")
         else:
             can.itemconfig(d9, text="你可以享受更多功能了同志，点击你的名字可退出登录", fill="#00FFFE")
-    elif 200 < event.x < 350 and 450 < event.y < 470 and len(url1) != 0:
+    elif 200 - 30 < event.x < 350 - 30 and 450 < event.y < 470 and len(url2) >= 1:
+        can.config(cursor="hand2")
         can.itemconfig(d3, outline="red")
         can.itemconfig(d4, text="高清", fill="red")
         can.itemconfig(d9, text="此视频bilibili网站所支持的最高画质[1080P/720P]", fill="red")
-    elif 360 < event.x < 510 and 450 < event.y < 470 and len(url1) != 0:
+    elif 360 - 30 < event.x < 510 - 30 and 450 < event.y < 470 and len(url2) >= 2:
+        can.config(cursor="hand2")
         can.itemconfig(d5, outline="red")
         can.itemconfig(d6, text="标清", fill="red")
         can.itemconfig(d9, text="此视频bilibili网站所支持的中等画质[720P/480P]", fill="red")
-    elif 520 < event.x < 670 and 450 < event.y < 470 and len(url1) != 0:
+    elif 520 - 30 < event.x < 670 - 30 and 450 < event.y < 470 and len(url2) >= 3:
+        can.config(cursor="hand2")
         can.itemconfig(d7, outline="red")
         can.itemconfig(d8, text="模糊", fill="red")
         can.itemconfig(d9, text="此视频bilibili网站所支持的较低画质[480P/360P]", fill="red")
+    elif 440 < event.x < 520 and 509 < event.y < 529:
+        can.config(cursor="hand2")
+        can.itemconfig(d13, fill="#0000FF")
+    elif 680 - 30 < event.x < 830 - 30 and 450 < event.y < 470 and len(url1) != 0:
+        can.config(cursor="hand2")
+        can.itemconfig(d15, outline="red")
+        can.itemconfig(d14, text="音频", fill="red")
+        can.itemconfig(d9, text="只下载音频，只要鬼畜乐曲的建议尝试", fill="red")
+    elif 360 - 30 < event.x < 510 - 30 and 420 < event.y < 440 and len(url1) != 0:
+        can.config(cursor="hand2")
+        can.itemconfig(d17, outline="red")
+        can.itemconfig(d16, text="无声视频", fill="red")
+        can.itemconfig(d9, text="没有声音的视频，免除去音烦恼", fill="red")
     else:
+        can.config(cursor="arrow")
         can.itemconfig(d, outline="black")
         can.itemconfig(d2, text="搜索", fill="green")
         can.itemconfig(d3, outline="yellow")
-        can.itemconfig(d4, text="下载视频 720p", fill="#FF00FF")
+        can.itemconfig(d4, text="最高画质", fill="#FF00FF")
         can.itemconfig(d5, outline="yellow")
-        can.itemconfig(d6, text="下载视频 480p", fill="#FF00FF")
+        can.itemconfig(d6, text="中等画质", fill="#FF00FF")
         can.itemconfig(d7, outline="yellow")
-        can.itemconfig(d8, text="下载视频 360p", fill="#FF00FF")
+        can.itemconfig(d8, text="最低画质", fill="#FF00FF")
         can.itemconfig(d10, outline="#FF00FF")
         can.itemconfig(d11, text="更改图片", fill="#FFFF00")
         can.itemconfig(d12, text=name, fill="red")
+        can.itemconfig(d13, fill="red")
+        can.itemconfig(d15, outline="yellow")
+        can.itemconfig(d14, text="只要音频", fill="#FF00FF")
+        can.itemconfig(d16, text="只要视频", fill="#FF00FF")
+        can.itemconfig(d17, outline="yellow")
 
 
 def 设置():
@@ -374,6 +497,19 @@ def 设置():
         sc.update()
     else:
         pass
+
+
+def about():
+    ab = tk.Toplevel(sc)
+    ab.title("鲲鲲V0.2 测试版 关于我们")
+    ab.geometry("960x540+230+80")
+    can = tk.Canvas(ab, highlightthickness=0, width=960, height=540)  # 创建画布
+    can.place(x=0, y=0)  # 大小
+    img3 = can.create_image(480, 270, image=w)  # 添加图片
+    can.create_text(480, 140, text="关于我们\n制作者:VRt-21th 辐射组\n编写语言:Python\n代码地址:https://github.com/NewSunMUli/jk-1\n更新:0.1 -> 0.2\n可以自定义背景和登录辐射组账号了！"
+                                   "\n下一版本:将会添加更多设置和下载进度条",
+                    font=(原神字体, 20, 加粗), fill="#00FAFF")
+    can.create_image(480, 420, image=LOGO)
 
 
 sc.mainloop()

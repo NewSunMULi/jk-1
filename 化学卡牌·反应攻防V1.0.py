@@ -237,7 +237,7 @@ class VRt_21th(化学反应):
         Label(KK,text=("碱：",化学反应().碱)).place(x=0,y=90)
         Label(KK,text=("氧化物:",化学反应().氧化物)).place(x=0,y=110)
         Label(KK,text=("单质：",化学反应().单质)).place(x=0,y=130)
-        Label(KK,text=("人机:"+str(RG)+"   "+"name"+":"+str(PG)+" 回合"+str(o+1)),font=30,width=50,anchor="w").place(x=0,y=230)
+        Label(KK,text=("人机:"+str(RG)+"   "+"文件名称"+":"+str(PG)+" 回合"+str(o+1)),font=30,width=50,anchor="w").place(x=0,y=230)
         hh.place(x=360,y=0)
         KK.mainloop()
 

@@ -149,7 +149,7 @@ class 模型(组件):
             if name == "孙子赵靖凯":
                 raise 容器异常("没有绘图对象咋个画图！")
         except 容器异常 as pp:
-            print("name=pg.sc")
+            print("文件名称=pg.sc")
         self.mx = pg.image.load(phname)
         self.w, self.h = self.mx.get_size()
         self.x = x

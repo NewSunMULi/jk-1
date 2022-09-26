@@ -255,9 +255,9 @@ def 偷歌的嘎子(歌名=None, 歌手: str = "我自己", 储存路径=None):
     歌曲列表1 = []  # 存储所以歌曲的数据
     结果 = []  # 存储用户想要的歌曲数据
     for name in list2:
-        歌曲列表1.append({"歌曲名": name['name'], "歌手": name['artist'], "rid识别号": name['rid']})  # 爬数据
+        歌曲列表1.append({"歌曲名": name['文件名称'], "歌手": name['artist'], "rid识别号": name['rid']})  # 爬数据
         if name['artist'] == 歌手:
-            结果.append({"歌曲名": name['name'], "歌手": name['artist'], "rid识别号": name['rid']})
+            结果.append({"歌曲名": name['文件名称'], "歌手": name['artist'], "rid识别号": name['rid']})
         else:
             pass
     if 歌手 == "":

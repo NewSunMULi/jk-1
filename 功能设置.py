@@ -122,9 +122,9 @@ class tk爬虫_中文版(tk_requests):
             歌曲列表1 = []
             结果2 = []
             for name in list2:
-                歌曲列表1.append({"歌曲名": name['name'], "歌手": name['artist'], "rid识别号": name['rid']})  # 爬数据
+                歌曲列表1.append({"歌曲名": name['文件名称'], "歌手": name['artist'], "rid识别号": name['rid']})  # 爬数据
                 if name['artist'] == 歌手:
-                    结果2.append({"歌曲名": name['name'], "歌手": name['artist'], "rid识别号": name['rid']})
+                    结果2.append({"歌曲名": name['文件名称'], "歌手": name['artist'], "rid识别号": name['rid']})
                 else:
                     pass
             if 歌手 == "":

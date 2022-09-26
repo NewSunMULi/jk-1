@@ -80,7 +80,7 @@ class Head:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_F12:
                     pass
-                    # 视频(name=sc, dirmu="视频区1/music.mp3")
+                    # 视频(文件名称=sc, dirmu="视频区1/music.mp3")
                 if event.key == pg.K_F5:
                     print("欢迎来到\"VRt-21\"开发者模式")
                 if event.key == pg.K_d:
@@ -238,7 +238,7 @@ class Text:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_F12:
                     pass
-                    # 视频(name=sc, dirmu="视频区1/music.mp3")
+                    # 视频(文件名称=sc, dirmu="视频区1/music.mp3")
                 if event.key == pg.K_F5:
                     print("欢迎来到\"VRt-21\"开发者模式")
                 if event.key == pg.K_d and past > 1:
@@ -284,7 +284,7 @@ class End:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_F12:
                     pass
-                    # 视频(name=sc, dirmu="视频区1/music.mp3")
+                    # 视频(文件名称=sc, dirmu="视频区1/music.mp3")
                 if event.key == pg.K_F5:
                     print("欢迎来到\"VRt-21\"开发者模式")
                 if event.key == pg.K_d and past > 1:

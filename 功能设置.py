@@ -122,9 +122,9 @@ class tk爬虫_中文版(tk_requests):
             歌曲列表1 = []
             结果2 = []
             for name in list2:
-                歌曲列表1.append({"歌曲名": name['文件名称'], "歌手": name['artist'], "rid识别号": name['rid']})  # 爬数据
+                歌曲列表1.append({"歌曲名": name['name'], "歌手": name['artist'], "rid识别号": name['rid']})  # 爬数据
                 if name['artist'] == 歌手:
-                    结果2.append({"歌曲名": name['文件名称'], "歌手": name['artist'], "rid识别号": name['rid']})
+                    结果2.append({"歌曲名": name['name'], "歌手": name['artist'], "rid识别号": name['rid']})
                 else:
                     pass
             if 歌手 == "":
@@ -149,7 +149,6 @@ class tk爬虫_中文版(tk_requests):
                            font=("", 8)).place(x=660, y=19 * x)
                     Button(容器, text=f"播放",
                            command=lambda 识别=jk['rid识别号']: self.音乐播放(识别), font=("", 8)).place(x=690, y=19 * x)
-                print(歌曲列表1)
 
     def 音乐下载(self, 识别号=0, name=None):
         try:

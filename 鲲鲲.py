@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.filedialog as tf
 import tkinter.messagebox as ms
+from typing import Any
 import requests as rt
 import re
 from moviepy.editor import *
@@ -26,25 +27,31 @@ class 音效:
         pass
 
     @staticmethod
-    def 下载完成():
+    def 下载完成(持续时间: Any = 25):
         mm.music.load("音效.mp3")
         mm.music.play()
-        time.sleep(25)
-        mm.music.stop()
+        try:
+            time.sleep(持续时间)
+            mm.music.stop()
+        except TypeError:
+            pass
 
     @staticmethod
-    def 遇到错误():
+    def 遇到错误(蔡徐坤: Any = 4):
         mm.music.load("你干嘛.mp3")
         mm.music.play()
-        time.sleep(4)
-        mm.music.stop()
+        try:
+            time.sleep(蔡徐坤)
+            mm.music.stop()
+        except TypeError:
+            pass
 
 
 def 运行时长():
     seconds = 0
     minters = 0
     hours = 0
-    aa = can.create_text(480, 30, text=f"运行时间:{hours}h {minters}m {seconds}s", font=(原神字体, 15, 加粗), fill="green")
+    aa = can.create_text(480, 30, text=f"运行时间:{hours}h {minters}m {seconds}s", font=(原神字体, 15, 加粗), fill="#FF02FF")
     while True:
         time.sleep(1)
         seconds += 1
@@ -54,7 +61,7 @@ def 运行时长():
         if minters == 60:
             hours += 1
             minters -= 60
-        can.itemconfig(aa, text=f"运行时间:{hours}h {minters}m {seconds}s")
+        can.itemconfig(aa, text=f"运行时间:{hours}h {minters}m {seconds}s\n祝您rap愉快！")
 
 
 def 辐射组账号模块():
@@ -85,6 +92,7 @@ def 辐射组账号模块():
                     a8 = tk.Label(sc4, text="登陆成功", width=150, anchor="sw")
                     active = True
                     name = user_name[user_list.index(num)]
+                    音效.下载完成()
                     can.itemconfig(d12, text=name)
                     UID = num
                     a8.place(x=375, y=420)
@@ -202,6 +210,7 @@ def 信息展示(url):
                 url2.append(data['data']['dash']['video'][i * 3]['base_url'])
             except IndexError:
                 pass
+        th.Thread(target=lambda 涛涛=4: 音效.下载完成(涛涛)).start()
         return url2, title, anchor, time
     except Exception as f2:
         th.Thread(target=音效.遇到错误).start()
@@ -309,7 +318,7 @@ def 视频爬取(url_list=None, 文件名称=None, 额外信息=None):
 sc = tk.Tk()
 sc.title("鲲鲲V0.2测试版")
 sc.geometry("960x540+230+80")
-sc.attributes("-alpha", 0.95)  # 透明度设置
+sc.attributes("-alpha", 0.9)  # 透明度设置
 try:
     with open("pictor.json", "r", encoding="utf-8") as f:
         w = tk.PhotoImage(file=js.load(f))
@@ -330,21 +339,21 @@ img2 = can.create_image(480, 110, image=w2)
 search = can.create_text(366, 230 - 40, text="在此输入你要下载的视频的BV号或具体网址:", fill="blue", font=("微软雅黑", 13))
 d = can.create_rectangle(480 + 220, 270 - 20 - 40, 480 + 320, 270 - 40)
 d2 = can.create_text((480 + 220 + 50), 260 - 40, text="搜索", fill="green", font=("微软雅黑", 12))
-can.create_text(480 + 120, 110 + 35, text="V 0.2.1", fill="#ff00ff", font=("汉仪文黑-85W Heavy", 15))
+can.create_text(480 + 120, 110 + 35, text="V 0.2.2", fill="#ff00ff", font=("汉仪文黑-85W Heavy", 15))
 a = tk.Entry(sc, bd=0, width=70)
 a.place(x=200, y=250 - 40)
 g = can.create_text(480, 270 + 65, text="")
-d3 = can.create_rectangle(200-30, 450, 350-30, 470, outline="yellow")
-d4 = can.create_text(275-30, 460, text="最高画质", fill="#FF00FF", font=("微软雅黑", 12))
-d5 = can.create_rectangle(360-30, 450, 510-30, 470, outline="yellow")
-d6 = can.create_text(435-30, 460, text="中等画质", fill="#FF00FF", font=("微软雅黑", 12))
-d7 = can.create_rectangle(520-30, 450, 670-30, 470, outline="yellow")
-d8 = can.create_text(595-30, 460, text="最低画质", fill="#FF00FF", font=("微软雅黑", 12))
+d3 = can.create_rectangle(200 - 30, 450, 350 - 30, 470, outline="yellow")
+d4 = can.create_text(275 - 30, 460, text="最高画质", fill="#FF00FF", font=("微软雅黑", 12))
+d5 = can.create_rectangle(360 - 30, 450, 510 - 30, 470, outline="yellow")
+d6 = can.create_text(435 - 30, 460, text="中等画质", fill="#FF00FF", font=("微软雅黑", 12))
+d7 = can.create_rectangle(520 - 30, 450, 670 - 30, 470, outline="yellow")
+d8 = can.create_text(595 - 30, 460, text="最低画质", fill="#FF00FF", font=("微软雅黑", 12))
 d10 = can.create_rectangle(20, 20, 120, 50, outline="#FF00FF")
-d14 = can.create_text(760-30, 460, text="只要音频", fill="#FF00FF", font=("微软雅黑", 12))
-d15 = can.create_rectangle(680-30, 450, 830-30, 470, outline="yellow")
-d16 = can.create_text(435-30, 430, text="只要无声视频", fill="#FF00FF", font=("微软雅黑", 12))
-d17 = can.create_rectangle(360-30, 420, 510-30, 440, outline="yellow")
+d14 = can.create_text(760 - 30, 460, text="只要音频", fill="#FF00FF", font=("微软雅黑", 12))
+d15 = can.create_rectangle(680 - 30, 450, 830 - 30, 470, outline="yellow")
+d16 = can.create_text(435 - 30, 430, text="只要无声视频", fill="#FF00FF", font=("微软雅黑", 12))
+d17 = can.create_rectangle(360 - 30, 420, 510 - 30, 440, outline="yellow")
 d11 = can.create_text(70, 35, text="更改图片", fill="#FF0000", font=("微软雅黑", 12))
 d12 = can.create_text(960 - 90, 35, text=name, fill="red", font=("微软雅黑", 12))
 d13 = can.create_text(480, 520, text="关于我们", fill="red", font=("微软雅黑", 12))
@@ -352,6 +361,8 @@ d9 = can.create_text(480, 480, text="无额外信息", fill="#FF00FF", font=("�
 组件 = [search, d, d2, d3, d4, d5, d6, d7, d8, d9, d10, g]
 can.bind("<Button-1>", lambda jk: 点击事件(jk))
 can.bind("<Motion>", lambda jk: 经过事件(jk))
+sc.bind("<Return>", lambda jk: 点击事件(jk))
+sc.bind("<F12>", lambda jj: 音效.下载完成(None))
 LOGO = tk.PhotoImage(file="辐射组Logo2.png")
 LOGO = LOGO.subsample(2, 2)
 tiem = th.Thread(target=运行时长)
@@ -362,14 +373,13 @@ tiem.start()
 def 点击事件(event):
     global name, 视频名字
     url22 = str(a.get())
-    if 480 + 220 < event.x < 480 + 220 + 100 and 250 - 40 < event.y < 270 - 40:
+    if (480 + 220 < event.x < 480 + 220 + 100 and 250 - 40 < event.y < 270 - 40) or "Return" in event.__str__():
         can.itemconfig(d, outline="yellow")
         can.itemconfig(d2, text="处理中", fill="red")
         if url22 is None or url22 == "":
             th.Thread(target=音效.遇到错误).start()
             ms.showwarning("警告", "您的信息是空的！")
         elif url22[:5] != "https" and url22[:2] != "BV":
-            print(url22[:2])
             th.Thread(target=音效.遇到错误).start()
             ms.showwarning("警告", "您输入的信息不合规格")
         else:
@@ -393,13 +403,13 @@ def 点击事件(event):
         can.itemconfig(d10, outline="yellow")
         can.itemconfig(d11, text="正在处理", fill="red")
         设置()
-    elif 200-30 < event.x < 350-30 and 450 < event.y < 470 and len(url2) >= 1:
+    elif 200 - 30 < event.x < 350 - 30 and 450 < event.y < 470 and len(url2) >= 1:
         na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
         视频爬取(url_list=(url1[0], url2[0]), 文件名称=na)
-    elif 360-30 < event.x < 510-30 and 450 < event.y < 470 and len(url2) >= 2:
+    elif 360 - 30 < event.x < 510 - 30 and 450 < event.y < 470 and len(url2) >= 2:
         na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
         视频爬取(url_list=(url1[1], url2[1]), 文件名称=na)
-    elif 520-30 < event.x < 670-30 and 450 < event.y < 470 and len(url2) >= 3:
+    elif 520 - 30 < event.x < 670 - 30 and 450 < event.y < 470 and len(url2) >= 3:
         na = tf.asksaveasfilename(initialfile=视频名字, filetypes=[("只是个名字", "*any")])
         视频爬取(url_list=(url1[2], url2[2]), 文件名称=na)
     elif 680 - 30 < event.x < 830 - 30 and 450 < event.y < 470 and len(url1) != 0:
@@ -487,6 +497,7 @@ def 设置():
     filename = tf.askopenfilename(filetypes=[("图片", "*.png")])
     with open("pictor.json", "w", encoding="utf-8") as f2:
         js.dump(filename, f2)
+
     if filename != "":
         w = tk.PhotoImage(file=filename)
         if w.height() == 1080:
@@ -501,14 +512,15 @@ def 设置():
 
 def about():
     ab = tk.Toplevel(sc)
+    ab.attributes("-alpha", 0.80)
     ab.title("鲲鲲V0.2 测试版 关于我们")
     ab.geometry("960x540+230+80")
     can = tk.Canvas(ab, highlightthickness=0, width=960, height=540)  # 创建画布
     can.place(x=0, y=0)  # 大小
     img3 = can.create_image(480, 270, image=w)  # 添加图片
-    can.create_text(480, 140, text="关于我们\n制作者:VRt-21th 辐射组\n编写语言:Python\n代码地址:https://github.com/NewSunMUli/jk-1\n更新:0.1 -> 0.2\n可以自定义背景和登录辐射组账号了！"
-                                   "\n下一版本:将会添加更多设置和下载进度条",
-                    font=(原神字体, 20, 加粗), fill="#00FAFF")
+    can.create_text(480, 140,
+                    text='''关于我们\n制作者:VRt-21th 辐射组\n编写语言:Python\n代码地址:https://github.com/NewSunMUli/jk-1\n更新:0.2.1 -> 0.2.2\n回车键可以被使用了,10.1-10.7特殊颜色！''',
+                    font=(原神字体, 20, 加粗), fill="red")
     can.create_image(480, 420, image=LOGO)
 
 

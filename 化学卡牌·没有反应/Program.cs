@@ -2,12 +2,22 @@
 
 namespace 化学卡牌_没有反应
 {
-    class Program
+    /// <summary>
+    /// 存放着评级等级
+    /// </summary>
+    public enum 评级
     {
-        static void Main(string[] args)
+        Dog_H,
+        Cxk_G,
+        Bjk_Z,
+        Apx_C
+    }
+    public static class Program
+    {
+        public static void Main(string[] args)
         {
             int score = 0;
-            for (int i = 0; i<20; i++)
+            for (int i = 0; i<2; i++)
             {
                 string[] 物质 = { "浓硫酸", "烷烃", "高锰酸钾[H+]", "烯烃", "炔烃", "芳香族化合物", "羧酸", "酯", "醇" };
                 Console.WriteLine("你要出的物质！浓硫酸, 烷烃, 高锰酸钾[H+], 烯烃, 炔烃, 芳香族化合物, 羧酸, 酯, 醇");
@@ -36,19 +46,19 @@ namespace 化学卡牌_没有反应
             }
             if (score <= 5)
             {
-                Console.WriteLine("你就只得了这点屁分:{0},评级:DOG H", score);
+                Console.WriteLine("你就只得了这点屁分:{0},评级:{1}", score, 评级.Dog_H);
             }
             else if (score > 5 && score <= 10)
             {
-                Console.WriteLine("你这份有点少呀:{0},评级:CXK G", score);
+                Console.WriteLine("你这得分有点少呀:{0},评级:{1}", score, 评级.Cxk_G);
             }
             else if (score <= 15 && score > 10)
             {
-                Console.WriteLine("分数挺正常的:{0},评级:BJK Z", score);
+                Console.WriteLine("分数挺正常的:{0},评级:{1}", score, 评级.Bjk_Z);
             }
             else
             {
-                Console.WriteLine("运气非常好，建议你下次那这些运气去抽波卡:{0},评级:APC X", score);
+                Console.WriteLine("运气非常好，建议你下次那这些运气去抽波卡:{0},评级:{1}", score, 评级.Apx_C);
             }
             Console.WriteLine("点击任意键结束");
             Console.ReadKey();

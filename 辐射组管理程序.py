@@ -1,5 +1,6 @@
 """辐射组管理系统的具体代码"""
 import json as 嫁我
+from typing import Any
 from 功能设置 import *
 from 基本常量 import *
 
@@ -53,13 +54,13 @@ class 其余游戏:
         import 概率模拟_崩坏3
 
 
-def 辐射组logo(scname: Tk = "好兄弟", up_text="放出光芒！"):
+def 辐射组logo(scname: Any = "好兄弟", up_text="放出光芒！"):
     """Logo放这好搞
     同时纪念曾经的年华，虽然它已经过去了
     We will finding your......
     """
     m = Label(scname, text=up_text, font=("华光钢铁直黑 可变体 Bold", 35, "italic"), fg="blue", width=20, anchor="nw")
-    m.place(x=25,y=20)  # italic斜体
+    m.place(x=25, y=20)  # italic斜体
     g = Label(scname, text="VRt-21", font=("微软雅黑", 20, "italic"), fg="#FF00EF")
     g.place(x=25, y=70)
     return m, g
@@ -81,6 +82,7 @@ def 账户财产(用户账号=UID):
         wst = WST[序数]
 
         def 测试():
+            """wst调试使用代码，平常就当摆设使用"""
             user_WST.set("你的WST:" + str(wst - 9999))
 
         user_WST = StringVar(sc)
@@ -465,6 +467,18 @@ class 辐射组管理程序:
         self.控件.append(key)
         self.控件.append(search)
 
+    @staticmethod
+    def 分析评级平台():
+        global sc
+        """if self.控件 is not None:
+            for i in self.控件:
+                i.destroy()
+            self.控件.clear()"""
+        sc5 = Toplevel(sc)
+        sc5.geometry("800x600+300+125")
+        sc5.title("辐射组管理程序 ---- 分析-评级区")
+        sc5.mainloop()
+
     def 辐射组规划(self):
         def 辐射计划():
             sc3 = Toplevel(sc)
@@ -472,12 +486,18 @@ class 辐射组管理程序:
             sc3.title("辐射计划5")
             p1, k1 = 辐射组logo(sc3, "辐射计划V")
             Label(sc3, text="实力目标计划", font=(华体, 25)).place(x=50, y=110)
-            Label(sc3, text=f"三大主科:语文90/110-{round(90/1.1, 4)}%\n数学90/150-{round(90/1.5, 4)}%\n鸟语60/90-{round(60/0.9, 4)}%。", font=(华体, 20)).place(x=50, y=150)
-            Label(sc3, text=f"理综:物理60/90-{round(60/0.9, 4)}%\n生物85/95-{round(85/0.95, 4)}%\n化学87/95-{round(87/0.95, 4)}%。", font=(华体, 20)).place(x=50, y=250)
-            Label(sc3, text="现阶段:在期中考试之后三大主科必须要有1个达到100%完成\n理综必须全部100%完成\n11月25号期中考(预计)", font=(华体, 20)).place(x=50, y=350)
+            Label(sc3,
+                  text=f"三大主科:语文90/110-{round(90 / 1.1, 4)}%\n数学90/150-{round(90 / 1.5, 4)}%\n鸟语60/90-{round(60 / 0.9, 4)}%。",
+                  font=(华体, 20)).place(x=50, y=150)
+            Label(sc3,
+                  text=f"理综:物理60/90-{round(60 / 0.9, 4)}%\n生物85/95-{round(85 / 0.95, 4)}%\n化学87/95-{round(87 / 0.95, 4)}%。",
+                  font=(华体, 20)).place(x=50, y=250)
+            Label(sc3, text="现阶段:在期中考试之后三大主科必须要有1个达到100%完成\n理综必须全部100%完成\n11月25号期中考(预计)", font=(华体, 20)).place(x=50,
+                                                                                                               y=350)
             Label(sc3, text="实力, 决定一切, 别被婊子占了上风！", font=(华体, 30), fg="red").pack(side=BOTTOM)
 
-        if ID[user_list.index(UID)] == "辐射组成员" or ID[user_list.index(UID)] == "合作社成员" or ID[user_list.index(UID)] == "辐射组组长":
+        if ID[user_list.index(UID)] == "辐射组成员" or ID[user_list.index(UID)] == "合作社成员" or ID[
+            user_list.index(UID)] == "辐射组组长":
             if self.控件 is not None:
                 for i in self.控件:
                     i.destroy()

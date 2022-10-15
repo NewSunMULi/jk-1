@@ -1,6 +1,7 @@
 """基本常量"""
 import json as js
 from typing import List, AnyStr
+from enum import Enum  # 进口枚举类型，刚学的C#要学会运用呀 ^_^
 
 # 注释死都不用马语
 """一些常量"""
@@ -41,3 +42,318 @@ def 打包exe(文件名=None, icon图标路径="图标.ico", 黑屏=False):
         os.system(f"pyinstaller -F -i {icon图标路径} -F {文件名}")
     else:
         os.system(f"pyinstaller -w -i {icon图标路径} -F {文件名}")
+
+
+class 玄氏评级:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def 化学评级(分数=0):
+        class 评级(Enum):
+            SL_Y = 95
+            VRT_C_W = 94
+            JK_Z = 90
+            Cxk_G = 85
+            Dog_H = 90
+            DK_E = 89
+            MIN = 90
+            Dc_GH = 100
+            DJ_HZ = 110
+            CJ_K = 115
+            Dcz_GHK = 117
+            VCT_CLS1 = 120
+
+        if 评级.Dog_H.value > 分数 or 分数 < 评级.MIN.value:
+            return 评级.DK_E
+
+        elif 分数 >= 评级.SL_Y.value:
+            return 评级.SL_Y
+
+        elif 评级.Dog_H.value == 评级.Cxk_G.value and 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+            return 评级.Dc_GH
+
+        elif 评级.Dog_H.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.DJ_HZ
+
+        elif 评级.Cxk_G.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.CJ_K
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z and 分数 < 评级.VRT_C_W.value:
+            return 评级.Dcz_GHK
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z == 评级.VRT_C_W:
+            return 评级.VRT_cls1
+
+        else:
+            if 评级.Dog_H.value <= 分数 < 评级.Cxk_G.value:
+                return 评级.Dog_H
+
+            elif 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+                return 评级.Cxk_G
+
+            elif 评级.JK_Z.value <= 分数 < 评级.VRT_C_W.value:
+                return 评级.JK_Z
+
+            else:
+                return 评级.VRT_C_W
+
+    @staticmethod
+    def 生物评级(分数=0):
+        class 评级(Enum):
+            DK_E = 75
+            Dog_H = 90
+            Cxk_G = 85
+            JK_Z = 90
+            VRT_C_W = 98
+            SL_Y = 99
+            MAX = 100
+            MIN = 75
+            Dc_GH = 100
+            DJ_HZ = 110
+            CJ_K = 115
+            Dcz_GHK = 117
+            VCT_CLS1 = 120
+
+        if 评级.Dog_H.value > 分数 or 分数 < 评级.MIN.value:
+            return 评级.DK_E
+
+        elif 分数 >= 评级.MAX.value:
+            return 评级.SL_Y
+
+        elif 评级.Dog_H.value == 评级.Cxk_G.value and 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+            return 评级.Dc_GH
+
+        elif 评级.Dog_H.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.DJ_HZ
+
+        elif 评级.Cxk_G.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.CJ_K
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z and 分数 < 评级.VRT_C_W.value:
+            return 评级.Dcz_GHK
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z == 评级.VRT_C_W:
+            return 评级.VRT_cls1
+
+        else:
+            if 评级.Dog_H.value <= 分数 < 评级.Cxk_G.value:
+                return 评级.Dog_H
+
+            elif 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+                return 评级.Cxk_G
+
+            elif 评级.JK_Z.value <= 分数 < 评级.VRT_C_W.value:
+                return 评级.JK_Z
+
+            else:
+                return 评级.VRT_C_W
+
+    @staticmethod
+    def 物理评级(分数=0):
+        class 评级(Enum):
+            DK_E = 75
+            Dog_H = 90
+            Cxk_G = 85
+            JK_Z = 90
+            VRT_C_W = 98
+            SL_Y = 99
+            MAX = 100
+            MIN = 75
+            Dc_GH = 100
+            DJ_HZ = 110
+            CJ_K = 115
+            Dcz_GHK = 117
+            VCT_CLS1 = 120
+
+        if 评级.Dog_H.value > 分数 or 分数 < 评级.MIN.value:
+            return 评级.DK_E
+
+        elif 分数 >= 评级.MAX.value:
+            return 评级.SL_Y
+
+        elif 评级.Dog_H.value == 评级.Cxk_G.value and 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+            return 评级.Dc_GH
+
+        elif 评级.Dog_H.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.DJ_HZ
+
+        elif 评级.Cxk_G.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.CJ_K
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z and 分数 < 评级.VRT_C_W.value:
+            return 评级.Dcz_GHK
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z == 评级.VRT_C_W:
+            return 评级.VRT_cls1
+
+        else:
+            if 评级.Dog_H.value <= 分数 < 评级.Cxk_G.value:
+                return 评级.Dog_H
+
+            elif 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+                return 评级.Cxk_G
+
+            elif 评级.JK_Z.value <= 分数 < 评级.VRT_C_W.value:
+                return 评级.JK_Z
+
+            else:
+                return 评级.VRT_C_W
+
+    @staticmethod
+    def 语文评级(分数=0):
+        class 评级(Enum):
+            DK_E = 75
+            Dog_H = 90
+            Cxk_G = 85
+            JK_Z = 90
+            VRT_C_W = 98
+            SL_Y = 99
+            MAX = 100
+            MIN = 75
+            Dc_GH = 100
+            DJ_HZ = 110
+            CJ_K = 115
+            Dcz_GHK = 117
+            VCT_CLS1 = 120
+
+        if 评级.Dog_H.value > 分数 or 分数 < 评级.MIN.value:
+            return 评级.DK_E
+
+        elif 分数 >= 评级.MAX.value:
+            return 评级.SL_Y
+
+        elif 评级.Dog_H.value == 评级.Cxk_G.value and 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+            return 评级.Dc_GH
+
+        elif 评级.Dog_H.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.DJ_HZ
+
+        elif 评级.Cxk_G.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.CJ_K
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z and 分数 < 评级.VRT_C_W.value:
+            return 评级.Dcz_GHK
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z == 评级.VRT_C_W:
+            return 评级.VRT_cls1
+
+        else:
+            if 评级.Dog_H.value <= 分数 < 评级.Cxk_G.value:
+                return 评级.Dog_H
+
+            elif 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+                return 评级.Cxk_G
+
+            elif 评级.JK_Z.value <= 分数 < 评级.VRT_C_W.value:
+                return 评级.JK_Z
+
+            else:
+                return 评级.VRT_C_W
+
+    @staticmethod
+    def 数学评级(分数=0):
+        class 评级(Enum):
+            DK_E = 75
+            Dog_H = 90
+            Cxk_G = 85
+            JK_Z = 90
+            VRT_C_W = 98
+            SL_Y = 99
+            MAX = 100
+            MIN = 75
+            Dc_GH = 100
+            DJ_HZ = 110
+            CJ_K = 115
+            Dcz_GHK = 117
+            VCT_CLS1 = 120
+
+        if 评级.Dog_H.value > 分数 or 分数 < 评级.MIN.value:
+            return 评级.DK_E
+
+        elif 分数 >= 评级.MAX.value:
+            return 评级.SL_Y
+
+        elif 评级.Dog_H.value == 评级.Cxk_G.value and 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+            return 评级.Dc_GH
+
+        elif 评级.Dog_H.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.DJ_HZ
+
+        elif 评级.Cxk_G.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.CJ_K
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z and 分数 < 评级.VRT_C_W.value:
+            return 评级.Dcz_GHK
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z == 评级.VRT_C_W:
+            return 评级.VRT_cls1
+
+        else:
+            if 评级.Dog_H.value <= 分数 < 评级.Cxk_G.value:
+                return 评级.Dog_H
+
+            elif 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+                return 评级.Cxk_G
+
+            elif 评级.JK_Z.value <= 分数 < 评级.VRT_C_W.value:
+                return 评级.JK_Z
+
+            else:
+                return 评级.VRT_C_W
+
+    @staticmethod
+    def 鸟语评级(分数=0):
+        class 评级(Enum):
+            DK_E = 75
+            Dog_H = 90
+            Cxk_G = 85
+            JK_Z = 90
+            VRT_C_W = 98
+            SL_Y = 99
+            MAX = 100
+            MIN = 75
+            Dc_GH = 100
+            DJ_HZ = 110
+            CJ_K = 115
+            Dcz_GHK = 117
+            VCT_CLS1 = 120
+
+        if 评级.Dog_H.value > 分数 or 分数 < 评级.MIN.value:
+            return 评级.DK_E
+
+        elif 分数 >= 评级.MAX.value:
+            return 评级.SL_Y
+
+        elif 评级.Dog_H.value == 评级.Cxk_G.value and 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+            return 评级.Dc_GH
+
+        elif 评级.Dog_H.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.DJ_HZ
+
+        elif 评级.Cxk_G.value == 评级.JK_Z.value and 评级.VRT_C_W.value > 分数 >= 评级.JK_Z.value:
+            return 评级.CJ_K
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z and 分数 < 评级.VRT_C_W.value:
+            return 评级.Dcz_GHK
+
+        elif 评级.Dog_H == 评级.Cxk_G == 评级.JK_Z == 评级.VRT_C_W:
+            return 评级.VRT_cls1
+
+        else:
+            if 评级.Dog_H.value <= 分数 < 评级.Cxk_G.value:
+                return 评级.Dog_H
+
+            elif 评级.Cxk_G.value <= 分数 < 评级.JK_Z.value:
+                return 评级.Cxk_G
+
+            elif 评级.JK_Z.value <= 分数 < 评级.VRT_C_W.value:
+                return 评级.JK_Z
+
+            else:
+                return 评级.VRT_C_W
+
+
+score = eval(input("你的分数"))
+a = 玄氏评级.化学评级(score)
+print(f"您的分数{score},评级为" + str(a)[3:])

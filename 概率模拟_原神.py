@@ -1,3 +1,4 @@
+"""原神角色祈愿随机实验----代码"""
 from tkinter import *
 from Rt_1引擎 import *
 from 算法函数 import 米FA游游戏抽卡

@@ -92,7 +92,7 @@ def 辐射组账号模块():
                     a8 = tk.Label(sc4, text="登陆成功", width=150, anchor="sw")
                     active = True
                     name = user_name[user_list.index(num)]
-                    音效.下载完成()
+                    th.Thread(target=音效.下载完成).start()
                     can.itemconfig(d12, text=name)
                     UID = num
                     a8.place(x=375, y=420)
@@ -462,6 +462,7 @@ def 经过事件(event):
     elif 440 < event.x < 520 and 509 < event.y < 529:
         can.config(cursor="hand2")
         can.itemconfig(d13, fill="#0000FF")
+        can.itemconfig(d9, text="作者们的话", fill="red")
     elif 680 - 30 < event.x < 830 - 30 and 450 < event.y < 470 and len(url1) != 0:
         can.config(cursor="hand2")
         can.itemconfig(d15, outline="red")
@@ -490,6 +491,7 @@ def 经过事件(event):
         can.itemconfig(d14, text="只要音频", fill="#FF00FF")
         can.itemconfig(d16, text="只要视频", fill="#FF00FF")
         can.itemconfig(d17, outline="yellow")
+        can.itemconfig(d9, text="无额外信息", fill="#FF00FF")
 
 
 def 设置():

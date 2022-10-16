@@ -263,7 +263,7 @@ def 概率模拟_原神(认证=None):
 
             出货(g[0] + " " + str(g[1]), '单抽', h2, g[2], g[-3], g[-1], g[-2])
 
-        if 次数 == 10:
+        elif 次数 == 10:
             for i in range(1, 11, 1):
                 抽奖相对次数 += 1
                 总次数 += 1
@@ -333,7 +333,6 @@ def 概率模拟_原神(认证=None):
             with open("./概率模拟-原神/星级.json", "w", encoding="utf-8") as fq:
                 基本常量.js.dump(星级, fq)
             出货("N/A", f'自定义抽奖次数{自定义次数}', "N/A", g[2], g[-3], g[-1], g[-2])
-        print(up列表.count(0)/len(up列表))
 
     def 出货(抽到的东西, 类型=None, 大保底触发=False, 五星概率=None, f2=None, 四星概率1=None, 四星概率2=None):
         global 结果

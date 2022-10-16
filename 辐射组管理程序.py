@@ -27,6 +27,7 @@ image8 = PhotoImage(file="6.48RTY.gif")
 Apex宣传图 = PhotoImage(file="Apex.gif")
 方舟宣传图 = PhotoImage(file="明日方舟.gif")
 崩三宣传图 = PhotoImage(file="崩坏三.gif")
+# 分析背景图片 = PhotoImage(file=None)
 
 
 def 原神_模拟():
@@ -477,6 +478,8 @@ class 辐射组管理程序:
         sc5 = Toplevel(sc)
         sc5.geometry("800x600+300+125")
         sc5.title("辐射组管理程序 ---- 分析-评级区")
+        can = Canvas(sc, highlightthickness=0, width=640, height=400)
+
         sc5.mainloop()
 
     def 辐射组规划(self):

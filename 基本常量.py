@@ -354,6 +354,5 @@ class 玄氏评级:
                 return 评级.VRT_C_W
 
 
-score = eval(input("你的分数"))
-a = 玄氏评级.化学评级(score)
-print(f"您的分数{score},评级为" + str(a)[3:])
+if __name__ == "__main__":
+    打包exe("概率模拟_原神.py")

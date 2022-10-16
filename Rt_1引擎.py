@@ -354,6 +354,9 @@ class 视频动画:
                         窗口对象.blit(self.text, (x, y))
                         pg.display.update()
                     g.渐出(FP=FP, 持续时间=0.4, FONT=self.font, 窗口=窗口对象, 坐标=(x, y), text=i)
+                for event in pg.event.get():
+                    if event.type == pg.QUIT:
+                        pg.quit()
 
         if 图片动画 is not None:
             for i in 图片动画:

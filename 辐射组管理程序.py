@@ -3,6 +3,7 @@ import json as 嫁我
 from typing import Any
 from 功能设置 import *
 from 基本常量 import *
+from 统计 import 辐射计划5_镜像计划
 
 sc = Tk()
 sc.geometry(f"{x}x{y}+300+125")
@@ -27,6 +28,8 @@ image8 = PhotoImage(file="6.48RTY.gif")
 Apex宣传图 = PhotoImage(file="Apex.gif")
 方舟宣传图 = PhotoImage(file="明日方舟.gif")
 崩三宣传图 = PhotoImage(file="崩坏三.gif")
+
+
 # 分析背景图片 = PhotoImage(file=None)
 
 
@@ -442,6 +445,7 @@ class 辐射组管理程序:
         self.控件.append(self.协议)
         self.控件.append(self.gg)
         sc.update()
+        sc.bind("<F12>", self.分析评级平台)
         sc.mainloop()
 
     def 免费音乐(self):
@@ -469,17 +473,69 @@ class 辐射组管理程序:
         self.控件.append(search)
 
     @staticmethod
-    def 分析评级平台():
+    def 分析评级平台(*args):
         global sc
+
+        def 统计图表(*jk):
+            print(jk)
+            list11 = []
+            注释 = []
+            dir_list1 = os.listdir('./成绩')
+            print(dir_list1)
+            for i in dir_list1:
+                with open('./成绩/' + i, "r", encoding="utf-8") as f:
+                    list11.append(js.load(f))
+                    if i[:-5] == "自己":
+                        注释.append("yourself")
+                    else:
+                        注释.append(i[:-5])
+            print(注释)
+            a = 辐射计划5_镜像计划(json文件对象=list11)
+            a.图表(a.科别数.mt, 评级等级=注释)
+
         """if self.控件 is not None:
             for i in self.控件:
                 i.destroy()
             self.控件.clear()"""
+
         sc5 = Toplevel(sc)
         sc5.geometry("800x600+300+125")
         sc5.title("辐射组管理程序 ---- 分析-评级区")
-        can = Canvas(sc, highlightthickness=0, width=640, height=400)
-
+        can = Canvas(sc5, highlightthickness=0, width=800, height=600)
+        can.place(x=0, y=0)
+        can.create_text(60, 20, text="欢迎！", font=("", 25))
+        with open("./成绩/自己.json", "r", encoding="utf-8") as f3:
+            Self = js.load(f3)
+        can.create_text(110, 60, text=f"你本次的成绩情况,日期{Self[-1][0][0:4]}年{Self[-1][0][4:6]}月{Self[-1][0][6:]}日")
+        with open("./成绩/Dog_H.json", "r", encoding="utf-8") as f4:
+            Ds = js.load(f4)
+        with open("./成绩/Cxk_G.json", "r", encoding="utf-8") as f5:
+            Cs = js.load(f5)
+        with open("./成绩/BJK_Z.json", "r", encoding="utf-8") as f6:
+            Bs = js.load(f6)
+        with open("./成绩/APE_L.json", "r", encoding="utf-8") as f7:
+            As = js.load(f7)
+        with open("./成绩/SL_Y.json", "r", encoding="utf-8") as f8:
+            Ss = js.load(f8)
+        ch = can.create_text(90, 80, text=f"语文----{Self[-1][1]},较上一次提升{1}")
+        mt = can.create_text(90, 100, text=f"数学----{Self[-1][2]},较上一次提升{1}")
+        py = can.create_text(90, 120, text=f"物理----{Self[-1][3]},较上一次提升{1}")
+        od = can.create_text(90, 140, text=f"生物----{Self[-1][4]},较上一次提升{1}")
+        cs = can.create_text(90, 160, text=f"化学----{Self[-1][5]},较上一次提升{1}")
+        等级 = can.create_text(100, 180, text=f"综合等级评定----DK E 严重失败!")
+        can.create_text(800 - 200, 60, text="本次镜像等级变化:")
+        Dog_H = can.create_text(800 - 200, 80,
+                                text=f"Dog H等级:语文{Ds[-1][1]}，数学{Ds[-1][2]}，物理{Ds[-1][3]}，生物{Ds[-1][4]}，化学{Ds[-1][5]}")
+        Cxk_G = can.create_text(800 - 200, 100,
+                                text=f"Cxk G等级:语文{Cs[-1][1]}，数学{Cs[-1][2]}，物理{Cs[-1][3]}，生物{Cs[-1][4]}，化学{Cs[-1][5]}")
+        BJK_Z = can.create_text(800 - 200, 120,
+                                text=f"BJK Z等级:语文{Bs[-1][1]}，数学{Bs[-1][2]}，物理{Bs[-1][3]}，生物{Bs[-1][4]}，化学{Bs[-1][5]}")
+        APE_L = can.create_text(800 - 200, 140,
+                                text=f"APE L等级:语文{As[-1][1]}，数学{As[-1][2]}，物理{As[-1][3]}，生物{As[-1][4]}，化学{As[-1][5]}")
+        SL_Y = can.create_text(800 - 200, 160,
+                               text=f"SL Y等级:语文{Ss[-1][1]}，数学{Ss[-1][2]}，物理{Ss[-1][3]}，生物{Ss[-1][4]}，化学{Ss[-1][5]}")
+        can.create_text(80, 570, text="按F11可以查阅统计图表")
+        sc5.bind("<F11>", 统计图表)
         sc5.mainloop()
 
     def 辐射组规划(self):
@@ -490,7 +546,7 @@ class 辐射组管理程序:
             p1, k1 = 辐射组logo(sc3, "辐射计划V")
             Label(sc3, text="实力目标计划", font=(华体, 25)).place(x=50, y=110)
             Label(sc3,
-                  text=f"三大主科:语文90/110-{round(90 / 1.1, 4)}%\n数学90/150-{round(90 / 1.5, 4)}%\n鸟语60/90-{round(60 / 0.9, 4)}%。",
+                  text=f"三大主科:语文90/110-{round(90 / 1.1, 4)}%\n数学98/150-{round(98 / 1.5, 4)}%\n鸟语60/90-{round(60 / 0.9, 4)}%。",
                   font=(华体, 20)).place(x=50, y=150)
             Label(sc3,
                   text=f"理综:物理60/90-{round(60 / 0.9, 4)}%\n生物85/95-{round(85 / 0.95, 4)}%\n化学87/95-{round(87 / 0.95, 4)}%。",
@@ -499,25 +555,28 @@ class 辐射组管理程序:
                                                                                                                y=350)
             Label(sc3, text="实力, 决定一切, 别被婊子占了上风！", font=(华体, 30), fg="red").pack(side=BOTTOM)
 
-        if ID[user_list.index(UID)] == "辐射组成员" or ID[user_list.index(UID)] == "合作社成员" or ID[
-            user_list.index(UID)] == "辐射组组长":
-            if self.控件 is not None:
-                for i in self.控件:
-                    i.destroy()
-                self.控件.clear()
-            p, k = 辐射组logo(sc, "辐射组/合作社规划")
+        try:
+            if not ID[user_list.index(UID)] != "辐射组成员" or not ID[user_list.index(UID)] != "合作社成员" or not ID[user_list.index(
+                    UID)] != "辐射组组长":
+                if self.控件 is not None:
+                    for i in self.控件:
+                        i.destroy()
+                    self.控件.clear()
+                p, k = 辐射组logo(sc, "辐射组/合作社规划")
 
-            fp = Button(sc, text="辐射计划V点这查看", command=辐射计划)
-            fp.place(x=40, y=100)
-            self.控件.append(fp)
+                fp = Button(sc, text="辐射计划V点这查看", command=辐射计划)
+                fp.place(x=40, y=100)
+                self.控件.append(fp)
 
-            self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=self.首页)
-            self.上级.place(x=550, y=550)
-            self.控件.append(self.上级)
-            self.控件.append(p)
-            self.控件.append(k)
-        else:
-            messagebox.showwarning("警告", "您的账户无法使用此功能")
+                self.上级 = Button(sc, text="返回上一级", font=(华体, 12), fg="#AA00FF", bd=0, command=self.首页)
+                self.上级.place(x=550, y=550)
+                self.控件.append(self.上级)
+                self.控件.append(p)
+                self.控件.append(k)
+            else:
+                messagebox.showwarning("警告", "您的账户无法使用此功能")
+        except Exception:
+            messagebox.showwarning("警告", "无账户，无法使用此功能")
 
     def 开发者模式(self):
         list1 = []

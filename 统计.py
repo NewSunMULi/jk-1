@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
-from typing import Tuple, Any, List
+from typing import Tuple, Any, List, IO
+import json as js
+import os
 
 
 class 游戏统计:
@@ -105,5 +107,38 @@ class 游戏统计:
             plt.text(10, 800, f"E(x)={list31[list32.index(max(list32))]}", fontsize=15)
 
 
+class 辐射计划5_镜像计划:
+    @staticmethod
+    class 科别数:
+        ch = 0
+        mt = 1
+        py = 2
+        og = 3
+        cy = 4
+
+    def __init__(self, json文件对象: List = None):
+        """json文件对象:你需要加载的标准json成绩分析文件名,例如a.json"""
+        self.科别 = ['语文', '数学', '物理', '生物', '化学']
+        self.file = json文件对象
+        self.color = ["green", "blue", "yellow", "red", "orange", "#EE00F0"]
+
+    def 图表(self, 科别: int = 0, 评级等级: List = None):
+        plt.figure(f"趋势统计-{self.科别[科别]}")
+        plt.subplot(1, 1, 1)
+        for i in self.file:
+            list2 = []
+            data2 = []
+            for da in i:
+                data2.append(f"{da[0][0:4]}-{da[0][4:6]}-{da[0][6:]}")
+                list2.append(da[科别 + 1])
+            plt.plot(data2, list2, label=评级等级[self.file.index(i)], color=self.color[self.file.index(i)])
+            for data in i:
+                plt.scatter(f"{data[0][0:4]}-{data[0][4:6]}-{data[0][6:]}", data[科别 + 1], color=self.color[self.file.index(i)], s=10)
+                plt.text(f"{data[0][0:4]}-{data[0][4:6]}-{data[0][6:]}", data[科别 + 1]+0.5, str(data[科别+1]), size=8)
+
+        plt.legend()
+        plt.show()
+
+
 if __name__ == "__main__":
-    print(len(list([0] * 90)))
+    pass

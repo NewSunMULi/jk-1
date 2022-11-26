@@ -13,6 +13,7 @@ list2 = []
 list3 = []
 active = False
 UID = 0000000000
+科目代码 = "cy"
 可查看 = False
 userName = ""
 image1 = PhotoImage(file="10WST.gif")
@@ -475,13 +476,12 @@ class 辐射组管理程序:
     @staticmethod
     def 分析评级平台(*args):
         global sc
+        global 科目代码
 
         def 统计图表(*jk):
-            print(jk)
             list11 = []
             注释 = []
             dir_list1 = os.listdir('./成绩')
-            print(dir_list1)
             for i in dir_list1:
                 with open('./成绩/' + i, "r", encoding="utf-8") as f:
                     list11.append(js.load(f))
@@ -489,9 +489,26 @@ class 辐射组管理程序:
                         注释.append("yourself")
                     else:
                         注释.append(i[:-5])
-            print(注释)
             a = 辐射计划5_镜像计划(json文件对象=list11)
-            a.图表(a.科别数.mt, 评级等级=注释)
+            a.图表(eval(f"a.科别数.{科目代码}"), 评级等级=注释)
+
+        def 改变函数(event):
+            global 科目代码
+            if event.keysym == "F10":
+                科目代码 = "ch"
+                print("语文")
+            elif event.keysym == "F9":
+                科目代码 = "mt"
+                print("数学")
+            elif event.keysym == "F8":
+                科目代码 = "py"
+                print("物理")
+            elif event.keysym == "F7":
+                科目代码 = "og"
+                print("生物")
+            elif event.keysym == "F6":
+                科目代码 = "cy"
+                print("化学")
 
         """if self.控件 is not None:
             for i in self.控件:
@@ -517,11 +534,11 @@ class 辐射组管理程序:
             As = js.load(f7)
         with open("./成绩/SL_Y.json", "r", encoding="utf-8") as f8:
             Ss = js.load(f8)
-        ch = can.create_text(90, 80, text=f"语文----{Self[-1][1]},较上一次提升{1}")
-        mt = can.create_text(90, 100, text=f"数学----{Self[-1][2]},较上一次提升{1}")
-        py = can.create_text(90, 120, text=f"物理----{Self[-1][3]},较上一次提升{1}")
-        od = can.create_text(90, 140, text=f"生物----{Self[-1][4]},较上一次提升{1}")
-        cs = can.create_text(90, 160, text=f"化学----{Self[-1][5]},较上一次提升{1}")
+        ch = can.create_text(90, 80, text=f"语文----{Self[-1][1]},较上一次提升{Self[-1][1]-Self[-2][1]}")
+        mt = can.create_text(90, 100, text=f"数学----{Self[-1][2]},较上一次提升{Self[-1][2]-Self[-2][2]}")
+        py = can.create_text(90, 120, text=f"物理----{Self[-1][3]},较上一次提升{Self[-1][3]-Self[-2][3]}")
+        od = can.create_text(90, 140, text=f"生物----{Self[-1][4]},较上一次提升{Self[-1][4]-Self[-2][4]}")
+        cs = can.create_text(90, 160, text=f"化学----{Self[-1][5]},较上一次提升{Self[-1][5]-Self[-2][5]}")
         等级 = can.create_text(100, 180, text=f"综合等级评定----DK E 严重失败!")
         can.create_text(800 - 200, 60, text="本次镜像等级变化:")
         Dog_H = can.create_text(800 - 200, 80,
@@ -536,20 +553,31 @@ class 辐射组管理程序:
                                text=f"SL Y等级:语文{Ss[-1][1]}，数学{Ss[-1][2]}，物理{Ss[-1][3]}，生物{Ss[-1][4]}，化学{Ss[-1][5]}")
         can.create_text(80, 570, text="按F11可以查阅统计图表")
         sc5.bind("<F11>", 统计图表)
+        sc5.bind("<F10>", 改变函数)
+        sc5.bind("<F9>", 改变函数)
+        sc5.bind("<F8>", 改变函数)
+        sc5.bind("<F7>", 改变函数)
+        sc5.bind("<F6>", 改变函数)
         sc5.mainloop()
 
     def 辐射组规划(self):
         def 辐射计划():
+            scc = 84.5
+            pc = 82
+            cc = 87
+            mt = 78
+            chs = 100
+            en = 71
             sc3 = Toplevel(sc)
             sc3.geometry(f"{x}x{y}+300+125")
             sc3.title("辐射计划5")
             p1, k1 = 辐射组logo(sc3, "辐射计划V")
             Label(sc3, text="实力目标计划", font=(华体, 25)).place(x=50, y=110)
             Label(sc3,
-                  text=f"三大主科:语文90/110-{round(90 / 1.1, 4)}%\n数学98/150-{round(98 / 1.5, 4)}%\n鸟语60/90-{round(60 / 0.9, 4)}%。",
+                  text=f"三大主科:语文{chs}/110-{round(chs / 1.1, 4)}%\n数学{mt}/150-{round(mt / 1.5, 4)}%\n鸟语{en}/90-{round(en / 0.9, 4)}%。",
                   font=(华体, 20)).place(x=50, y=150)
             Label(sc3,
-                  text=f"理综:物理60/90-{round(60 / 0.9, 4)}%\n生物85/95-{round(85 / 0.95, 4)}%\n化学87/95-{round(87 / 0.95, 4)}%。",
+                  text=f"理综:物理{pc}/90-{round(pc / 0.9, 4)}%\n生物{scc}/95-{round(scc / 0.95, 4)}%\n化学{cc}/95-{round(cc / 0.95, 4)}%。",
                   font=(华体, 20)).place(x=50, y=250)
             Label(sc3, text="现阶段:在期中考试之后三大主科必须要有1个达到100%完成\n理综必须全部100%完成\n11月25号期中考(预计)", font=(华体, 20)).place(x=50,
                                                                                                                y=350)

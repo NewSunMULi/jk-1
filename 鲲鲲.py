@@ -339,6 +339,7 @@ img2 = can.create_image(480, 110, image=w2)
 search = can.create_text(366, 230 - 40, text="在此输入你要下载的视频的BV号或具体网址:", fill="blue", font=("微软雅黑", 13))
 d = can.create_rectangle(480 + 220, 270 - 20 - 40, 480 + 320, 270 - 40)
 d2 = can.create_text((480 + 220 + 50), 260 - 40, text="搜索", fill="green", font=("微软雅黑", 12))
+
 can.create_text(480 + 120, 110 + 35, text="V 0.2.2", fill="#ff00ff", font=("汉仪文黑-85W Heavy", 15))
 a = tk.Entry(sc, bd=0, width=70)
 a.place(x=200, y=250 - 40)

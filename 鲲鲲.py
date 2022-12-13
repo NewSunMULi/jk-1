@@ -318,7 +318,7 @@ def 视频爬取(url_list=None, 文件名称=None, 额外信息=None):
 sc = tk.Tk()
 sc.title("鲲鲲V0.2测试版")
 sc.geometry("960x540+230+80")
-sc.attributes("-alpha", 0.9)  # 透明度设置
+sc.attributes("-alpha", 1)  # 透明度设置
 try:
     with open("pictor.json", "r", encoding="utf-8") as f:
         w = tk.PhotoImage(file=js.load(f))

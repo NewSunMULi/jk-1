@@ -12,7 +12,7 @@ def 播放(event):
         event = event
         music.load("音效.mp3")
         if event.char == "m":
-            music.play(start=1.1)
+            music.play(start=1.05)
         elif event.char == "j":
             music.play(start=0.2)
         elif event.char == "n":

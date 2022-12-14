@@ -123,11 +123,16 @@ class MuLi_Sanger_Ui:
         :param self: 类中的函数如果没设置为静态，必须带一个参数用来接收创建此类的对象,一般叫做self
         :return: 歌曲搜索结果
         """
-        s = GUI_Requests('qt5', self.sc2, self.sc2.lineEdit.text()). \
-            老狗搜索('comboBox', self.sc2.comboBox_3)  # 调用ML_Home脚本里搜索函数，脚本里有对此函数的注释
-        self.rid.clear()  # 清空列表
-        for i in s:  # 循环/遍历
-            self.rid.append(i['rid识别号'])  # 挨个将搜索结果添加进结果列表
+        if len(self.sc2.lineEdit.text()) > 0:
+            # 当搜索关键词有效时执行if后面的代码，即用户给的关键词可以让程序正常搜索歌曲，像多个空格，换行符，只有标点符号的关键词都为无效关键词
+            s = GUI_Requests('qt5', self.sc2, self.sc2.lineEdit.text()). \
+                老狗搜索('comboBox', self.sc2.comboBox_3)  # 调用ML_Home脚本里搜索函数，脚本里有对此函数的注释
+            self.rid.clear()  # 清空列表
+            for i in s:  # 循环/遍历
+                self.rid.append(i['rid识别号'])  # 挨个将搜索结果添加进结果列表
+        else:
+            self.sc2.comboBox_3.clear()  # 清空下拉条内的所有元素
+            self.sc2.comboBox_3.addItem("无效关键词", 0)
 
     def Dl(self):
         """
@@ -238,11 +243,15 @@ class MuLi_Sanger_Py:
         self.sc2.IT.hide()
 
     def So(self):
-        s = GUI_Requests('qt5', self.sc2, self.sc2.lineEdit.text()). \
-            老狗搜索('comboBox', self.sc2.comboBox_3)
-        self.rid.clear()
-        for i in s:
-            self.rid.append(i['rid识别号'])
+        if len(self.sc2.lineEdit.text()) > 0:
+            s = GUI_Requests('qt5', self.sc2, self.sc2.lineEdit.text()). \
+                老狗搜索('comboBox', self.sc2.comboBox_3)
+            self.rid.clear()
+            for i in s:
+                self.rid.append(i['rid识别号'])
+        else:
+            self.sc2.comboBox_3.clear()
+            self.sc2.comboBox_3.addItem("无效关键词", 0)
 
     def Dl(self):
         global 通用序列
@@ -451,6 +460,11 @@ class 计时(QThread):  # QThread 多线程
     sign = pyqtSignal(str)  # 多线程必须带这个
 
     def __init__(self, master: Ui_MainWindow):
+        """
+        初始化计时类，为计时做准备
+
+        :param master: 父容器和上面一样
+        """
         try:
             super().__init__()  # 继承QThread
             self.qt3 = master
@@ -458,36 +472,48 @@ class 计时(QThread):  # QThread 多线程
             print(eee)
 
     def run(self):  # 创建多线程后自动执行run()
+        """
+        计时器函数，负责歌曲播放时间计时和进度条更新
+
+        :return: 播放进度
+        """
         global signNB, a, 上一首序列, FPS
         try:
             yuan = 上一首序列
             while True:
                 clock.tick(FPS)  # 循环频率
                 a = self.qt3.horizontalSlider.value()  # 获取下拉条的值
-                if pg.mixer.music.get_busy():
+                if pg.mixer.music.get_busy():  # 只有歌曲在播放时才启动计时器
                     if yuan == -1:
-                        a = int(pg.mixer.music.get_pos() // 1000 * FPS)
-                        self.qt3.horizontalSlider.setValue(a)
-                        signNB = 1
-                        yuan = 上一首序列
+                        # 当播放器开始播放程序打开后的第一首歌曲时，执行这一部分代码，开始计时
+                        a = int(pg.mixer.music.get_pos() // 1000 * FPS)  # 本行代码注释在下一行
+                        # 使用音频播放模块获取歌曲播放进度来校正计时器，保证每首歌播放完毕后计时器误差<0.1s
+                        self.qt3.horizontalSlider.setValue(a)  # 更新进度条(设置进度条的值=歌曲播放进度)
+                        signNB = 1  # 转换信号，防止崩溃
+                        yuan = 上一首序列  # 用正在播放的歌曲索引将计时器锁定，让计时器开始计时而不重置计时器
+                        # 当yuan = 上一首序列时，计时器计时，否则重置计时器
                         a += 1
                     elif signNB == 3 and 上一首序列 == yuan:
+                        # 当用户多次切换播放同一首歌曲时，重置计时器并执行这一部分代码，也是防止炒冷饭用的
+                        # 防止某些人同时切换同一首歌导致计时器不重置继续计时而歌曲却重新播放
                         a = int(pg.mixer.music.get_pos() // 1000 * FPS)
                         a += 1
                         self.qt3.horizontalSlider.setValue(a)
                         signNB = 1
                     elif yuan != 上一首序列:
+                        # 当用户切换不同歌曲时，重置计时器并执行这一部分代码
                         a = int(pg.mixer.music.get_pos() // 1000 * FPS)
                         a += 1
                         self.qt3.horizontalSlider.setValue(a)
-                        yuan = 上一首序列
-                        time.sleep(1 / FPS)
+                        yuan = 上一首序列  # 用正在播放的歌曲索引将计时器锁定，让计时器开始计时而不重置计时器
+                        time.sleep(1 / FPS)  # 使计时器暂停计时 1/频率 s 来加载歌曲以减小计时误差
                         a += 1
                         self.qt3.horizontalSlider.setValue(a)
                         signNB = 1
                     else:
+                        # 当上面个if-elif部分的操作都不触发时，计时器继续计时而不重置
                         a += 1
-                        self.qt3.jishiqi.setProperty('value', a // FPS)
+                        self.qt3.jishiqi.setProperty('value', a // FPS)  # 在进度条下面输出具体播放进度(单位s)
                         self.qt3.horizontalSlider.setValue(a)
                 else:
                     pass
@@ -497,6 +523,9 @@ class 计时(QThread):  # QThread 多线程
 
 
 class 改时(QThread):
+    """
+    此类负责在计时器上锁时可以为用户改变音乐播放进度提供支持(其实就是此类可以合法修改使歌曲快进/快退，除此之外快进/快退都是非法的会导致计时器计时严重不准或程序崩溃
+    """
     si = pyqtSignal(str)
 
     def __init__(self, master: Ui_MainWindow):
@@ -504,30 +533,35 @@ class 改时(QThread):
         self.qt = master
 
     def run(self):
-        yuan = self.qt.horizontalSlider.value()
-        while True:
+        yuan = self.qt.horizontalSlider.value()  # 获取进度条的值
+        while True:  # 一直循环以检测用户是否要改变音乐播放进度
             clock.tick(7)
             try:
                 yuan2 = self.qt.horizontalSlider.value()
-                if ((
-                            yuan - yuan2) > 0 or yuan - yuan2 < -1 * FPS) and pg.mixer.music.get_busy() and signNB != 2 and signNB != 3:
-                    pg.mixer.music.pause()
-                    play_path = self.qt.comboBox_2.itemText(上一首序列)
+                if ((yuan - yuan2) > 0 or yuan - yuan2 < -1 * FPS) and pg.mixer.music.get_busy() and signNB != 2 and signNB != 3:
+                    # 当检测到用户向前或向后拉动进度条时，就触发这部分代码已修改歌曲播放进度(快进快推)
+                    pg.mixer.music.pause()  # 先暂停歌曲
+                    play_path = self.qt.comboBox_2.itemText(上一首序列)  # 重新加载歌曲
                     pg.mixer.music.load(self.qt.label_11.text() + "/" + play_path)
-                    pg.mixer.music.play(start=yuan2 // FPS)
-                    self.qt.jishiqi.setProperty('value', yuan2 // FPS)
-                    yuan = yuan2
+                    pg.mixer.music.play(start=yuan2 // FPS)  # 从用户设置的进度条位置开始播放音乐，实现快进/快退
+                    self.qt.jishiqi.setProperty('value', yuan2 // FPS)  # 更新进度条具体进度显示
+                    yuan = yuan2  # 重置检测，防止上面的代码一直执行导致电音出现
                 elif 上一首序列 == -1:
+                    # 当播放器未播放任何歌曲时，禁止用户拉动进度条以防止计时器出现较大误差
                     self.qt.horizontalSlider.setValue(0)
                 else:
+                    # 当未检测到用户要改变播放进度时，继续计时器计时并重置检测防止电音
                     self.qt.jishiqi.setProperty('value', yuan2 // FPS)
                     yuan = yuan2
                 if yuan2 > self.qt.horizontalSlider.maximum() - 1:
-                    music_play.next(sg=2, master=self.qt, 进度条=False)
-                    self.qt.horizontalSlider.setValue(0)
+                    # 当歌曲播放完时，自动切换下一首歌曲
+                    music_play.next(sg=2, master=self.qt, 进度条=False)  # 执行music_play类中的next函数(方法)以切换下一首歌曲
+                    self.qt.horizontalSlider.setValue(0)  # 本行注释在下一行
+                    # 重置计时器，此类和计时器类可以合法改变计时器的值，除之之外尝试改变计时器的值都是非法的，会导致计时器计时不正常(例如计时器计时不准)或者程序崩溃
             except Exception as ee:
                 print(ee)
 
 
 if __name__ == "__main__":
-    MuLi_Sanger_Ui().run()
+    # 当此py文件作为主程序执行而不是作为被其他py文件调用时，执行 if __name__ == "__main__": 下面的代码
+    MuLi_Sanger_Ui().run()  # 以Ui模式运行 新日暮里唱片机 窗口程序

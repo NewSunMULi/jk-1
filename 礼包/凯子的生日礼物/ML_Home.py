@@ -1,3 +1,7 @@
+"""
+此文件为 新日暮里唱片机 窗口程序的配套脚本，用来操作主页的一些窗口控件。\n
+但里面的一些函数/类可在其他使用Tk和PyQt5做的窗口程序中使用，例如GUI_Requests()可以为播放器类窗口程序提供网络音乐搜索，下载，显示支持
+"""
 from GUI import *
 from typing import List, Dict, Any
 import os
@@ -46,34 +50,50 @@ class GUI_Requests:
         :return: 歌曲的链接
         """
         rq = rt.get(url=self.url_ku, headers=self.head_ku)
-        list2 = js.loads(rq.text)["data"]["list"]
-        list_sing = []
-        for i in list2:
-            list_sing.append({"歌曲名": i['name'], "歌手": i['artist'], "rid识别号": i['rid']})
-        if self.type == "Tk":
-            if 组件类型 == 'label':
-                self.print_GUI = tk.Label(self.sc, text=(a + "\n" for a in list_sing)).place(x=tk_pos[0], y=tk_pos[1])
-            elif 组件类型 == "canvas.text":
-                self.print_GUI = self.sc.create_text(tk_pos[0], tk_pos[1], text=(a + "\n" for a in list_sing))
-            else:
-                print(f'抱歉，老兄无能为力在组件{组件类型}上输出内容')
-
-        elif self.type == 'qt5':
-            if 组件类型 == "label":
-                g = ""
-                for ii in list_sing:
-                    g += str(ii) + "\n"
-                ID号.setText(g)
-            elif 组件类型 == "comboBox":
-                if len(list_sing) != 0:
-                    ID号.clear()
-                    for ii in list_sing:
-                        ID号.addItem(ii['歌曲名'] + '-' + ii['歌手'] + '.mp3')
+        try:
+            list2 = js.loads(rq.text)["data"]["list"]
+            list_sing = []
+            for i in list2:
+                list_sing.append({"歌曲名": i['name'], "歌手": i['artist'], "rid识别号": i['rid']})
+            if self.type == "Tk":
+                if 组件类型 == 'label':
+                    self.print_GUI = tk.Label(self.sc, text=(a + "\n" for a in list_sing))
+                    self.print_GUI.place(x=tk_pos[0], y=tk_pos[1])
+                elif 组件类型 == "canvas.text":
+                    self.print_GUI = self.sc.create_text(tk_pos[0], tk_pos[1], text=(a + "\n" for a in list_sing))
                 else:
-                    ID号.addItem("无结果")
+                    print(f'抱歉，老兄无能为力在组件{组件类型}上输出内容')
+
+            elif self.type == 'qt5':
+                if 组件类型 == "label":
+                    g = ""
+                    for ii in list_sing:
+                        g += str(ii) + "\n"
+                    ID号.setText(g)
+                elif 组件类型 == "comboBox":
+                    if len(list_sing) != 0:
+                        ID号.clear()
+                        for ii in list_sing:
+                            ID号.addItem(ii['歌曲名'] + '-' + ii['歌手'] + '.mp3')
+                    else:
+                        ID号.clear()
+                        ID号.addItem("无结果")
+                else:
+                    print(f'抱歉，老兄无能为力在组件{组件类型}上输出内容')
+            return list_sing
+        except KeyError:
+            if self.type == 'qt5':
+                if 组件类型 == "comboBox":
+                    ID号.clear()
+                    ID号.addItem("关键词无效", 0)
+            elif self.type == "Tk":
+                if 组件类型 == 'label':
+                    self.print_GUI = tk.Label(self.sc, text="无效关键词")
+                    self.print_GUI.place(x=tk_pos[0], y=tk_pos[1])
+                elif 组件类型 == "canvas.text":
+                    self.print_GUI = self.sc.create_text(tk_pos[0], tk_pos[1], text="无效关键词")
             else:
-                print(f'抱歉，老兄无能为力在组件{组件类型}上输出内容')
-        return list_sing
+                return "无效关键词"
 
     def 海涛搜索(self):
         """正在制作中"""

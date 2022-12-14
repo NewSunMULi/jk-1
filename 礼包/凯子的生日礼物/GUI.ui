@@ -539,7 +539,7 @@ color: rgba(0, 0, 0, 190);</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgba(0, 255, 0, 205);</string>
+     <string notr="true">color: rgba(255, 0, 0, 205);</string>
     </property>
     <property name="text">
      <string>歌曲名字：</string>

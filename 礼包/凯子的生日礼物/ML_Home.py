@@ -101,6 +101,7 @@ class GUI_Requests:
 
     def download(self, 搜索引擎=None, rid=None, 歌曲名字=None, Qt进度条: QtWidgets.QProgressBar = None, 进度条使用=True):
         """
+        :param 进度条使用: 使不使用进度条显示下载进度
         :param Qt进度条: Qt如果有进度条可以选择
         :param 歌曲名字: 给你要的歌曲取个名字
         :param 搜索引擎: 老狗-使用老狗搜索爬取歌曲，海涛-使用海涛搜索爬取歌曲

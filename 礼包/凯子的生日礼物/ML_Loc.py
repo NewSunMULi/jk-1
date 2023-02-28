@@ -18,7 +18,9 @@ class 播放列表:
             master.comboBox_2.addItem(music_names[i])
 
     def change(self, music_name):
+        a = self.qt.comboBox_2.currentText()
         self.qt.comboBox_2.setCurrentText(music_name)
+        self.qt.comboBox_2.setItemText(-1, a)
 
     def get(self):
         return self.qt.comboBox_2.currentText()

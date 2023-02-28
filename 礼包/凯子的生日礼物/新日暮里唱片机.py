@@ -1,6 +1,8 @@
 import time
 from PyQt5 import uic
 from PyQt5.QtCore import QThread, pyqtSignal
+import 加载界面2, 加载界面, 插件界面
+import threading as th
 from ML_Loc import *
 from ML_Home import *
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
@@ -8,6 +10,7 @@ from tkinter.filedialog import askopenfilename, askdirectory
 from tkinter import Tk
 import sys, json, mutagen.mp3
 import pygame as pg
+from importlib import import_module
 
 pg.mixer.init()  # 初始化音乐播放模块，本程序使用Pygame播放音乐
 t = Tk().withdraw()  # TK库隐藏它自带的窗口，此程序用PyQt5写的GUI(即窗口)，不需要tk窗口
@@ -19,6 +22,53 @@ clock = pg.time.Clock()  # 创建一个时钟，他可以控制程序频率或�
 通用rid = []  # 创建一个列表，用于储存上一次搜索获得的歌曲的RID，实现边搜索边听上一次搜到的音乐，且可以由任意函数调用
 通用序列 = 0  # 网络模式播放音乐要先缓存，再播放，使用序列定位播放的歌曲以控制下一首或上一首网络音乐的播放，这个序列所有函数皆可调用
 FPS = 1  # 程序计时频率，频率越低计时越准，别问我为什么
+下一首 = "无"  # 下一首要放的歌曲名字
+
+
+class 加载画面(QtWidgets.QWidget, 加载界面.Ui_Form):  # 加载动画类
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)  # 载入加载动画GUI
+        self.setWindowFlag(QtCore.Qt.SplashScreen)  # 隐藏窗口边框
+
+
+class 加载画面2(QtWidgets.QWidget, 加载界面2.Ui_Form):  # 加载动画类
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)  # 载入加载动画GUI
+        self.setWindowFlag(QtCore.Qt.SplashScreen)  # 隐藏窗口边框
+
+
+class Mod(QtWidgets.QWidget, 插件界面.Ui_MainWindow):
+    def __init__(self, master):
+        super(Mod, self).__init__()
+        self.master = master
+        print(self.master)
+        self.setupUi(self)
+        self.join.clicked.connect(self.Join)
+        self.remove.clicked.connect(self.Remove)
+        self.path = os.listdir("./")
+        for j in self.path:
+            if j == "__init__.py" or j[-3:] != ".py":
+                continue
+            else:
+                self.J_Mod.addItem(j[:-3])
+
+    def Run(self):
+        self.show()
+
+    def Quit(self):
+        self.hide()
+
+    def Join(self):
+        try:
+            g = import_module(f"{self.J_Mod.currentText()}")
+            g.loading(self.master)
+        except Exception as ee:
+            self.R_Mod.addItem(ee.__str__())
+
+    def Remove(self):
+        pass
 
 
 class MuLi_Sanger_Ui:
@@ -37,6 +87,8 @@ class MuLi_Sanger_Ui:
             data = json.load(f)  # 获取(用户设置/初始)背景的文件路径
         with open("下载文件夹.json", "r", encoding="utf-8") as f:
             dirs = json.load(f)  # 获取(用户设置/初始)下载音乐要保存的文件夹路径
+        if dirs == "":
+            dirs = "./"
         # 扫描本地音乐文件
         本地音乐(self.sc2).扫描(dirs=dirs)  # 获取本地音乐，为本地播放提供文件搜索支持
         # 主页和本地音乐组件控制
@@ -59,8 +111,9 @@ class MuLi_Sanger_Ui:
         self.sc2.play_LM.clicked.connect(
             lambda sign=None, s=self.sc2: music_play().play(s, "l"))  # 点击此按钮，启用本地播放模式，播放本地音乐
         self.sc2.pause.clicked.connect(music_play.pause)  # 暂停或继续音乐的播放
-        # self.sc2.next_LM.clicked.connect()  # 设置下一首要播放的歌曲，当正在播放的歌曲播放完时，就播放用户设置的歌曲(在网络播放模式下可用)
-        # self.sc2.next_h.clicked.connect()  # 设置下一首要播放的歌曲，当正在播放的歌曲播放完时，就播放用户设置的歌曲(在本地播放模式下可用)
+        self.sc2.next_LM.clicked.connect(
+            lambda s: self.下一首播放(sg='l'))  # 设置下一首要播放的歌曲，当正在播放的歌曲播放完时，就播放用户设置的歌曲(在网络播放模式下可用)
+        self.sc2.next_h.clicked.connect(lambda s: self.下一首播放(sg='h'))  # 设置下一首要播放的歌曲，当正在播放的歌曲播放完时，就播放用户设置的歌曲(在本地播放模式下可用)
         # 开启多线程进行播放计时，为用户调控歌曲播放进度提供支持(例如像其他播放器一样拖拉进度条快进或快退)
         a = 计时(self.sc2)  # 此线程负责记录乐曲播放的时间和进度
         a.start()  # 开启线程，功能开始发挥
@@ -157,6 +210,18 @@ class MuLi_Sanger_Ui:
         for kl in self.rid:  # 循环结构在比较完整的程序中经常会用很多次
             通用rid.append(kl)  # 更新通用rid列表里的rid号，保存为上一次的搜索数据供其它函数使用
 
+    def 下一首播放(self, sg='l'):
+        """
+        控制下一个放什么歌曲
+        :param sg: 播放模式信号
+        :return: 无
+        """
+        global 下一首
+        if sg == 'h':
+            下一首 = self.sc2.comboBox_3.currentText()
+        else:
+            下一首 = self.sc2.comboBox.currentText()
+
 
 class MuLi_Sanger_Py:
     """
@@ -174,6 +239,7 @@ class MuLi_Sanger_Py:
         self.sc2 = Ui_MainWindow()  # 加载py代码编写的窗口代码(实例化用py代码编写的窗口类)
         self.sc2.setupUi(self.sc)  # 将py窗口代码载入你写的程序里
         self.rid = []
+        self.mod = Mod(self.sc2)
 
     def run(self):
         with open("背景.json", "r", encoding="utf-8") as f:
@@ -194,14 +260,17 @@ class MuLi_Sanger_Py:
         self.sc2.ch_IP.clicked.connect(lambda x=None, y=self.sc2: 设置IT.Change_Picture(y))
         self.sc2.Abous.clicked.connect(lambda x=None, y=self.sc: 设置IT.About_us(y))
         self.sc2.ch_IDL.clicked.connect(lambda x=None, y=self.sc2: 设置IT.Change_DL(y))
+        self.sc2.ch_Mod.clicked.connect(self.mod.Run)
         # 播放器播放状态设置
         self.sc2.up.clicked.connect(lambda sign=None, y=self.sc2: music_play.next(1, y))
         self.sc2.under.clicked.connect(lambda sign=None, y=self.sc2: music_play.next(2, y))
         self.sc2.play_h.clicked.connect(self.play)
         self.sc2.play_LM.clicked.connect(lambda sign=None, s=self.sc2: music_play().play(s, "l"))
         self.sc2.pause.clicked.connect(music_play.pause)
-        # self.sc2.next_LM.clicked.connect()
-        # self.sc2.next_h.clicked.connect()
+        self.sc2.next_LM.clicked.connect(lambda s: self.下一首播放(sg='l'))
+        self.sc2.next_h.clicked.connect(lambda s: self.下一首播放(sg='h'))
+        self.sc2.Play_LM.clicked.connect(
+            lambda sign=None, s=self.sc2: music_play().play(s, "l", self.sc2.comboBox_2.currentText()))
         # 线程
         a = 计时(self.sc2)
         a.start()
@@ -269,6 +338,18 @@ class MuLi_Sanger_Py:
         for kl in self.rid:
             通用rid.append(kl)
 
+    def 下一首播放(self, sg='l'):
+        """
+        控制下一个放什么歌曲
+        :param sg: 播放模式信号
+        :return: 无
+        """
+        global 下一首
+        if sg == 'h':
+            下一首 = self.sc2.comboBox_3.currentText()
+        else:
+            下一首 = self.sc2.comboBox.currentText()
+
 
 class 设置IT:
     """设置模块，为用户设置程序提供支持"""
@@ -318,10 +399,11 @@ class music_play:
         pass
 
     @staticmethod
-    def play(master: Ui_MainWindow, page="l"):
+    def play(master: Ui_MainWindow, page="l", 歌曲名=None):
         """
         播放音乐函数，调用可播放音频
 
+        :param 歌曲名: 要播放的歌曲名字
         :param master: 父组件----装着所以窗口组件的窗口对象，例如窗口MainWindow()就装所有qt5控件
         :param page: 模式，h-网络播放模式，l-本地播放模式
         :return: 没得
@@ -333,16 +415,26 @@ class music_play:
         else:
             now = master.comboBox
         try:
-            music_play.转换(master, now)  # 将其他下拉条的值转入播放列表下拉条里
-            play_path = now.currentText()
-            lt = mutagen.mp3.MP3(master.label_11.text() + "/" + play_path)  # 获取单首乐曲的信息
-            master.horizontalSlider.setMaximum(int(lt.info.length) * FPS)  # 获取单首乐曲的时长，并设置进度条的最大值为乐曲时长(单位为秒)
-            master.all_time.setText(f"总时长:{int(lt.info.length)}s")  # 输出乐曲的总时长
-            pg.mixer.music.load(master.label_11.text() + "/" + play_path)  # 将音频加载，准备播放
-            pg.mixer.music.play()  # 播放音频
-            master.label_5.setText(f'歌曲名字:{play_path[:-4]}')  # 输出正在播放的乐曲的名字
-            播放列表(master, []).change(play_path)  # 改变播放列表，输出正在播放乐曲的名字
-            上一首序列 = now.currentIndex()
+            if 歌曲名 is None:  # 播放列表外的歌曲
+                music_play.转换(master, now)  # 将其他下拉条的值转入播放列表下拉条里
+                play_path = now.currentText()
+                lt = mutagen.mp3.MP3(master.label_11.text() + "/" + play_path)  # 获取单首乐曲的信息
+                master.horizontalSlider.setMaximum(int(lt.info.length) * FPS)  # 获取单首乐曲的时长，并设置进度条的最大值为乐曲时长(单位为秒)
+                master.all_time.setText(f"总时长:{int(lt.info.length)}s")  # 输出乐曲的总时长
+                pg.mixer.music.load(master.label_11.text() + "/" + play_path)  # 将音频加载，准备播放
+                pg.mixer.music.play()  # 播放音频
+                master.label_5.setText(f'歌曲名字:{play_path[:-4]}')  # 输出正在播放的乐曲的名字
+                播放列表(master, []).change(play_path)  # 改变播放列表，输出正在播放乐曲的名字
+                上一首序列 = now.currentIndex()
+            else:  # 播放列表内的歌曲
+                lt = mutagen.mp3.MP3(master.label_11.text() + "/" + 歌曲名)  # 获取单首乐曲的信息
+                master.horizontalSlider.setMaximum(int(lt.info.length) * FPS)  # 获取单首乐曲的时长，并设置进度条的最大值为乐曲时长(单位为秒)
+                master.all_time.setText(f"总时长:{int(lt.info.length)}s")  # 输出乐曲的总时长
+                pg.mixer.music.load(master.label_11.text() + "/" + 歌曲名)  # 将音频加载，准备播放
+                pg.mixer.music.play()  # 播放音频
+                master.label_5.setText(f'歌曲名字:{歌曲名[:-4]}')  # 输出正在播放的乐曲的名字
+                播放列表(master, []).change(歌曲名)  # 改变播放列表，输出正在播放乐曲的名字
+                上一首序列 = master.comboBox_2.currentIndex()
         except Exception as e:
             print(e)
 
@@ -370,7 +462,7 @@ class music_play:
         :param 进度条: 是否使用进度条来显示歌曲缓存/下载/载入进度
         :return: 无
         """
-        global 上一首序列, signNB, 通用序列
+        global 上一首序列, signNB, 通用序列, 下一首
         signNB = 2  # 用来控制计时器的信号
         if 上一首序列 + 1 >= master.comboBox_2.count():
             上一首序列 = -1  # 如果正在播放的是最后一首歌曲，他的下一首就为播放列表第一首，防止抛出索引错误引发程序崩溃
@@ -403,12 +495,15 @@ class music_play:
                     通用序列 = master.comboBox_3.count() - 1
                     music_play.next(sg=1, master=master)
             else:  # 如果except里面的代码不执行，就将上一首播放的歌曲索引-1来指向现在播放的歌曲，为下一次切换上一首歌曲做准备
-                上一首序列 -= 1
+                上一首序列 = master.comboBox_2.currentIndex()
 
         elif sg == 2:  # 下一首播放，功能和上面上一首播放差不多，只是切换方向反了而已(例如-变成+)
             try:
                 pg.mixer.music.stop()
-                play_path = master.comboBox_2.itemText(上一首序列 + 1)
+                if 下一首 != "无":  # 检测下一首播放曲目，如果无则按播放列表顺序来放
+                    play_path = 下一首
+                else:
+                    play_path = master.comboBox_2.itemText(上一首序列 + 1)
                 music_play.转换(master, master.comboBox_2)
                 lt = mutagen.mp3.MP3(master.label_11.text() + "/" + play_path)
                 master.horizontalSlider.setMaximum(int(lt.info.length) * FPS)
@@ -417,6 +512,7 @@ class music_play:
                 pg.mixer.music.play()
                 master.label_5.setText(f'歌曲名字:{play_path[:-4]}')
                 播放列表(master, []).change(play_path)
+                下一首 = "无"
             except Exception:
                 f = 通用序列 + 1
                 GUI_Requests().download('老狗', 通用rid[f],
@@ -425,7 +521,7 @@ class music_play:
                 music_play.next(sg=2, master=master)
                 通用序列 += 1
             else:
-                上一首序列 += 1
+                上一首序列 = master.comboBox_2.currentIndex()
 
     @staticmethod
     def 转换(master: Ui_MainWindow = None, com: QtWidgets.QComboBox = None, a1=0):
@@ -538,7 +634,8 @@ class 改时(QThread):
             clock.tick(7)
             try:
                 yuan2 = self.qt.horizontalSlider.value()
-                if ((yuan - yuan2) > 0 or yuan - yuan2 < -1 * FPS) and pg.mixer.music.get_busy() and signNB != 2 and signNB != 3:
+                if ((
+                            yuan - yuan2) > 0 or yuan - yuan2 < -1 * FPS) and pg.mixer.music.get_busy() and signNB != 2 and signNB != 3:
                     # 当检测到用户向前或向后拉动进度条时，就触发这部分代码已修改歌曲播放进度(快进快推)
                     pg.mixer.music.pause()  # 先暂停歌曲
                     play_path = self.qt.comboBox_2.itemText(上一首序列)  # 重新加载歌曲
@@ -562,6 +659,25 @@ class 改时(QThread):
                 print(ee)
 
 
+def quit_a(sec, shu, app):
+    time.sleep(sec)
+    shu.hide()
+    time.sleep(0.1)
+    app.exit()
+
+
 if __name__ == "__main__":
     # 当此py文件作为主程序执行而不是作为被其他py文件调用时，执行 if __name__ == "__main__": 下面的代码
-    MuLi_Sanger_Ui().run()  # 以Ui模式运行 新日暮里唱片机 窗口程序
+    app1 = QApplication(sys.argv)
+    g = 加载画面2()
+    g.setWindowTitle("生日快乐！")  # 设置标题
+    g.show()  # 展示加载动画
+    th.Thread(target=lambda: quit_a(10, g, app1), daemon=True).start()  # 开启一个多线程
+    app1.exec_()
+    app2 = QApplication(sys.argv)
+    g2 = 加载画面()
+    g2.setWindowTitle("新日暮里唱片机")  # 设置标题
+    g2.show()  # 展示加载动画
+    th.Thread(target=lambda: quit_a(10, g2, app2), daemon=True).start()  # 开启一个多线程
+    app2.exec_()
+    MuLi_Sanger_Py().run()  # 以Ui模式运行 新日暮里唱片机 窗口程序

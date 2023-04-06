@@ -4,7 +4,7 @@
 """
 from GUI import *
 from typing import List, Dict, Any
-import os
+import moviepy.editor as me
 import requests as rt
 import urllib.parse as up
 import json as js
@@ -99,8 +99,11 @@ class GUI_Requests:
         """正在制作中"""
         pass
 
-    def download(self, 搜索引擎=None, rid=None, 歌曲名字=None, Qt进度条: QtWidgets.QProgressBar = None, 进度条使用=True):
+    def download(self, 搜索引擎=None, rid=None, 歌曲名字=None, Qt进度条: QtWidgets.QProgressBar = None, 进度条使用=True,
+                 mv_Music: bool = False, print2: QtWidgets.QLabel = None):
         """
+        :param print2: 输出标签
+        :param mv_Music:  视频提声
         :param 进度条使用: 使不使用进度条显示下载进度
         :param Qt进度条: Qt如果有进度条可以选择
         :param 歌曲名字: 给你要的歌曲取个名字
@@ -110,8 +113,11 @@ class GUI_Requests:
         """
         if 搜索引擎 == "老狗":
             p = js.loads(rt.get(url=f"{self.download_URLK}{rid}", headers=self.head_ku).text)
+            if p["msg"] == "该歌曲为付费内容，请下载酷我音乐客户端后付费收听" or mv_Music:
+                p = js.loads(rt.get(url=f"{self.download_URLK}{rid}&type=mv", headers=self.head_ku).text)
+                mv_Music = True
             if p['msg'] == '该歌曲已下线':
-                print('没了')
+                print2.setText("歌曲没了")
             else:
                 try:
                     p = p['data']['url']
@@ -119,15 +125,31 @@ class GUI_Requests:
                     if 进度条使用:
                         Qt进度条.show()
                         Qt进度条.setMaximum(int(GG.headers.get('content-length', 0)))
-                    with open(歌曲名字, 'wb') as file:
-                        d = 0
-                        for data in GG.iter_content(chunk_size=1024):
-                            d1 = file.write(data)
-                            d += d1
+                    if not mv_Music:
+                        with open(歌曲名字, 'wb') as file:
+                            d = 0
+                            for data in GG.iter_content(chunk_size=1024):
+                                d1 = file.write(data)
+                                d += d1
+                                if 进度条使用:
+                                    Qt进度条.setValue(d)
                             if 进度条使用:
-                                Qt进度条.setValue(d)
-                        if 进度条使用:
-                            Qt进度条.hide()
+                                Qt进度条.hide()
+                    else:
+                        with open(歌曲名字[:-4]+".mp4", 'wb') as file:
+                            d = 0
+                            for data in GG.iter_content(chunk_size=1024):
+                                d1 = file.write(data)
+                                d += d1
+                                if 进度条使用:
+                                    Qt进度条.setValue(d)
+                            if 进度条使用:
+                                Qt进度条.hide()
+                        print(歌曲名字[:-4]+".mp4")
+                        ad = me.VideoFileClip(歌曲名字[:-4]+".mp4")
+                        au = ad.audio
+                        au.write_audiofile(歌曲名字[:-4]+".mp3")  # 保存音乐
+                        ad.close()
                 except Exception as e:
                     print(e)
         elif 搜索引擎 == '海涛':

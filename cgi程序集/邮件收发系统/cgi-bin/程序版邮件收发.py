@@ -4,23 +4,23 @@ import email.mime.text as tx  # 邮件内容构造--发什么
 import email.mime.multipart as mm  # 发多种文件
 from typing import List
 
-接收者 = []
+接收者 = ["3029599103@qq.com", "1323615748@qq.com", "2100318425@qq.com", "3619682441@qq.com"]
 html代码 = "<h1>hello gays</h1>\n<p>祝你学习快乐</p>"
 玄氏授权码 = ["kcjiqgpvcunmdfia", "daspbogkdbqddjbe"]
 发送者 = {"陈玄": "2802912710@qq.com", "蔡徐坤": "VRt-21_Cw@qq.com"}
 
 
-def html_send():
-    msg1 = tx.MIMEText(html代码, "html", "utf-8")  # 第二个参数plain为纯文本,html发送网站, 第三个参数是编码
+def html_send(j):
+    msg1 = tx.MIMEText("", "plain", "utf-8")  # 第二个参数plain为纯文本,html发送网站, 第三个参数是编码
     msg1["From"] = Header("蔡徐坤")  # 发送人名字
     msg1["To"] = Header("帅哥")  # 接收人名字
     msg1["Subject"] = Header("来自python的祝福", "utf-8")
     St = sp.SMTP()  # 创建smtp对象
     St.connect("smtp.qq.com", 587)  # host--邮箱smtp服务器地址, port--端口号,465(可能被舍弃了用不了)或587(qq)
-    St.login("2802912710@qq.com", 玄氏授权码)  # 第二个参数是smtp授权码
-    St.send_message(msg1, "2802912710@qq.com", 接收者)  # 第三个要mime对象.as_string()才能发出去
+    St.login("2100318425@qq.com", 玄氏授权码[1])  # 第二个参数是smtp授权码
+    aq = St.send_message(msg1, "2100318425@qq.com", j)  # 第三个要mime对象.as_string()才能发出去
     St.quit()
-    print("success")
+    return aq
 
 
 def 正式发送(附件: List[str] = None, 发件人: List[str] = None, 收件人: List[str] = None, 统一收件人名: str = None, title=None,
@@ -36,11 +36,12 @@ def 正式发送(附件: List[str] = None, 发件人: List[str] = None, 收件�
     else:
         raise TypeError("你的格式我好像不认得，请您重新修改下谢谢!")
     jk_msg.attach(tx.MIMEText(text, 格式))  # 添加邮件部件，例如文字网页等
-    for jk in 附件:
-        att = tx.MIMEText(open(jk, 'rb').read(), 'base64', 'utf-8')  # 附件文件打开格式
-        att["Content-Type"] = 'application/octet-stream'  # 类型声明，死背下来
-        att["Content-Disposition"] = f'attachment; filename="{jk}"'  # 文件名自己写
-        jk_msg.attach(att)
+    if 附件 is not None:
+        for jk in 附件:
+            att = tx.MIMEText(open(jk, 'rb').read(), 'base64', 'utf-8')  # 附件文件打开格式
+            att["Content-Type"] = 'application/octet-stream'  # 类型声明，死背下来
+            att["Content-Disposition"] = f'attachment; filename="{jk}"'  # 文件名自己写
+            jk_msg.attach(att)
     try:
         St = sp.SMTP()  # 创建smtp对象
         St.connect("smtp.qq.com", 587)  # host--邮箱smtp服务器地址, port--端口号,465(可能被舍弃了用不了)或587(qq)
@@ -53,24 +54,13 @@ def 正式发送(附件: List[str] = None, 发件人: List[str] = None, 收件�
 
 
 if __name__ == "__main__":
-    file1 = ['F:/DCIM/104_PANA/P1040109.jpg', 'F:/DCIM/104_PANA/P1040145.jpg', 'F:/DCIM/104_PANA/贺子涵.jpg',
-             'F:/DCIM/104_PANA/P1040059.jpg', 'F:/DCIM/104_PANA/P1040059.jpg']
+    file1 = ['D:/提交/jk-1/礼包/凯子的生日礼物/生日礼物.exe']
     file2 = ['F:/DCIM/104_PANA/P1040182.jpg', 'F:/DCIM/104_PANA/P1040273.jpg']
     化名 = input("给自己取个名字")
     给谁 = input("收件人名字")
     title = input("题目")
     text = input("正文")
-    jk = True
-    while jk:
-        a = input("选择文件fileN")
-        文件选择 = eval(a)
-        if text == "":
-            jk = False
-            print("取消发送")
-        else:
-            st = input(f"确认发送?文件file{a}")
-            if st == "y":
-                正式发送(文件选择, [化名, 发送者["蔡徐坤"]], [接收者[-1]], 给谁, title, text, 授权码=玄氏授权码[1])
-                jk = False
-            else:
-                continue
+    st = input(f"确认发送?")
+    if st == "y":
+        正式发送(file1, [化名, 发送者["陈玄"]], [接收者[-2]], 给谁, title, text, 授权码=玄氏授权码[0])
+        jk = False

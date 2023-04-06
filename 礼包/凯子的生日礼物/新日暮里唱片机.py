@@ -198,7 +198,7 @@ class MuLi_Sanger_Ui:
         rid = self.sc2.comboBox_3.currentIndex()  # 获取下拉条被用户选中的元素，此处获取用户想要下载的歌曲
         通用序列 = self.sc2.comboBox_3.currentIndex()  # 和上面一样，只是这两个下拉条负责显示不同东西
         GUI_Requests().download('老狗', self.rid[rid], self.sc2.label_11.text() + "/" + self.sc2.comboBox_3.currentText(),
-                                self.sc2.huan1)  # 调用ML_Home脚本里的下载函数，脚本里有对此函数的注释
+                                self.sc2.huan1, print2=self.sc2.label_5)  # 调用ML_Home脚本里的下载函数，脚本里有对此函数的注释
         本地音乐(master=self.sc2).扫描(self.sc2.label_11.text())  # 在此扫描文件夹，更新本地音乐列表
 
     def play(self):
@@ -329,7 +329,7 @@ class MuLi_Sanger_Py:
         rid = self.sc2.comboBox_3.currentIndex()
         通用序列 = self.sc2.comboBox_3.currentIndex()
         GUI_Requests().download('老狗', self.rid[rid], self.sc2.label_11.text() + "/" + self.sc2.comboBox_3.currentText(),
-                                self.sc2.huan1)
+                                self.sc2.huan1, print2=self.sc2.label_5)
         本地音乐(master=self.sc2).扫描(self.sc2.label_11.text())
 
     def play(self):
@@ -634,8 +634,7 @@ class 改时(QThread):
             clock.tick(7)
             try:
                 yuan2 = self.qt.horizontalSlider.value()
-                if ((
-                            yuan - yuan2) > 0 or yuan - yuan2 < -1 * FPS) and pg.mixer.music.get_busy() and signNB != 2 and signNB != 3:
+                if ((yuan - yuan2) > 0 or yuan - yuan2 < -1 * FPS) and pg.mixer.music.get_busy() and signNB != 2 and signNB != 3:
                     # 当检测到用户向前或向后拉动进度条时，就触发这部分代码已修改歌曲播放进度(快进快推)
                     pg.mixer.music.pause()  # 先暂停歌曲
                     play_path = self.qt.comboBox_2.itemText(上一首序列)  # 重新加载歌曲
@@ -668,7 +667,7 @@ def quit_a(sec, shu, app):
 
 if __name__ == "__main__":
     # 当此py文件作为主程序执行而不是作为被其他py文件调用时，执行 if __name__ == "__main__": 下面的代码
-    app1 = QApplication(sys.argv)
+    """app1 = QApplication(sys.argv)
     g = 加载画面2()
     g.setWindowTitle("生日快乐！")  # 设置标题
     g.show()  # 展示加载动画
@@ -679,5 +678,5 @@ if __name__ == "__main__":
     g2.setWindowTitle("新日暮里唱片机")  # 设置标题
     g2.show()  # 展示加载动画
     th.Thread(target=lambda: quit_a(10, g2, app2), daemon=True).start()  # 开启一个多线程
-    app2.exec_()
+    app2.exec_()"""
     MuLi_Sanger_Py().run()  # 以Ui模式运行 新日暮里唱片机 窗口程序

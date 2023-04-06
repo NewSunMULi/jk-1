@@ -4,7 +4,7 @@ import email.mime.text as tx  # 邮件内容构造--发什么
 import email.mime.multipart as mm  # 发多种文件
 from typing import List
 
-接收者 = ["3029599103@qq.com", "1323615748@qq.com", "2100318425@qq.com", "3619682441@qq.com"]
+接收者 = []
 html代码 = "<h1>hello gays</h1>\n<p>祝你学习快乐</p>"
 玄氏授权码 = ["kcjiqgpvcunmdfia", "daspbogkdbqddjbe"]
 发送者 = {"陈玄": "2802912710@qq.com", "蔡徐坤": "VRt-21_Cw@qq.com"}

@@ -112,13 +112,14 @@ class 辐射计划5_镜像计划:
     class 科别数:
         ch = 0
         mt = 1
-        py = 2
-        og = 3
-        cy = 4
+        en = 5
+        ph = 2
+        ob = 3
+        chs = 4
 
     def __init__(self, json文件对象: List = None):
         """json文件对象:你需要加载的标准json成绩分析文件名,例如a.json"""
-        self.科别 = ['语文', '数学', '物理', '生物', '化学']
+        self.科别 = ['语文', '数学', '物理', '生物', '化学', "鸟语"]
         self.file = json文件对象
         self.color = ["green", "blue", "yellow", "red", "orange", "#EE00F0"]
 
@@ -133,9 +134,32 @@ class 辐射计划5_镜像计划:
                 list2.append(da[科别 + 1])
             plt.plot(data2, list2, label=评级等级[self.file.index(i)], color=self.color[self.file.index(i)])
             for data in i:
-                plt.scatter(f"{data[0][0:4]}-{data[0][4:6]}-{data[0][6:]}", data[科别 + 1], color=self.color[self.file.index(i)], s=10)
-                plt.text(f"{data[0][0:4]}-{data[0][4:6]}-{data[0][6:]}", data[科别 + 1]+0.5, str(data[科别+1]), size=8)
+                plt.scatter(f"{data[0][0:4]}-{data[0][4:6]}-{data[0][6:]}", data[科别 + 1],
+                            color=self.color[self.file.index(i)], s=10)
+                plt.text(f"{data[0][0:4]}-{data[0][4:6]}-{data[0][6:]}", data[科别 + 1] + 0.5, str(data[科别 + 1]), size=8)
 
+        plt.legend()
+        plt.show()
+
+
+class 辐射计划6_镜像计划部分:
+    def __init__(self):
+        pass
+
+    def 图表(self, 统计列表: List = None, 科目: List = None, 日期列表=None):
+        """
+        :param 日期列表: x轴显示具体日期，必须做到len(日期列表) == len(统计列表[n, n∈N])
+        :param 统计列表: 格式[[科目1成绩], [科目2成绩], ...... , [科目n的成绩]]
+        :param 科目: 格式[科目1, 科目2, ...... ,科目n]，必须做到len(统计列表) == len(科目)
+        :return:
+        """
+        plt.figure(f"S-V 3.0 统计图")
+        plt.subplot(1, 1, 1)
+        for i in 统计列表:
+            plt.plot(日期列表, i, label=科目[统计列表.index(i)])
+            plt.scatter(日期列表, i)
+            for d in i:
+                plt.text(日期列表[i.index(d)], d, str(d), size=8)
         plt.legend()
         plt.show()
 

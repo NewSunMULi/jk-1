@@ -501,13 +501,13 @@ class 辐射组管理程序:
                 科目代码 = "mt"
                 print("数学")
             elif event.keysym == "F8":
-                科目代码 = "py"
+                科目代码 = "ph"
                 print("物理")
             elif event.keysym == "F7":
-                科目代码 = "og"
+                科目代码 = "ob"
                 print("生物")
             elif event.keysym == "F6":
-                科目代码 = "cy"
+                科目代码 = "chs"
                 print("化学")
 
         """if self.控件 is not None:

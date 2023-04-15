@@ -672,11 +672,11 @@ if __name__ == "__main__":
     g.setWindowTitle("生日快乐！")  # 设置标题
     g.show()  # 展示加载动画
     th.Thread(target=lambda: quit_a(10, g, app1), daemon=True).start()  # 开启一个多线程
-    app1.exec_()
+    app1.exec_()"""
     app2 = QApplication(sys.argv)
     g2 = 加载画面()
     g2.setWindowTitle("新日暮里唱片机")  # 设置标题
     g2.show()  # 展示加载动画
     th.Thread(target=lambda: quit_a(10, g2, app2), daemon=True).start()  # 开启一个多线程
-    app2.exec_()"""
+    app2.exec_()
     MuLi_Sanger_Py().run()  # 以Ui模式运行 新日暮里唱片机 窗口程序

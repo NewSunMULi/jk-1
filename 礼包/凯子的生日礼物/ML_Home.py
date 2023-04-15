@@ -2,6 +2,8 @@
 此文件为 新日暮里唱片机 窗口程序的配套脚本，用来操作主页的一些窗口控件。\n
 但里面的一些函数/类可在其他使用Tk和PyQt5做的窗口程序中使用，例如GUI_Requests()可以为播放器类窗口程序提供网络音乐搜索，下载，显示支持
 """
+import os
+
 from GUI import *
 from typing import List, Dict, Any
 import moviepy.editor as me
@@ -150,6 +152,7 @@ class GUI_Requests:
                         au = ad.audio
                         au.write_audiofile(歌曲名字[:-4]+".mp3")  # 保存音乐
                         ad.close()
+                        os.remove(歌曲名字[:-4]+".mp4")
                 except Exception as e:
                     print(e)
         elif 搜索引擎 == '海涛':

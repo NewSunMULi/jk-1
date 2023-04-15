@@ -21,7 +21,7 @@ class Ui_Form(object):
         self.label.setMinimumSize(QtCore.QSize(960, 540))
         self.label.setMaximumSize(QtCore.QSize(960, 540))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("../../../鸡你太美1.jpg"))
+        self.label.setPixmap(QtGui.QPixmap("图片2.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.label_3 = QtWidgets.QLabel(Form)

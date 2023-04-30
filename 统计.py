@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 from typing import Tuple, Any, List, IO
-import json as js
-import os
+
+from matplotlib import font_manager
+plt.rcParams['font.sans-serif'] = ['FZCuHeiSongS-B-GB']  # 显示中文
 
 
 class 游戏统计:
@@ -146,8 +147,9 @@ class 辐射计划6_镜像计划部分:
     def __init__(self):
         pass
 
-    def 图表(self, 统计列表: List = None, 科目: List = None, 日期列表=None):
+    def 图表(self, 统计列表: List = None, 科目: List = None, 日期列表=None, 标题=None):
         """
+        :param 标题: 图表标题
         :param 日期列表: x轴显示具体日期，必须做到len(日期列表) == len(统计列表[n, n∈N])
         :param 统计列表: 格式[[科目1成绩], [科目2成绩], ...... , [科目n的成绩]]
         :param 科目: 格式[科目1, 科目2, ...... ,科目n]，必须做到len(统计列表) == len(科目)
@@ -155,11 +157,12 @@ class 辐射计划6_镜像计划部分:
         """
         plt.figure(f"S-V 3.0 统计图")
         plt.subplot(1, 1, 1)
+        plt.title(标题, size=25)
         for i in 统计列表:
             plt.plot(日期列表, i, label=科目[统计列表.index(i)])
             plt.scatter(日期列表, i)
             for d in i:
-                plt.text(日期列表[i.index(d)], d, str(d), size=8)
+                plt.text(日期列表[i.index(d)], d, str(d), size=18)
         plt.legend()
         plt.show()
 

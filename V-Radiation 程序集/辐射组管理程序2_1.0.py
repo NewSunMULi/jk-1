@@ -24,7 +24,6 @@ class V_Rt2(QtWidgets.QWidget, Ui_app):
         self.setWindowIcon(icon1)
         self.plan_data = [self.label_16, self.label_17, self.label_18, self.label_20, self.label_21, self.label_22]
         self.subject = ["语文", "数学", "英语", "物理", "生物", "化学"]
-        self.subject_en = ["ch", "mt", "en", "ph", "ob", "chs"]
         self.bar = [[self.progressBar, self.progressBar_4], [self.progressBar_2, self.progressBar_5],
                     [self.progressBar_3, self.progressBar_6], [self.progressBar_7, self.progressBar_8],
                     [self.progressBar_9, self.progressBar_10], [self.progressBar_11, self.progressBar_12]]
@@ -174,17 +173,17 @@ class V_Rt2(QtWidgets.QWidget, Ui_app):
         if self.checkBox_8.isChecked():
             for i in self.sv_all:
                 list1.append(sum(i))
-            辐射计划6_镜像计划部分().图表([list1], ["ALL"], self.sv_q[-1])
+            辐射计划6_镜像计划部分().图表([list1], ["总分"], self.sv_q[-1], 标题="成绩趋势统计-总分")
         elif self.checkBox_7.isChecked():
             for i in self.sv_all:
                 list1.append(sum(i[3:]))
-            辐射计划6_镜像计划部分().图表([list1], ["SC"], self.sv_q[-1])
+            辐射计划6_镜像计划部分().图表([list1], ["理综"], self.sv_q[-1], 标题="成绩趋势统计-理综")
         else:
             for i in range(len(self.sv_check)):
                 if self.sv_check[i].isChecked():
                     list1.append(self.sv_q[i])
-                    sub.append(self.subject_en[i])
-            辐射计划6_镜像计划部分().图表(list1, sub, self.sv_q[-1])
+                    sub.append(self.subject[i])
+            辐射计划6_镜像计划部分().图表(list1, sub, self.sv_q[-1], 标题="成绩趋势统计-单独或多个科目")
 
     def change_backgroundImage(self):
         self.options[0] = QFileDialog.getOpenFileName()[0]

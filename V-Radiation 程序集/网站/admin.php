@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="kun">
 <?php
+    //$cot = new mysqli("localhost:3306", "root", "z555r5555");
     $ide = $pse = "";
     $id = $pa = "";
     $is_Go = true;

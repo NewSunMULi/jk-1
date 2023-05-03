@@ -13,7 +13,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         Form.setObjectName("Form")
         Form.resize(960, 540)
         self.label = QtWidgets.QLabel(Form)
@@ -21,7 +20,7 @@ class Ui_Form(object):
         self.label.setMinimumSize(QtCore.QSize(960, 540))
         self.label.setMaximumSize(QtCore.QSize(960, 540))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("图片2.png"))
+        self.label.setPixmap(QtGui.QPixmap("../../../鸡你太美1.jpg"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.label_3 = QtWidgets.QLabel(Form)
@@ -74,6 +73,16 @@ class Ui_Form(object):
         self.label_4.setFont(font)
         self.label_4.setStyleSheet("color: rgb(0, 255, 255);")
         self.label_4.setObjectName("label_4")
+        self.Ve = QtWidgets.QLabel(Form)
+        self.Ve.setGeometry(QtCore.QRect(410, 80, 131, 41))
+        font = QtGui.QFont()
+        font.setFamily("华光钢铁直黑 可变体 Medium")
+        font.setPointSize(26)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Ve.setFont(font)
+        self.Ve.setStyleSheet("color:rgb(0, 255, 225);")
+        self.Ve.setObjectName("Ve")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -84,3 +93,4 @@ class Ui_Form(object):
         self.label_3.setText(_translate("Form", "新日暮里唱片机"))
         self.label_2.setText(_translate("Form", "Loading..."))
         self.label_4.setText(_translate("Form", "可扩展音乐播放器"))
+        self.Ve.setText(_translate("Form", "1.2.2"))

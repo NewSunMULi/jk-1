@@ -27,7 +27,7 @@ class 音效:
         pass
 
     @staticmethod
-    def 下载完成(持续时间: Any = 25):
+    def 下载完成(持续时间: Any = 5):
         mm.music.load("音效.mp3")
         mm.music.play()
         try:
@@ -316,7 +316,7 @@ def 视频爬取(url_list=None, 文件名称=None, 额外信息=None):
 
 
 sc = tk.Tk()
-sc.title("鲲鲲V0.2测试版")
+sc.title("鲲鲲V0.2正式版")
 sc.geometry("960x540+230+80")
 sc.attributes("-alpha", 1)  # 透明度设置
 try:
@@ -340,7 +340,7 @@ search = can.create_text(366, 230 - 40, text="在此输入你要下载的视频�
 d = can.create_rectangle(480 + 220, 270 - 20 - 40, 480 + 320, 270 - 40)
 d2 = can.create_text((480 + 220 + 50), 260 - 40, text="搜索", fill="green", font=("微软雅黑", 12))
 
-can.create_text(480 + 120, 110 + 35, text="V 0.2.2", fill="#ff00ff", font=("汉仪文黑-85W Heavy", 15))
+can.create_text(480 + 120, 110 + 35, text="V 0.2.3", fill="#ff00ff", font=("汉仪文黑-85W Heavy", 15))
 a = tk.Entry(sc, bd=0, width=70)
 a.place(x=200, y=250 - 40)
 g = can.create_text(480, 270 + 65, text="")
@@ -364,8 +364,8 @@ can.bind("<Button-1>", lambda jk: 点击事件(jk))
 can.bind("<Motion>", lambda jk: 经过事件(jk))
 sc.bind("<Return>", lambda jk: 点击事件(jk))
 sc.bind("<F12>", lambda jj: 音效.下载完成(None))
-LOGO = tk.PhotoImage(file="辐射组Logo2.png")
-LOGO = LOGO.subsample(2, 2)
+LOGO = tk.PhotoImage(file="V-Radiation 程序集/图片/LogoFr (4).png")
+LOGO = LOGO.subsample(3, 3)
 tiem = th.Thread(target=运行时长)
 tiem.setDaemon(True)
 tiem.start()
@@ -522,7 +522,7 @@ def about():
     can.place(x=0, y=0)  # 大小
     img3 = can.create_image(480, 270, image=w)  # 添加图片
     can.create_text(480, 140,
-                    text='''关于我们\n制作者:VRt-21th 辐射组\n编写语言:Python\n代码地址:https://github.com/NewSunMUli/jk-1\n更新:0.2.1 -> 0.2.2\n回车键可以被使用了,10.1-10.7特殊颜色！''',
+                    text='''关于我们\n制作者:VRt-21th 辐射组\n编写语言:Python\n代码地址:https://github.com/NewSunMUli/jk-1\n更新:0.2.2 -> 0.2.3\n临时更新：因新日暮里唱片机出现部分问题，鲲鲲和鲲鲲\n2将代替其一段时间直至唱片机2出现''',
                     font=(原神字体, 20, 加粗), fill="red")
     can.create_image(480, 420, image=LOGO)
 

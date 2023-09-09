@@ -43,13 +43,7 @@ class Ui_app(object):
         font.setWeight(75)
         self.pushButton.setFont(font)
         self.pushButton.setAutoFillBackground(False)
-        self.pushButton.setStyleSheet("QPushButton {\n"
-"    border-image: url(:/新前缀/原神概率统计4.png);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 255, 255);\n"
-"}\n"
-"")
+        self.pushButton.setStyleSheet("QPushButton {    border-image: url(:/新前缀/原神概率统计4.png);}QPushButton:hover {    color: rgb(85, 255, 255);}")
         self.pushButton.setFlat(True)
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout.addWidget(self.pushButton)
@@ -66,15 +60,7 @@ class Ui_app(object):
         font.setWeight(75)
         self.pushButton_3.setFont(font)
         self.pushButton_3.setAutoFillBackground(False)
-        self.pushButton_3.setStyleSheet("QPushButton {\n"
-"border-image: url(:/新前缀/头像/政治笔记001.png);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 255, 255);\n"
-"}\n"
-"\n"
-"\n"
-"")
+        self.pushButton_3.setStyleSheet("QPushButton {border-image: url(:/新前缀/头像/政治笔记001.png);}QPushButton:hover {    color: rgb(85, 255, 255);}")
         self.pushButton_3.setIconSize(QtCore.QSize(371, 211))
         self.pushButton_3.setCheckable(False)
         self.pushButton_3.setFlat(True)
@@ -94,14 +80,7 @@ class Ui_app(object):
         self.pushButton_2.setFont(font)
         self.pushButton_2.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_2.setAutoFillBackground(False)
-        self.pushButton_2.setStyleSheet("QPushButton {\n"
-"    \n"
-"    border-image: url(:/背景图片1/图片/994e1520b9d1f46b62ebac4462ff233d.jpeg);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 255, 255);\n"
-"}\n"
-"")
+        self.pushButton_2.setStyleSheet("QPushButton {        border-image: url(:/背景图片1/图片/994e1520b9d1f46b62ebac4462ff233d.jpeg);}QPushButton:hover {    color: rgb(85, 255, 255);}")
         self.pushButton_2.setFlat(True)
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout.addWidget(self.pushButton_2)
@@ -125,17 +104,7 @@ class Ui_app(object):
         font.setWeight(75)
         self.pushButton_4.setFont(font)
         self.pushButton_4.setAutoFillBackground(False)
-        self.pushButton_4.setStyleSheet("QPushButton {\n"
-"    color: rgb(255, 2, 196);\n"
-"    \n"
-"    \n"
-"    border-image: url(:/背景图片1/图片/60aecba9ea1aa9dd457750932bb4fbe0.jpeg);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 255, 255);\n"
-"}\n"
-"\n"
-"")
+        self.pushButton_4.setStyleSheet("QPushButton {    color: rgb(255, 2, 196);            border-image: url(:/背景图片1/图片/60aecba9ea1aa9dd457750932bb4fbe0.jpeg);}QPushButton:hover {    color: rgb(85, 255, 255);}")
         self.pushButton_4.setIconSize(QtCore.QSize(371, 211))
         self.pushButton_4.setCheckable(False)
         self.pushButton_4.setFlat(True)
@@ -154,15 +123,7 @@ class Ui_app(object):
         font.setWeight(75)
         self.pushButton_5.setFont(font)
         self.pushButton_5.setAutoFillBackground(False)
-        self.pushButton_5.setStyleSheet("QPushButton {\n"
-"    \n"
-"    border-image: url(:/背景图片1/图片/LogoFr (1).png);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    \n"
-"    color: rgb(255, 0, 255);\n"
-"}\n"
-"")
+        self.pushButton_5.setStyleSheet("QPushButton {        border-image: url(:/背景图片1/图片/LogoFr (1).png);}QPushButton:hover {        color: rgb(255, 0, 255);}")
         self.pushButton_5.setFlat(True)
         self.pushButton_5.setObjectName("pushButton_5")
         self.horizontalLayout_2.addWidget(self.pushButton_5)
@@ -179,13 +140,7 @@ class Ui_app(object):
         font.setWeight(75)
         self.pushButton_6.setFont(font)
         self.pushButton_6.setAutoFillBackground(False)
-        self.pushButton_6.setStyleSheet("QPushButton {\n"
-"    border-image: url(:/背景图片1/图片/LogoFr (2).png);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 255, 0);\n"
-"}\n"
-"")
+        self.pushButton_6.setStyleSheet("QPushButton {    border-image: url(:/背景图片1/图片/LogoFr (2).png);}QPushButton:hover {    color: rgb(85, 255, 0);}")
         self.pushButton_6.setFlat(True)
         self.pushButton_6.setObjectName("pushButton_6")
         self.horizontalLayout_2.addWidget(self.pushButton_6)
@@ -247,14 +202,7 @@ class Ui_app(object):
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(33)
         self.pushButton_7.setFont(font)
-        self.pushButton_7.setStyleSheet("QPushButton {\n"
-"    color: rgb(255, 0, 0);\n"
-"    border-image: url(:/背景图片-抽卡/原神.jpeg);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    \n"
-"    color: rgb(255, 0, 255);\n"
-"}")
+        self.pushButton_7.setStyleSheet("QPushButton {    color: rgb(255, 0, 0);    border-image: url(:/背景图片-抽卡/原神.jpeg);}QPushButton:hover {        color: rgb(255, 0, 255);}")
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_8 = QtWidgets.QPushButton(self.Game)
         self.pushButton_8.setGeometry(QtCore.QRect(460, 200, 371, 211))
@@ -262,13 +210,7 @@ class Ui_app(object):
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(31)
         self.pushButton_8.setFont(font)
-        self.pushButton_8.setStyleSheet("QPushButton {\n"
-"    color: rgb(0, 255, 255);\n"
-"    border-image: url(:/背景图片-抽卡/明日之后.jpeg);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 255, 0);\n"
-"}")
+        self.pushButton_8.setStyleSheet("QPushButton {    color: rgb(0, 255, 255);    border-image: url(:/背景图片-抽卡/明日之后.jpeg);}QPushButton:hover {    color: rgb(85, 255, 0);}")
         self.pushButton_8.setObjectName("pushButton_8")
         self.label_6 = QtWidgets.QLabel(self.Game)
         self.label_6.setGeometry(QtCore.QRect(40, 40, 461, 71))
@@ -286,14 +228,7 @@ class Ui_app(object):
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(31)
         self.pushButton_9.setFont(font)
-        self.pushButton_9.setStyleSheet("QPushButton {\n"
-"    color: rgb(5, 93, 255);\n"
-"    border-image: url(:/背景图片-抽卡/Apex.jpeg);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    \n"
-"    color: rgb(255, 8, 140);\n"
-"}")
+        self.pushButton_9.setStyleSheet("QPushButton {    color: rgb(5, 93, 255);    border-image: url(:/背景图片-抽卡/Apex.jpeg);}QPushButton:hover {        color: rgb(255, 8, 140);}")
         self.pushButton_9.setObjectName("pushButton_9")
         self.pushButton_10 = QtWidgets.QPushButton(self.Game)
         self.pushButton_10.setGeometry(QtCore.QRect(240, 430, 371, 211))
@@ -301,13 +236,7 @@ class Ui_app(object):
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(31)
         self.pushButton_10.setFont(font)
-        self.pushButton_10.setStyleSheet("QPushButton {\n"
-"    border-image: url(:/背景图片-抽卡/明日方舟.jpeg);\n"
-"    color: rgb(255, 151, 6);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+        self.pushButton_10.setStyleSheet("QPushButton {    border-image: url(:/背景图片-抽卡/明日方舟.jpeg);    color: rgb(255, 151, 6);}QPushButton:hover {    color: rgb(255, 255, 255);}")
         self.pushButton_10.setObjectName("pushButton_10")
         self.pushButton_11 = QtWidgets.QPushButton(self.Game)
         self.pushButton_11.setGeometry(QtCore.QRect(650, 430, 371, 211))
@@ -315,13 +244,7 @@ class Ui_app(object):
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(31)
         self.pushButton_11.setFont(font)
-        self.pushButton_11.setStyleSheet("QPushButton {\n"
-"    color: rgb(255, 0, 255);\n"
-"    border-image: url(:/背景图片-抽卡/崩坏三.jpeg);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(255, 0, 0);\n"
-"}")
+        self.pushButton_11.setStyleSheet("QPushButton {    color: rgb(255, 0, 255);    border-image: url(:/背景图片-抽卡/崩坏三.jpeg);}QPushButton:hover {    color: rgb(255, 0, 0);}")
         self.pushButton_11.setObjectName("pushButton_11")
         self.commandLinkButton = QtWidgets.QCommandLinkButton(self.Game)
         self.commandLinkButton.setGeometry(QtCore.QRect(1110, 660, 141, 41))
@@ -394,14 +317,7 @@ class Ui_app(object):
         self.pushButton_13.setFont(font)
         self.pushButton_13.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_13.setAutoFillBackground(False)
-        self.pushButton_13.setStyleSheet("QPushButton {\n"
-"    \n"
-"    color: rgb(85, 255, 255);\n"
-"    text-align:left;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(255, 0, 0);\n"
-"}")
+        self.pushButton_13.setStyleSheet("QPushButton {        color: rgb(85, 255, 255);    text-align:left;}QPushButton:hover {    color: rgb(255, 0, 0);}")
         self.pushButton_13.setAutoDefault(False)
         self.pushButton_13.setDefault(False)
         self.pushButton_13.setFlat(True)
@@ -976,7 +892,7 @@ class Ui_app(object):
         self.groupBox_2.setFont(font)
         self.groupBox_2.setObjectName("groupBox_2")
         self.checkBox = QtWidgets.QCheckBox(self.groupBox_2)
-        self.checkBox.setGeometry(QtCore.QRect(60, 80, 161, 31))
+        self.checkBox.setGeometry(QtCore.QRect(60, 80, 111, 31))
         font = QtGui.QFont()
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(19)
@@ -986,7 +902,7 @@ class Ui_app(object):
         self.checkBox.setTristate(False)
         self.checkBox.setObjectName("checkBox")
         self.checkBox_2 = QtWidgets.QCheckBox(self.groupBox_2)
-        self.checkBox_2.setGeometry(QtCore.QRect(60, 110, 161, 31))
+        self.checkBox_2.setGeometry(QtCore.QRect(60, 110, 101, 31))
         font = QtGui.QFont()
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(19)
@@ -996,7 +912,7 @@ class Ui_app(object):
         self.checkBox_2.setTristate(False)
         self.checkBox_2.setObjectName("checkBox_2")
         self.checkBox_3 = QtWidgets.QCheckBox(self.groupBox_2)
-        self.checkBox_3.setGeometry(QtCore.QRect(60, 140, 161, 31))
+        self.checkBox_3.setGeometry(QtCore.QRect(60, 140, 101, 31))
         font = QtGui.QFont()
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(19)
@@ -1046,7 +962,7 @@ class Ui_app(object):
         self.checkBox_7.setTristate(False)
         self.checkBox_7.setObjectName("checkBox_7")
         self.checkBox_8 = QtWidgets.QCheckBox(self.groupBox_2)
-        self.checkBox_8.setGeometry(QtCore.QRect(60, 170, 161, 31))
+        self.checkBox_8.setGeometry(QtCore.QRect(60, 170, 111, 31))
         font = QtGui.QFont()
         font.setFamily("华光钢铁直黑 可变体 Medium")
         font.setPointSize(19)
@@ -1083,6 +999,18 @@ class Ui_app(object):
         font.setPointSize(18)
         self.pushButton_15.setFont(font)
         self.pushButton_15.setObjectName("pushButton_15")
+        self.checkBox_8.raise_()
+        self.checkBox.raise_()
+        self.checkBox_2.raise_()
+        self.checkBox_3.raise_()
+        self.checkBox_4.raise_()
+        self.checkBox_5.raise_()
+        self.checkBox_6.raise_()
+        self.checkBox_7.raise_()
+        self.label_54.raise_()
+        self.pushButton_14.raise_()
+        self.label_55.raise_()
+        self.pushButton_15.raise_()
         self.Backward_4 = QtWidgets.QPushButton(self.SV)
         self.Backward_4.setGeometry(QtCore.QRect(20, 650, 231, 61))
         font = QtGui.QFont()
@@ -1132,8 +1060,6 @@ class Ui_app(object):
         self.listWidget_2.setGeometry(QtCore.QRect(10, 40, 521, 141))
         self.listWidget_2.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.listWidget_2.setObjectName("listWidget_2")
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget_2.addItem(item)
         item = QtWidgets.QListWidgetItem()
         self.listWidget_2.addItem(item)
         item = QtWidgets.QListWidgetItem()
@@ -1999,37 +1925,18 @@ class Ui_app(object):
         self.pushButton.setText(_translate("app", "数学建模-游戏抽卡概率"))
         self.pushButton_3.setText(_translate("app", "RtP-辐射计划"))
         self.pushButton_2.setText(_translate("app", "日程规划"))
-        self.pushButton_4.setText(_translate("app", "\n"
-"\n"
-"\n"
-"S-V 3.0"))
-        self.pushButton_5.setText(_translate("app", "\n"
-"\n"
-"\n"
-"共享软件组"))
-        self.pushButton_6.setText(_translate("app", "\n"
-"\n"
-"\n"
-"利益游戏程序组"))
+        self.pushButton_4.setText(_translate("app", "S-V 3.0"))
+        self.pushButton_5.setText(_translate("app", "共享软件组"))
+        self.pushButton_6.setText(_translate("app", "利益游戏程序组"))
         self.label_2.setText(_translate("app", "欢迎！"))
         self.label_4.setText(_translate("app", "导览："))
         self.label_5.setText(_translate("app", "数学建模-游戏抽卡概率"))
-        self.pushButton_7.setText(_translate("app", "\n"
-"\n"
-"原神祈愿"))
-        self.pushButton_8.setText(_translate("app", "\n"
-"\n"
-"明日之后-抽配方"))
+        self.pushButton_7.setText(_translate("app", "原神祈愿"))
+        self.pushButton_8.setText(_translate("app", "明日之后-抽配方"))
         self.label_6.setText(_translate("app", "Hi， 欢迎来到"))
-        self.pushButton_9.setText(_translate("app", "\n"
-"\n"
-"Apex传家宝"))
-        self.pushButton_10.setText(_translate("app", "\n"
-"\n"
-"明日方舟干员寻访"))
-        self.pushButton_11.setText(_translate("app", "\n"
-"\n"
-"崩坏3家园补给"))
+        self.pushButton_9.setText(_translate("app", "Apex传家宝"))
+        self.pushButton_10.setText(_translate("app", "明日方舟干员寻访"))
+        self.pushButton_11.setText(_translate("app", "崩坏3家园补给"))
         self.commandLinkButton.setText(_translate("app", "抽卡报告"))
         self.Backward.setText(_translate("app", "返回上一级"))
         self.label_3.setText(_translate("app", "今天是 2023年3月5日"))
@@ -2094,13 +2001,10 @@ class Ui_app(object):
         self.Backward_4.setText(_translate("app", "返回上一级"))
         self.label.setText(_translate("app", "Fr共享软件开发区"))
         self.groupBox_3.setTitle(_translate("app", "开源代码"))
-        self.label_41.setText(_translate("app", "GitHub：\n"
-"https://github.com/NewSunMuLI/jk-1\n"
-"鲲鲲跳鸡你太美"))
-        self.label_42.setText(_translate("app", "本地:\n"
-"D:提交/jk-1"))
+        self.label_41.setText(_translate("app", "GitHub：https://github.com/NewSunMuLI/jk-1鲲鲲跳鸡你太美"))
+        self.label_42.setText(_translate("app", "本地:D:提交/jk-1"))
         self.label_43.setText(_translate("app", "Fr系列软件开源，无需任何交换代价但不可牟利！"))
-        self.groupBox_4.setTitle(_translate("app", "已完成且会受到更新的软件/网站"))
+        self.groupBox_4.setTitle(_translate("app", "已完成且会受到更新的软件"))
         __sortingEnabled = self.listWidget_2.isSortingEnabled()
         self.listWidget_2.setSortingEnabled(False)
         item = self.listWidget_2.item(0)
@@ -2109,8 +2013,6 @@ class Ui_app(object):
         item.setText(_translate("app", "鲲鲲(tk)-0.2.2"))
         item = self.listWidget_2.item(2)
         item.setText(_translate("app", "原神抽卡模拟器(pygame)-2.5"))
-        item = self.listWidget_2.item(3)
-        item.setText(_translate("app", "金盈商贸公司网站项目"))
         self.listWidget_2.setSortingEnabled(__sortingEnabled)
         self.groupBox_5.setTitle(_translate("app", "已完成但不再更新的软件"))
         __sortingEnabled = self.listWidget_4.isSortingEnabled()

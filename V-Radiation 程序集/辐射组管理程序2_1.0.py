@@ -101,13 +101,13 @@ class V_Rt2(QtWidgets.QWidget, Ui_app):
         for i in range(len(self.plan_data)):
             self.plan_data[i].setText(f"{self.subject[i]}:{dp[0][i]}/{dp[1][i]}/{dp[2][i]}")
             for j in range(len(self.bar[i])):
-                if int(dp[0][i]) / self.bar[i][j].maximum() < 0.65:
+                if float(dp[0][i]) / self.bar[i][j].maximum() < 0.65:
                     self.bar[i][j].setStyleSheet(
                         "QProgressBar::chunk{background-color:red; border-radius: 10px;} QProgressBar{text-align:center; border-radius: 10px;}")
                 else:
                     self.bar[i][j].setStyleSheet(
                         "QProgressBar::chunk{background-color:green; border-radius: 10px;} QProgressBar{text-align:center; border-radius: 10px;}")
-                self.bar[i][j].setValue(int(dp[0][i]))
+                self.bar[i][j].setValue(float(dp[0][i]))
 
     def svUpdate(self):
         sv_data = sv.SV_File("./sv30/data2.sv")
@@ -204,3 +204,4 @@ if __name__ == "__main__":
     sc = V_Rt2()
     sc.show()
     app.exec_()
+

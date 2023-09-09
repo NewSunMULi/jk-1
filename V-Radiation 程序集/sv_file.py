@@ -1,6 +1,6 @@
 class SV_File:
     def __init__(self, fileName):
-        self.file = open(fileName, "r")
+        self.file = open(fileName, "r", encoding="utf-8")
         self.dataList1 = list(self.file.readlines())
         self.dataList2 = []
         for i in range(len(self.dataList1)):
